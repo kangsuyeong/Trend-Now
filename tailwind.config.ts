@@ -1,16 +1,20 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        primary: '#157EFF',
+        negative: '#FF4227',
+        gray: {
+          0: '#222323',
+          300: '#9C9FA2',
+          400: '#C0C4C9',
+          500: '#D3D8DE',
+          600: '#E4E8ED',
+          700: '#F7F9FB',
+        },
       },
       fontSize: {
         '4xl': [
@@ -49,25 +53,31 @@ export default {
             lineHeight: '1.5rem',
           },
         ],
+        md: [
+          '0.938rem',
+          {
+            lineHeight: '1.406rem',
+          },
+        ],
         sm: [
           '0.875rem',
           {
             lineHeight: '1.313rem',
           },
         ],
-        s: [
+        xs: [
           '0.813rem',
           {
             lineHeight: '1.219rem',
           },
         ],
-        xs: [
+        '2xs': [
           '0.75rem',
           {
             lineHeight: '1.125rem',
           },
         ],
-        xxs: [
+        '3xs': [
           '0.625rem',
           {
             lineHeight: '0.938rem',
