@@ -8,12 +8,17 @@ export default {
         primary: '#157EFF',
         negative: '#FF4227',
         gray: {
-          0: '#222323',
-          300: '#9C9FA2',
+          100: '#F7F9FB',
+          200: '#E4E8ED',
+          300: '#D3D8DE',
           400: '#C0C4C9',
-          500: '#D3D8DE',
+          500: '#9C9FA2',
           600: '#E4E8ED',
           700: '#F7F9FB',
+          800: '#222323',
+        },
+        brand: {
+          500: '#157EFF',
         },
       },
       fontSize: {
