@@ -5,11 +5,10 @@ import React from 'react';
 const buttonVariants = cva('flex justify-center items-center bg-white', {
   variants: {
     variant: {
-      primary:
-        'text-brand-500 border border-brand-500 hover:bg-hover-primary active:bg-active-primary',
-      black: 'text-gray-800 border border-gray-800 hover:bg-hover-black active:bg-active-black',
-      gray: 'text-gray-600 border border-gray-300 hover:bg-hover-gray active:bg-active-gray',
-      error: 'text-negative border border-negative hover:bg-hover-error active:bg-active-error',
+      primary: 'text-brand-500 border border-brand-500',
+      black: 'text-gray-800 border border-gray-800',
+      gray: 'text-gray-600 border border-gray-300',
+      error: 'text-negative border border-negative',
     },
     size: {
       xl: 'h-14 px-8 text-lg font-regular rounded-xl',

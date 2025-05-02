@@ -7,8 +7,8 @@ const textareaVariants = cva(
   {
     variants: {
       variant: {
-        basic: 'bg-white border-gray-600',
-        disabled: 'bg-gray-700 border-gray-300',
+        basic: 'bg-white border-gray-200',
+        disabled: 'bg-gray-100 border-gray-300',
         error: 'bg-white border-negative',
         active: '',
       },

@@ -9,8 +9,8 @@ const inputFieldVariants = cva(
   {
     variants: {
       variant: {
-        basic: 'bg-white border-gray-600',
-        disabled: 'bg-gray-700 border-gray-300',
+        basic: 'bg-white border-gray-200',
+        disabled: 'bg-gray-100 border-gray-300',
         error: 'bg-white border-negative',
         active: 'bg-white border-gray-400',
       },
@@ -60,7 +60,13 @@ const InputFieldPassword = React.forwardRef<HTMLInputElement, InputFieldProps>(
   ({ className, type, size, onForgotPassword, ...props }, ref) => {
     const [variant, setVariant] = React.useState<'basic' | 'disabled' | 'error' | 'active'>(type);
     return (
-      <span className={cn(inputFieldVariants({ variant }), className, 'flex flex-row gap-x-[8px]')}>
+      <span
+        className={cn(
+          inputFieldVariants({ variant }),
+          className,
+          'flex flex-row gap-x-[8px] items-center'
+        )}
+      >
         <input
           ref={ref}
           type="password"

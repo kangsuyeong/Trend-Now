@@ -90,8 +90,8 @@ const triggerVariants = cva(
   {
     variants: {
       variant: {
-        basic: 'bg-white border-gray-600 text-gray-500',
-        disabled: 'bg-gray-700 border-gray-300 text-gray-500',
+        basic: 'bg-white border-gray-200 text-gray-500',
+        disabled: 'bg-gray-100 border-gray-300 text-gray-500',
         error: 'bg-white border-negative text-gray-800',
         active: 'border-gray-400 text-gray-800',
       },
