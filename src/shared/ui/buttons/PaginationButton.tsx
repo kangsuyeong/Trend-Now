@@ -26,12 +26,20 @@ export const usePagination = () => {
 };
 
 interface PaginationProps {
+  /**@param {number} currentPage 현재 화면에 보여줄 페이지 */
   currentPage: number;
+  /**@param {number} maxPage 전체 페이지 개수 */
   maxPage: number;
+  /**
+   * @param {number} count 한 화면에 보여줄 페이지 개수
+   * @example << < 1 2 3 4 5 > >> 의 경우 → count == 5
+   */
   count: number;
 }
 
-// JSDoc 추가하기
+/**
+ * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-2378&t=cbvmKV4XEswTU85f-4
+ */
 const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
   ({ currentPage, maxPage, count, ...props }, ref) => {
     const [current, setCurrent] = React.useState<number>(currentPage);
@@ -70,13 +78,8 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
             if (idx % count === current % count) {
               return <PageButton key={idx} page={startPage + idx - 1} variant="current" />;
-            } else if (
-              idx === current - (currentPageGroup - 1) * count - 1 ||
-              idx === current - (currentPageGroup - 1) * count + 1
-            ) {
-              return <PageButton key={idx} page={startPage + idx - 1} variant="adjacent" />;
             } else {
-              return <PageButton key={idx} page={startPage + idx - 1} variant="others" />;
+              return <PageButton key={idx} page={startPage + idx - 1} variant="default" />;
             }
           })}
           <span
@@ -115,8 +118,8 @@ const pageButtonVariants = cva(
     variants: {
       variant: {
         current: 'bg-gray-700 text-white font-bold',
-        adjacent: 'bg-white border border-gray-300 text-gray-800 font-regular',
-        others: 'bg-white border border-gray-200 text-gray-400 font-regular',
+        default:
+          'bg-white border border-gray-200 text-gray-400 font-regular hover:border-gray-300 hover:text-gray-800',
       },
     },
   }
@@ -125,10 +128,15 @@ const pageButtonVariants = cva(
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof pageButtonVariants> {
+  /**@param {number} page 해당 버튼의 페이지 값 */
   page: number;
-  variant: 'current' | 'adjacent' | 'others';
+  /**@param {string} variant 버튼 스타일(현재 페이지 및 그 외) */
+  variant: 'current' | 'default';
 }
 
+/**
+ * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-2378&t=cbvmKV4XEswTU85f-4
+ */
 const PageButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ page, variant, className, ...props }, ref) => {
     const { setCurrent } = usePagination();

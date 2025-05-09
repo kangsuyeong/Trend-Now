@@ -1,3 +1,4 @@
+import BadgeButton from '@/shared/ui/buttons/BadgeButton';
 import PrimaryButton from '@/shared/ui/buttons/PrimaryButton';
 import SecondaryButton from '@/shared/ui/buttons/SecondaryButton';
 import React from 'react';
@@ -147,6 +148,12 @@ const page = () => {
           <SecondaryButton variant="error" size="s">
             Button Sample
           </SecondaryButton>
+        </div>
+        <div className="flex flex-row items-center py-[8px] justify-around">
+          <BadgeButton variant="white">키워드</BadgeButton>
+          <BadgeButton variant="blue">키워드</BadgeButton>
+          <BadgeButton variant="green">키워드</BadgeButton>
+          <BadgeButton variant="yellow">키워드</BadgeButton>
         </div>
       </div>
     </div>
