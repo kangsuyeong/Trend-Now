@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import QueryProvider from '@/providers/query-provider';
 import localFont from 'next/font/local';
+import Appbar from '@/shared/ui/header/AppBar';
 
 const pretendard = localFont({
   src: '../../static/fonts/PretendardVariable.woff2',
@@ -23,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <Appbar />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

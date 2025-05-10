@@ -136,6 +136,9 @@ export default {
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
       },
+      padding: {
+        screenXPadding: '17.5%',
+      },
     },
   },
   plugins: [],
