@@ -8,7 +8,7 @@ const Appbar = () => {
         <span className="bg-red-500">
           <Trendnow />
         </span>
-        <span className="w-[28.75rem] h-20 bg-blue-500">haha</span>
+        <span className="w-[28.75rem] h-full bg-blue-500">haha</span>
         <span className="bg-green-500">Trendnow</span>
       </div>
     </header>
