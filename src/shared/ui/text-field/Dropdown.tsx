@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { createContext, useContext } from 'react';
 import { cn } from '../../lib/cn';
-import ChevronVertical from '../icons/ChevronVertical';
+import ChevronVertical28 from '../icons/28/ChevronVertical28';
 
 interface DropdownContextType {
   isOpen: boolean;
@@ -135,7 +135,7 @@ const DropdownTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         <span>{selectedText}</span>
-        <ChevronVertical color={variant === 'active' ? '#222323' : '#9C9FA2'} />
+        <ChevronVertical28 color={variant === 'active' ? '#222323' : '#9C9FA2'} />
       </button>
     );
   }

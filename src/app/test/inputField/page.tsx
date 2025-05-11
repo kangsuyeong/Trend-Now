@@ -13,7 +13,7 @@ const page = () => {
     <div className="flex justify-center">
       <div className="flex flex-col w-[800px] p-[16px]">
         {/* Input Field */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD</div>
+        <div className="text-1xl font-medium py-[8px]">INPUT FIELD</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
@@ -31,7 +31,7 @@ const page = () => {
           <InputField placeholder="Email" type="error" size="mobile" />
         </div>
         {/* Input Field + Title */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + TITLE</div>
+        <div className="text-1xl font-medium py-[8px]">INPUT FIELD + TITLE</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
@@ -85,7 +85,7 @@ const page = () => {
           />
         </div>
         {/* Input Field + Help */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + HELP</div>
+        <div className="text-1xl font-medium py-[8px]">INPUT FIELD + HELP</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
@@ -103,7 +103,7 @@ const page = () => {
           <InputFieldHelp placeholder="Phone" type="error" size="mobile" helpText="Help Text" />
         </div>
         {/* Input Field + Password */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + PASSWORD</div>
+        <div className="text-1xl font-medium py-[8px]">INPUT FIELD + PASSWORD</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
@@ -151,7 +151,7 @@ const page = () => {
           />
         </div>
         {/* Textarea */}
-        <div className="text-1xl font-regular py-[8px]">TEXTAREA</div>
+        <div className="text-1xl font-medium py-[8px]">TEXTAREA</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
@@ -169,7 +169,7 @@ const page = () => {
           <Textarea placeholder="Description" type="error" size="mobile" maxLength={200} />
         </div>
         {/* Dropdown */}
-        <div className="text-1xl font-regular py-[8px]">DROPDOWN</div>
+        <div className="text-1xl font-medium py-[8px]">DROPDOWN</div>
         <div className="flex flex-row py-[8px] gap-[16px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>

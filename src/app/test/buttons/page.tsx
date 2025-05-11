@@ -8,7 +8,7 @@ const page = () => {
     <div className="flex justify-center">
       <div className="flex flex-col w-[800px] p-[16px]">
         {/* Primary Button */}
-        <div className="text-1xl font-regular py-[8px]">PRIMARY BUTTON</div>
+        <div className="text-1xl font-medium py-[8px]">PRIMARY BUTTON</div>
         <div className="flex flex-row py-[8px] justify-around">
           <span>PRIMARY</span>
           <span>BLACK</span>
@@ -86,7 +86,7 @@ const page = () => {
           </PrimaryButton>
         </div>
         {/* Secondary Button */}
-        <div className="text-1xl font-regular py-[8px]">SECONDARY BUTTON</div>
+        <div className="text-1xl font-medium py-[8px]">SECONDARY BUTTON</div>
         <div className="flex flex-row py-[8px] justify-around">
           <span>PRIMARY</span>
           <span>BLACK</span>

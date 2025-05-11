@@ -13,9 +13,9 @@ const buttonVariants = cva('flex justify-center items-center', {
     size: {
       xl: 'h-14 px-8 text-lg font-semiBold rounded-xl',
       l: 'h-12 px-6 text-md font-semiBold rounded-xl',
-      m: 'h-11 px-6 text-sm font-regular rounded-[10px]',
-      s: 'h-9 px-4 text-xs font-regular rounded-[10px]',
-      xs: 'h-7 px-3 text-2xs font-regular rounded-lg',
+      m: 'h-11 px-6 text-sm font-medium rounded-[10px]',
+      s: 'h-9 px-4 text-xs font-medium rounded-[10px]',
+      xs: 'h-7 px-3 text-2xs font-medium rounded-lg',
     },
   },
 });

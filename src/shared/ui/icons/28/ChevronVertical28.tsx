@@ -5,7 +5,7 @@ type Props = {
   color?: '#9C9FA2' | '#222323';
 };
 
-const ChevronVertical = ({ color }: Props) => {
+const ChevronVertical28 = ({ color }: Props) => {
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -18,4 +18,4 @@ const ChevronVertical = ({ color }: Props) => {
   );
 };
 
-export default ChevronVertical;
+export default ChevronVertical28;

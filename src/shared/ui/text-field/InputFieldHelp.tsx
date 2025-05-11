@@ -3,7 +3,7 @@
 import React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/cn';
-import InformationOutlined from '../icons/InformationOutlined';
+import InformationOutlined16 from '../icons/16/InformationOutlined16';
 
 const inputFieldVariants = cva(
   'border rounded-xl w-full font-light text-gray-800 focus:outline-none focus:border-gray-400',
@@ -72,7 +72,7 @@ const InputFieldHelp = React.forwardRef<HTMLInputElement, InputFieldTitleProps>(
             'flex flex-row gap-x-[4px] items-center'
           )}
         >
-          <InformationOutlined
+          <InformationOutlined16
             color={
               variant === 'basic' || variant === 'disabled'
                 ? '#9C9FA2'

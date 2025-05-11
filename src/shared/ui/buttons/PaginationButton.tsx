@@ -119,7 +119,7 @@ const pageButtonVariants = cva(
       variant: {
         current: 'bg-gray-700 text-white font-bold',
         default:
-          'bg-white border border-gray-200 text-gray-400 font-regular hover:border-gray-300 hover:text-gray-800',
+          'bg-white border border-gray-200 text-gray-400 font-medium hover:border-gray-300 hover:text-gray-800',
       },
     },
   }
