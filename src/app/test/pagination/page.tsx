@@ -1,12 +1,12 @@
-import Pagination from '@/shared/ui/buttons/PaginationButton';
+import { Pagination } from '@/shared/ui/';
 import React from 'react';
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col w-[800px] p-[16px]">
+      <div className="flex w-[800px] flex-col p-[16px]">
         {/* Page Button */}
-        <div className="text-1xl font-medium py-[8px]">PAGE BUTTON</div>
+        <div className="py-[8px] text-1xl font-medium">PAGE BUTTON</div>
         <div className="flex flex-row items-center">
           <Pagination currentPage={1} maxPage={20} count={7} />
         </div>
@@ -15,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -2,13 +2,21 @@ import type { Metadata } from 'next';
 import './globals.css';
 import QueryProvider from '@/providers/query-provider';
 import localFont from 'next/font/local';
-import Appbar from '@/shared/ui/header/AppBar';
+import { AppBar, MenuBar } from '@/widgets/header';
+import { TrendBar } from '@/widgets/sideBar';
 
 const pretendard = localFont({
   src: '../../static/fonts/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-pretendard',
+});
+
+const himpun = localFont({
+  src: '../../static/fonts/Himpun.otf',
+  display: 'swap',
+  weight: '400',
+  variable: '--font-himpun',
 });
 
 export const metadata: Metadata = {
@@ -22,11 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${pretendard.variable} font-pretendard antialiased`}>
+    <html lang="en" className={`${pretendard.variable} ${himpun.variable}`}>
+      <body className="font-pretendard antialiased">
         <QueryProvider>
-          <Appbar />
-          {children}
+          <AppBar />
+          <MenuBar />
+          <div className="flex w-full justify-center gap-x-12 px-8">
+            <div className="max-w-[52.5rem] flex-1 border-8 bg-red-500">{children}</div>
+            <div className="flex h-[400px] max-w-[22.5rem] flex-1 flex-col gap-y-3">
+              <TrendBar />
+            </div>
+          </div>
         </QueryProvider>
       </body>
     </html>

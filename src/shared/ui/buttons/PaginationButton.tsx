@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/shared/lib/cn';
+import { cn } from '@/shared/lib/';
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { createContext, useContext } from 'react';
 import PageLeftDoubleChevron from '../icons/pagination/PageLeftDoubleChevron';
@@ -50,7 +50,7 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
     return (
       <PaginationContext.Provider value={{ current, setCurrent, maxPage, count }}>
-        <div ref={ref} className="flex flex-row gap-x-2 justify-center" {...props}>
+        <div ref={ref} className="flex flex-row justify-center gap-x-2" {...props}>
           <span
             className="cursor-pointer"
             onClick={() => {

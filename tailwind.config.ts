@@ -135,6 +135,7 @@ export default {
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
+        himpun: ['var(--font-himpun)'],
       },
       padding: {
         screenXPadding: '17.5%',

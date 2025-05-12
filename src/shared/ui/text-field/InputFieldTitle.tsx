@@ -1,7 +1,7 @@
 import React from 'react';
 import InputField from './InputField';
 import { cva, VariantProps } from 'class-variance-authority';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/';
 
 const inputFieldVariants = cva('font-light', {
   variants: {

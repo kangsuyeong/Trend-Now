@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/';
 import InformationOutlined16 from '../icons/16/InformationOutlined16';
 
 const inputFieldVariants = cva(
@@ -57,7 +57,7 @@ const InputFieldHelp = React.forwardRef<HTMLInputElement, InputFieldTitleProps>(
   ({ className, type, size, helpText, ...props }, ref) => {
     const [variant, setVariant] = React.useState<'basic' | 'disabled' | 'error' | 'active'>(type);
     return (
-      <div className={cn(className, 'flex flex-col w-full gap-y-[8px]')}>
+      <div className={cn(className, 'flex w-full flex-col gap-y-[8px]')}>
         <input
           ref={ref}
           className={cn(inputFieldVariants({ variant, size }), className)}
@@ -69,7 +69,7 @@ const InputFieldHelp = React.forwardRef<HTMLInputElement, InputFieldTitleProps>(
         <span
           className={cn(
             helpTextVariants({ variant, size }),
-            'flex flex-row gap-x-[4px] items-center'
+            'flex flex-row items-center gap-x-[4px]'
           )}
         >
           <InformationOutlined16

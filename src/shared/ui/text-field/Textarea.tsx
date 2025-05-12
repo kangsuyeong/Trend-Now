@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { ChangeEvent } from 'react';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/';
 
 const textareaVariants = cva(
   'border rounded-xl w-full font-light text-gray-800 focus:outline-none focus:border-gray-400',
@@ -41,7 +41,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       setTextLength(e.target.value.length);
     }, []);
     return (
-      <span className="w-full flex flex-col gap-y-[4px]">
+      <span className="flex w-full flex-col gap-y-[4px]">
         <textarea
           ref={ref}
           className={cn(textareaVariants({ variant, size }), className, 'resize-none')}
