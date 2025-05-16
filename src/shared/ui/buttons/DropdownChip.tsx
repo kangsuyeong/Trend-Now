@@ -2,7 +2,7 @@
 
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { createContext, useContext } from 'react';
-import ChevronVertical28 from '../icons/28/ChevronVertical28';
+import { ChevronVertical20 } from '..';
 import { cn } from '@/shared/lib';
 
 interface DropdownContextType {
@@ -25,8 +25,6 @@ export const useDropdown = () => {
 interface DropdownProps
   extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof triggerVariants> {
-  /**@param {'basic' | 'disabled' | 'error' | 'active'} variant 입력 상자의 상태에 따른 스타일을 고를 수 있습니다. */
-  type: 'basic' | 'disabled' | 'error' | 'active';
   /**@param {'desktop' | 'mobile'} size PC 혹은 모바일 */
   size: 'desktop' | 'mobile';
   /**@param {String} defaultText 기본 선택 텍스트 */
@@ -40,8 +38,7 @@ interface DropdownProps
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-1531&t=6sPVBOpXARABMUkQ-4
  * */
-const Dropdown = ({
-  type,
+const DropdownChip = ({
   size,
   defaultText,
   children,
@@ -69,11 +66,11 @@ const Dropdown = ({
 
   return (
     <DropdownContext.Provider value={{ isOpen, selectedText, toggleOpen, setSelectedText }}>
-      <span ref={dropdownRef} className="relative flex w-full flex-col gap-y-[8px]" {...props}>
-        <DropdownTrigger type={type} size={size} />
+      <span ref={dropdownRef} className="relative flex h-fit w-fit flex-col gap-y-[8px]" {...props}>
+        <DropdownChipTrigger size={size} />
         {isOpen && (
           <div className="absolute left-0 top-full z-10 mt-[8px] w-full">
-            <DropdownMenu>{children}</DropdownMenu>
+            <DropdownChipMenu>{children}</DropdownChipMenu>
           </div>
         )}
       </span>
@@ -81,21 +78,19 @@ const Dropdown = ({
   );
 };
 
-Dropdown.displayName = 'Dropdown';
+DropdownChip.displayName = 'DropdownChip';
 
 const triggerVariants = cva(
-  'border rounded-xl w-full font-light text-gray-800 focus:outline-none',
+  'border rounded-full flex gap-x-1.5 font-light text-gray-800 focus:outline-none',
   {
     variants: {
       variant: {
-        basic: 'bg-white border-gray-200 text-gray-500',
-        disabled: 'bg-gray-100 border-gray-300 text-gray-500',
-        error: 'bg-white border-negative text-gray-800',
-        active: 'border-gray-400 text-gray-800',
+        active: 'border-gray-400',
+        inactive: 'bg-white border-gray-200',
       },
       size: {
-        desktop: 'h-[48px] pl-[16px] pr-[12px] text-md',
-        mobile: 'h-[38px] pl-[12px] pr-[8px] text-xs',
+        desktop: 'h-[2.375rem] pl-4 pr-3 text-sm',
+        mobile: 'h-8 pl-3 pr-2 text-xs',
       },
     },
   }
@@ -104,8 +99,6 @@ const triggerVariants = cva(
 interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>,
     VariantProps<typeof triggerVariants> {
-  /**@param {'basic' | 'disabled' | 'error' | 'active'} variant 입력 상자의 상태에 따른 스타일을 고를 수 있습니다. */
-  type: 'basic' | 'disabled' | 'error' | 'active';
   /**@param {'desktop' | 'mobile'} size PC 혹은 모바일 */
   size: 'desktop' | 'mobile';
 }
@@ -113,9 +106,9 @@ interface ButtonProps
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-1531&t=6sPVBOpXARABMUkQ-4
  * */
-const DropdownTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, type, size, ...props }, ref) => {
-    const [variant, setVariant] = React.useState<'basic' | 'disabled' | 'error' | 'active'>(type);
+const DropdownChipTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, size, ...props }, ref) => {
+    const [variant, setVariant] = React.useState<'active' | 'inactive'>('inactive');
     const { toggleOpen, selectedText } = useDropdown();
     return (
       <button
@@ -126,20 +119,19 @@ const DropdownTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className,
           'relative flex flex-row items-center justify-between'
         )}
-        disabled={variant === 'disabled'}
         onFocus={() => setVariant('active')}
-        onBlur={() => setVariant(type)}
+        onBlur={() => setVariant('inactive')}
         onClick={toggleOpen}
         {...props}
       >
         <span>{selectedText}</span>
-        <ChevronVertical28 color={variant === 'active' ? '#222323' : '#9C9FA2'} />
+        <ChevronVertical20 />
       </button>
     );
   }
 );
 
-DropdownTrigger.displayName = 'DropdownTrigger';
+DropdownChipTrigger.displayName = 'DropdownChipTrigger';
 
 interface DropdownMenuProps extends React.HTMLAttributes<HTMLUListElement> {
   /**@param {String} children 드랍다운 메뉴에 들어갈 아이템 요소 */
@@ -149,7 +141,7 @@ interface DropdownMenuProps extends React.HTMLAttributes<HTMLUListElement> {
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-1531&t=6sPVBOpXARABMUkQ-4
  * */
-const DropdownMenu = React.forwardRef<HTMLUListElement, DropdownMenuProps>(
+const DropdownChipMenu = React.forwardRef<HTMLUListElement, DropdownMenuProps>(
   ({ className, children, ...props }, ref) => {
     const { isOpen } = useDropdown();
 
@@ -170,7 +162,7 @@ const DropdownMenu = React.forwardRef<HTMLUListElement, DropdownMenuProps>(
   }
 );
 
-DropdownMenu.displayName = 'DropdownMenu';
+DropdownChipMenu.displayName = 'DropdownChipMenu';
 
 interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
   /**@param {String} text 표시될 텍스트 */
@@ -184,7 +176,7 @@ interface DropdownItemProps extends React.HTMLAttributes<HTMLLIElement> {
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-1531&t=6sPVBOpXARABMUkQ-4
  * */
-const DropdownItem = React.forwardRef<HTMLLIElement, DropdownItemProps>(
+const DropdownChipItem = React.forwardRef<HTMLLIElement, DropdownItemProps>(
   ({ className, text, value, ...props }, ref) => {
     const { setSelectedText, selectedText } = useDropdown();
 
@@ -206,6 +198,6 @@ const DropdownItem = React.forwardRef<HTMLLIElement, DropdownItemProps>(
   }
 );
 
-DropdownItem.displayName = 'DropdownItem';
+DropdownChipItem.displayName = 'DropdownChipItem';
 
-export { Dropdown, DropdownItem };
+export { DropdownChip, DropdownChipItem };

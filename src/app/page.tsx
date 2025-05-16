@@ -1,3 +1,5 @@
+import { DateDivider } from '@/shared/ui';
+import { SortChip, SortChipItem } from '@/widgets/hotBoard';
 import Image from 'next/image';
 
 export default function Home() {
@@ -17,6 +19,24 @@ export default function Home() {
         <span className="z-10 w-fit select-none font-himpun text-[3.5rem]/[120%] font-regular text-brand-500">
           04 : 11 : 42
         </span>
+      </div>
+      <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-6">
+          <DateDivider date={new Date()} background="black" />
+          <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-y-1.5">
+              <span className="text-base font-regular text-gray-500">
+                시간이 지나면 사라지는 실시간 게시판, 지금 참여하세요!
+              </span>
+              <span className="text-3xl font-bold text-gray-800">실시간 인기 게시판</span>
+            </div>
+            <SortChip size="desktop" defaultText="타이머 순">
+              <SortChipItem text="타이머 순" value="timer" />
+              <SortChipItem text="랭킹 순" value="rank" />
+              <SortChipItem text="조회수 순" value="views" />
+            </SortChip>
+          </div>
+        </div>
       </div>
     </div>
   );

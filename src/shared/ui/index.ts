@@ -1,11 +1,16 @@
 /** Buttons */
 import BadgeButton from './buttons/BadgeButton';
+import { DropdownChip, DropdownChipItem } from './buttons/DropdownChip';
 import Pagination from './buttons/PaginationButton';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 
+/** Dividers */
+import DateDivider from './divider/DateDivider';
+
 /** Icons */
 import InformationOutlined16 from './icons/16/InformationOutlined16';
+import ChevronVertical20 from './icons/20/ChevronVertical20';
 import Hamburger24 from './icons/24/Hamburger24';
 import House24 from './icons/24/House24';
 import Search24 from './icons/24/Search24';
@@ -28,10 +33,14 @@ import Textarea from './text-field/Textarea';
 
 export {
   BadgeButton,
+  DropdownChip,
+  DropdownChipItem,
   Pagination,
   PrimaryButton,
   SecondaryButton,
+  DateDivider,
   InformationOutlined16,
+  ChevronVertical20,
   Hamburger24,
   House24,
   Search24,
