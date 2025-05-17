@@ -4,8 +4,8 @@ export default function Footer() {
   const tabs = ['고객센터', '1:1문의', '이용역관', '개인정보취급방침', '위치서비스이용약관'];
 
   return (
-    <footer className="h-[18.75rem] bg-[#333333] px-[24.75rem] py-12">
-      <div className="flex justify-between">
+    <footer className="flex h-[18.75rem] justify-center bg-[#333333] py-12">
+      <div className="flex w-[70.5rem] justify-between">
         <span className="flex flex-col gap-y-10">
           <span className="flex gap-x-4 *:text-sm *:font-bold *:text-white">
             {tabs.map((item, idx) =>
