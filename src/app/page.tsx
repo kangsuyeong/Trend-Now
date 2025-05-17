@@ -37,8 +37,6 @@ export default function Home() {
             </div>
             <SortChip size="desktop" defaultText="타이머 순">
               <SortChipItem text="타이머 순" value="timer" />
-              <SortChipItem text="랭킹 순" value="rank" />
-              <SortChipItem text="조회수 순" value="views" />
             </SortChip>
           </div>
         </div>
