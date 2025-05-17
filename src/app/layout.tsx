@@ -4,6 +4,7 @@ import QueryProvider from '@/providers/query-provider';
 import localFont from 'next/font/local';
 import { AppBar, MenuBar } from '@/widgets/header';
 import { TrendBar } from '@/widgets/sideBar';
+import { Footer } from '@/widgets/footer';
 
 const pretendard = localFont({
   src: '../../static/fonts/PretendardVariable.woff2',
@@ -40,6 +41,9 @@ export default function RootLayout({
             <div className="flex h-[400px] max-w-[22.5rem] flex-1 flex-col gap-y-3">
               <TrendBar />
             </div>
+          </div>
+          <div className="pt-[6.25rem]">
+            <Footer />
           </div>
         </QueryProvider>
       </body>

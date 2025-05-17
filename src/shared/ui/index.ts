@@ -10,6 +10,8 @@ import DateDivider from './divider/DateDivider';
 
 /** Icons */
 import InformationOutlined16 from './icons/16/InformationOutlined16';
+import Comment18 from './icons/18/Comment18';
+import Heart18 from './icons/18/Heart18';
 import ChevronVertical20 from './icons/20/ChevronVertical20';
 import Hamburger24 from './icons/24/Hamburger24';
 import House24 from './icons/24/House24';
@@ -40,6 +42,8 @@ export {
   SecondaryButton,
   DateDivider,
   InformationOutlined16,
+  Comment18,
+  Heart18,
   ChevronVertical20,
   Hamburger24,
   House24,

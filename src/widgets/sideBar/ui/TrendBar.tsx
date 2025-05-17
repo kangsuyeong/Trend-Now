@@ -16,10 +16,14 @@ export default function TrendBar() {
           <span className="text-lg font-semiBold text-brand-100">
             가장 뜨거운 실시간 인기 검색어
           </span>
-          <span className="flex w-fit items-end gap-x-1.5">
-            <span className="relative h-[3.625rem] w-[3.625rem]">
-              <Image src="/images/crown.gif" alt="trend" fill />
-            </span>
+          <span className="flex w-fit items-center gap-x-1.5">
+            <Image
+              src="/images/crown.gif"
+              alt="trend"
+              width={58}
+              height={58}
+              className="aspect-square object-cover"
+            />
             <span className="font-himpun text-[2.75rem]/[120%] text-white">TOP 10</span>
           </span>
         </span>
