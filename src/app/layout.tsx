@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${pretendard.variable} ${himpun.variable}`}>
-      <body className="font-pretendard antialiased">
+      <body className="relative font-pretendard antialiased">
         <QueryProvider>
           <AppBar />
           <MenuBar />

@@ -1,19 +1,32 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Hamburger24, Search24, Trendnow, UserProfile28, UserProfile32 } from '@/shared/ui/';
+import { Hamburger24, Search24, Trendnow, UserProfile32 } from '@/shared/ui/';
+import { LoginModal } from '@/features/login';
 
 const Appbar = () => {
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const dropMenuButtonRep = useRef<HTMLSpanElement>(null);
   const dropMenuRep = useRef<HTMLSpanElement>(null);
+  const loginModalRep = useRef<HTMLDivElement>(null);
 
   const handleDropMenuToggle = () => {
     setDropMenuOpen((prev) => {
       return !prev;
     });
+  };
+
+  const handleModalOpen = () => {
+    document.body.style.overflow = 'hidden';
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    document.body.style.overflow = 'auto';
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -53,16 +66,19 @@ const Appbar = () => {
           </span>
         </span>
         <span className="relative flex w-[12.5rem] items-center justify-end gap-x-2">
-          {/* <span className="flex justify-center items-center w-fit h-10 px-3.5 py-2.5 rounded-full bg-gray-100 text-base font-medium select-none text-nowrap">
+          <span
+            className="flex h-10 w-fit cursor-pointer select-none items-center justify-center text-nowrap rounded-full bg-gray-100 px-3.5 py-2.5 text-base font-medium"
+            onClick={handleModalOpen}
+          >
             로그인
-          </span> */}
-          <span className="flex h-10 w-fit select-none items-center justify-center gap-x-2.5 text-nowrap rounded-full bg-gray-100 py-2.5 pl-2.5 pr-3.5 text-base font-medium">
+          </span>
+          {/* <span className="flex h-10 w-fit select-none items-center justify-center gap-x-2.5 text-nowrap rounded-full bg-gray-100 py-2.5 pl-2.5 pr-3.5 text-base font-medium">
             <UserProfile28 />
             Trendnow
-          </span>
+          </span> */}
           <span
             ref={dropMenuButtonRep}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-base font-medium"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 text-base font-medium"
             onClick={handleDropMenuToggle}
           >
             <Hamburger24 />
@@ -86,6 +102,7 @@ const Appbar = () => {
           )}
         </span>
       </div>
+      <LoginModal ref={loginModalRep} onClose={handleModalClose} open={isModalOpen} />
     </header>
   );
 };

@@ -58,6 +58,8 @@ export default {
           gray: '#B2B3B5',
           error: '#852214',
         },
+        kakao: '#FEE500',
+        naver: '#06BE34',
       },
       fontSize: {
         '4xl': [
