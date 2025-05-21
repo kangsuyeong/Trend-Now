@@ -57,7 +57,7 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
               const prevPageGroup = Math.floor((current - 1) / count);
 
               if (prevPageGroup > 0) {
-                setCurrent(prevPageGroup * 7);
+                setCurrent(prevPageGroup * count);
               } else {
                 setCurrent(1);
               }
