@@ -28,7 +28,7 @@ export default {
           700: '#0F4382',
         },
         point: {
-          500: '#117D10',
+          500: '#FF6D13',
         },
         blackOpacity: {
           600: '#000000/[60%]',
@@ -58,6 +58,8 @@ export default {
           gray: '#B2B3B5',
           error: '#852214',
         },
+        kakao: '#FEE500',
+        naver: '#06BE34',
       },
       fontSize: {
         '4xl': [
@@ -128,13 +130,17 @@ export default {
         ],
       },
       fontWeight: {
-        light: '400',
-        regular: '500',
+        regular: '400',
+        medium: '500',
         semiBold: '600',
         bold: '700',
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
+        himpun: ['var(--font-himpun)'],
+      },
+      padding: {
+        screenXPadding: '17.5%',
       },
     },
   },

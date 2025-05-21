@@ -1,4 +1,4 @@
-import { cn } from '@/shared/lib/cn';
+import { cn } from '@/shared/lib/';
 import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
 
@@ -11,10 +11,10 @@ const buttonVariants = cva('flex justify-center items-center bg-white', {
       error: 'text-negative border border-negative',
     },
     size: {
-      xl: 'h-14 px-8 text-lg font-regular rounded-xl',
-      l: 'h-12 px-7 text-base font-regular rounded-xl',
-      m: 'h-10 px-5 text-md font-regular rounded-[10px]',
-      s: 'h-9 px-4 text-xs font-regular rounded-[10px]',
+      xl: 'h-14 px-8 text-lg font-medium rounded-xl',
+      l: 'h-12 px-7 text-base font-medium rounded-xl',
+      m: 'h-10 px-5 text-md font-medium rounded-[10px]',
+      s: 'h-9 px-4 text-xs font-medium rounded-[10px]',
     },
   },
 });

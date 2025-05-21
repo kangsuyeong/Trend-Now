@@ -1,7 +1,9 @@
+'use client';
+
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { createContext, useContext } from 'react';
-import { cn } from '../../lib/cn';
-import ChevronVertical from '../icons/ChevronVertical';
+import ChevronVertical28 from '../icons/28/ChevronVertical28';
+import { cn } from '@/shared/lib';
 
 interface DropdownContextType {
   isOpen: boolean;
@@ -39,8 +41,8 @@ interface DropdownProps
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-1531&t=6sPVBOpXARABMUkQ-4
  * */
 const Dropdown = ({
-  className,
   type,
+  size,
   defaultText,
   children,
   ...props
@@ -67,14 +69,10 @@ const Dropdown = ({
 
   return (
     <DropdownContext.Provider value={{ isOpen, selectedText, toggleOpen, setSelectedText }}>
-      <span
-        ref={dropdownRef}
-        className={cn('relative flex flex-col w-full gap-y-[8px]', className)}
-        {...props}
-      >
-        <DropdownTrigger type={type} size="desktop" className="relative" />
+      <span ref={dropdownRef} className="relative flex w-full flex-col gap-y-[8px]" {...props}>
+        <DropdownTrigger type={type} size={size} />
         {isOpen && (
-          <div className="absolute top-full mt-[8px] left-0 w-full z-10">
+          <div className="absolute left-0 top-full z-10 mt-[8px] w-full">
             <DropdownMenu>{children}</DropdownMenu>
           </div>
         )}
@@ -126,7 +124,7 @@ const DropdownTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           triggerVariants({ variant, size }),
           className,
-          'flex flex-row items-center justify-between'
+          'relative flex flex-row items-center justify-between'
         )}
         disabled={variant === 'disabled'}
         onFocus={() => setVariant('active')}
@@ -135,7 +133,7 @@ const DropdownTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         <span>{selectedText}</span>
-        <ChevronVertical color={variant === 'active' ? '#222323' : '#9C9FA2'} />
+        <ChevronVertical28 color={variant === 'active' ? '#222323' : '#9C9FA2'} />
       </button>
     );
   }
@@ -162,7 +160,7 @@ const DropdownMenu = React.forwardRef<HTMLUListElement, DropdownMenuProps>(
         ref={ref}
         className={cn(
           className,
-          'bg-white border border-gray-200 rounded-2xl py-[12px] px-[8px] w-full'
+          'w-full rounded-2xl border border-gray-200 bg-white px-[8px] py-[12px]'
         )}
         {...props}
       >
@@ -195,7 +193,7 @@ const DropdownItem = React.forwardRef<HTMLLIElement, DropdownItemProps>(
         ref={ref}
         value={value}
         className={cn(
-          'flex flex-row text-sm font-light text-gray-800 py-[8px] px-[12px] rounded-xl select-none',
+          'flex select-none flex-row rounded-xl px-[12px] py-[8px] text-sm font-light text-gray-800',
           className,
           text === selectedText ? 'bg-gray-100' : ''
         )}

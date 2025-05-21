@@ -1,42 +1,45 @@
 'use client';
 
-import { Dropdown, DropdownItem } from '@/shared/ui/text-field/Dropdown';
-import InputField from '@/shared/ui/text-field/InputField';
-import InputFieldHelp from '@/shared/ui/text-field/InputFieldHelp';
-import InputFieldPassword from '@/shared/ui/text-field/InputFieldPassword';
-import InputFieldTitle from '@/shared/ui/text-field/InputFieldTitle';
-import Textarea from '@/shared/ui/text-field/Textarea';
+import {
+  Dropdown,
+  DropdownItem,
+  InputField,
+  InputFieldHelp,
+  InputFieldPassword,
+  InputFieldTitle,
+  Textarea,
+} from '@/shared/ui/';
 import React from 'react';
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col w-[800px] p-[16px]">
+      <div className="flex w-[800px] flex-col p-[16px]">
         {/* Input Field */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">INPUT FIELD</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputField placeholder="Email" type="basic" size="desktop" />
           <InputField placeholder="Email" type="basic" size="mobile" />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputField placeholder="Email" type="disabled" size="desktop" />
           <InputField placeholder="Email" type="disabled" size="mobile" />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputField placeholder="Email" type="error" size="desktop" />
           <InputField placeholder="Email" type="error" size="mobile" />
         </div>
         {/* Input Field + Title */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + TITLE</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">INPUT FIELD + TITLE</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldTitle
             placeholder="Enter User"
             type="basic"
@@ -52,7 +55,7 @@ const page = () => {
             className="w-full"
           />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldTitle
             placeholder="Enter User"
             type="disabled"
@@ -68,7 +71,7 @@ const page = () => {
             className="w-full"
           />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldTitle
             placeholder="Enter User"
             type="error"
@@ -85,30 +88,30 @@ const page = () => {
           />
         </div>
         {/* Input Field + Help */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + HELP</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">INPUT FIELD + HELP</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldHelp placeholder="Phone" type="basic" size="desktop" helpText="Help Text" />
           <InputFieldHelp placeholder="Phone" type="basic" size="mobile" helpText="Help Text" />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldHelp placeholder="Phone" type="disabled" size="desktop" helpText="Help Text" />
           <InputFieldHelp placeholder="Phone" type="disabled" size="mobile" helpText="Help Text" />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldHelp placeholder="Phone" type="error" size="desktop" helpText="Help Text" />
           <InputFieldHelp placeholder="Phone" type="error" size="mobile" helpText="Help Text" />
         </div>
         {/* Input Field + Password */}
-        <div className="text-1xl font-regular py-[8px]">INPUT FIELD + PASSWORD</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">INPUT FIELD + PASSWORD</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldPassword
             placeholder="Enter Password"
             type="basic"
@@ -122,7 +125,7 @@ const page = () => {
             onForgotPassword={() => alert('hello world!')}
           />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldPassword
             placeholder="Enter Password"
             type="disabled"
@@ -136,7 +139,7 @@ const page = () => {
             onForgotPassword={() => alert('hello world!')}
           />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <InputFieldPassword
             placeholder="Enter Password"
             type="error"
@@ -151,30 +154,30 @@ const page = () => {
           />
         </div>
         {/* Textarea */}
-        <div className="text-1xl font-regular py-[8px]">TEXTAREA</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">TEXTAREA</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Textarea placeholder="Description" type="basic" size="desktop" maxLength={200} />
           <Textarea placeholder="Description" type="basic" size="mobile" maxLength={200} />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Textarea placeholder="Description" type="disabled" size="desktop" maxLength={200} />
           <Textarea placeholder="Description" type="disabled" size="mobile" maxLength={200} />
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Textarea placeholder="Description" type="error" size="desktop" maxLength={200} />
           <Textarea placeholder="Description" type="error" size="mobile" maxLength={200} />
         </div>
         {/* Dropdown */}
-        <div className="text-1xl font-regular py-[8px]">DROPDOWN</div>
-        <div className="flex flex-row py-[8px] gap-[16px]">
+        <div className="py-[8px] text-1xl font-medium">DROPDOWN</div>
+        <div className="flex flex-row gap-[16px] py-[8px]">
           <span className="w-full">DESKTOP</span>
           <span className="w-full">MOBILE</span>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Dropdown type="basic" size="desktop" defaultText="Select an option">
             <DropdownItem text="Option 1" value="option1" />
             <DropdownItem text="Option 2" value="option2" />
@@ -186,7 +189,7 @@ const page = () => {
             <DropdownItem text="Option 3" value="option3" />
           </Dropdown>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Dropdown type="disabled" size="desktop" defaultText="Select an option">
             <DropdownItem text="Option 1" value="option1" />
             <DropdownItem text="Option 2" value="option2" />
@@ -198,7 +201,7 @@ const page = () => {
             <DropdownItem text="Option 3" value="option3" />
           </Dropdown>
         </div>
-        <div className="flex flex-row items-center py-[8px] gap-[16px]">
+        <div className="flex flex-row items-center gap-[16px] py-[8px]">
           <Dropdown type="error" size="desktop" defaultText="Select an option">
             <DropdownItem text="Option 1" value="option1" />
             <DropdownItem text="Option 2" value="option2" />
@@ -215,4 +218,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

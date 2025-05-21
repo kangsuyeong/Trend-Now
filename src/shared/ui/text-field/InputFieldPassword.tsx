@@ -2,7 +2,7 @@
 
 import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/';
 
 const inputFieldVariants = cva(
   'border rounded-xl w-full focus:outline-none focus:border-gray-400',
@@ -64,7 +64,7 @@ const InputFieldPassword = React.forwardRef<HTMLInputElement, InputFieldProps>(
         className={cn(
           inputFieldVariants({ variant }),
           className,
-          'flex flex-row gap-x-[8px] items-center'
+          'flex flex-row items-center gap-x-[8px]'
         )}
       >
         <input
@@ -72,7 +72,7 @@ const InputFieldPassword = React.forwardRef<HTMLInputElement, InputFieldProps>(
           type="password"
           className={cn(
             passwordVariants({ size }),
-            'w-full border-none font-light text-gray-800 rounded-xl focus:outline-none'
+            'w-full rounded-xl border-none font-light text-gray-800 focus:outline-none'
           )}
           {...props}
           disabled={variant === 'disabled'}

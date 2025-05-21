@@ -1,101 +1,80 @@
-import Image from "next/image";
+'use client';
+
+import { DateDivider } from '@/shared/ui';
+import { CurrentHotRow, MedalRow, SortChip, SortChipItem } from '@/widgets/hotBoard';
+import Image from 'next/image';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // const ads = ['/images/ad1.png', '/images/ad1.png', '/images/ad1.png'];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="flex flex-col gap-y-12 border-r border-gray-200 bg-white pr-8">
+      <div className="relative flex h-fit w-full flex-col items-center gap-y-3 px-8 pb-6 pt-8">
+        <Image
+          src="/images/banner.gif"
+          alt="배너 이미지"
+          fill
+          sizes="100%"
+          priority
+          className="rounded-[1.25rem] object-cover"
+        />
+        <span className="z-10 w-fit select-none text-base font-semiBold text-white">
+          🔥 지금 떠오른 이슈들, 사라지기 전에 확인하세요.
+        </span>
+        <span className="z-10 w-fit select-none font-himpun text-[3.5rem]/[120%] font-regular text-brand-500">
+          04 : 11 : 42
+        </span>
+      </div>
+      <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-6">
+          <DateDivider date={new Date()} background="black" />
+          <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-y-1.5">
+              <span className="text-base font-regular text-gray-500">
+                시간이 지나면 사라지는 실시간 게시판, 지금 참여하세요!
+              </span>
+              <span className="text-3xl font-bold text-gray-800">실시간 인기 게시판</span>
+            </div>
+            <SortChip size="desktop" defaultText="타이머 순">
+              <SortChipItem text="타이머 순" value="timer" />
+            </SortChip>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="flex flex-col gap-y-2">
+          <div className="flex gap-x-3 border-b border-gray-200 px-2 pb-4 *:text-nowrap *:text-sm *:font-regular *:text-gray-500">
+            <span className="w-12 text-center">순위</span>
+            <span className="flex-1 text-left">검색어</span>
+            <span className="w-16 text-center">게시물 수</span>
+            <span className="w-16 text-center">총 조회수</span>
+            <span className="w-[6.5rem] text-center">타이머</span>
+          </div>
+          {new Array(3).fill(0).map((_, idx) => (
+            <MedalRow
+              key={idx}
+              rank={idx + 1}
+              keyword="尹탄핵심판"
+              count={125}
+              views={2324}
+              timer={3402}
+            />
+          ))}
+          <div className="flex flex-col">
+            {new Array(7).fill(0).map((_, idx) => (
+              <CurrentHotRow
+                key={idx}
+                rank={idx + 4}
+                keyword="서울 폭설"
+                count={125}
+                views={2324}
+                timer={225}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* <div>
+        <AdvCarousel images={ads} />
+      </div> */}
     </div>
   );
 }
