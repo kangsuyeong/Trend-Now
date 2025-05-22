@@ -12,7 +12,7 @@ const timerVariants = cva('text-xl font-semiBold', {
   },
 });
 
-interface CurrentHotRowProps {
+interface HotBoardListRowProps {
   /**@param {number} rank 순위 */
   rank: number;
   /**@param {string} keyword 검색어 */
@@ -28,7 +28,13 @@ interface CurrentHotRowProps {
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=110-12045&t=J0Jb8mvTQUQUNMvU-4
  */
-export default function CurrentHotRow({ rank, keyword, count, views, timer }: CurrentHotRowProps) {
+export default function HotBoardListRow({
+  rank,
+  keyword,
+  count,
+  views,
+  timer,
+}: HotBoardListRowProps) {
   const variant = timer === 0 ? 'gray' : timer < 600 ? 'orange' : 'blue';
   const min = Math.floor(timer / 60)
     .toString()
@@ -38,7 +44,7 @@ export default function CurrentHotRow({ rank, keyword, count, views, timer }: Cu
   return (
     <div className="flex items-center justify-between rounded-xl py-4 pl-2 pr-4 hover:bg-gray-100">
       <span className="flex items-center gap-x-3">
-        <span className="h-7 w-7 text-lg font-bold text-gray-800">{rank}</span>
+        <span className="h-7 w-7 text-center text-lg font-bold text-gray-800">{rank}</span>
         <span className="text-lg font-semiBold text-gray-800">{keyword}</span>
       </span>
       <span className="flex gap-x-2">

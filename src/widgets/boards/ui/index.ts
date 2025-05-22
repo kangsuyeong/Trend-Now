@@ -1,3 +1,3 @@
-import BoardRow from './BoardRow';
+import BoardList from './BoardList';
 
-export { BoardRow };
+export { BoardList };

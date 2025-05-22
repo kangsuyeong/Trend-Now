@@ -20,7 +20,7 @@ const MenuBar = () => {
         <li>
           <label className="group flex cursor-pointer items-center">
             <input
-              checked={pathname === '/'}
+              checked={pathname.startsWith('/home') || pathname.startsWith('/hotBoard')}
               type="radio"
               name="menu-bar"
               className="hidden appearance-none"

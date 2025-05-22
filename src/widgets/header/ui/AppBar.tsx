@@ -3,8 +3,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Hamburger24, Search24, Trendnow, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
+import { useRouter } from 'next/navigation';
 
 const Appbar = () => {
+  const router = useRouter();
+
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -49,7 +52,7 @@ const Appbar = () => {
   return (
     <header className="flex h-20 w-full items-center justify-center border-b border-gray-200">
       <div className="mx-8 flex w-[1248px] justify-between">
-        <span className="flex items-center">
+        <span className="flex cursor-pointer items-center" onClick={() => router.push('/home')}>
           <Trendnow />
         </span>
         <span className="flex h-full w-[28.75rem] items-center justify-between rounded-full border border-gray-200 bg-gray-100 has-[:focus]:border-gray-400">
