@@ -49,7 +49,7 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
             <span className="text-md font-medium text-gray-800">구글 3초 로그인/회원가입</span>
             <span />
           </div>
-          <div className="bg-kakao flex cursor-pointer items-center justify-between rounded-full px-3 py-2">
+          <div className="flex cursor-pointer items-center justify-between rounded-full bg-kakao px-3 py-2">
             <Image
               src="/images/icons/icon_kakao_160x160.png"
               alt="카카오 로그인"
@@ -59,7 +59,7 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
             <span className="text-md font-medium text-gray-800">카카오 3초 로그인/회원가입</span>
             <span />
           </div>
-          <div className="bg-naver flex cursor-pointer items-center justify-between rounded-full px-3 py-2">
+          <div className="flex cursor-pointer items-center justify-between rounded-full bg-naver px-3 py-2">
             <Image
               src="/images/icons/icon_naver_160x160.png"
               alt="네이버 로그인"

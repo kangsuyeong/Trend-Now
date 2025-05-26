@@ -31,7 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${pretendard.variable} ${himpun.variable}`}>
+    <html
+      lang="en"
+      className={`${pretendard.variable} ${himpun.variable}`}
+      style={{ scrollbarGutter: 'stable' }}
+    >
       <body className="relative font-pretendard antialiased">
         <QueryProvider>
           <AppBar />

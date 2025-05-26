@@ -1,5 +1,6 @@
 import { cn } from '@/shared/lib';
 import { cva } from 'class-variance-authority';
+import Link from 'next/link';
 import React from 'react';
 
 const timerVariants = cva('text-xl font-semiBold', {
@@ -42,19 +43,21 @@ export default function HotBoardListRow({
   const sec = (timer % 60).toString().padStart(2, '0');
 
   return (
-    <div className="flex items-center justify-between rounded-xl py-4 pl-2 pr-4 hover:bg-gray-100">
-      <span className="flex items-center gap-x-3">
-        <span className="h-7 w-7 text-center text-lg font-bold text-gray-800">{rank}</span>
-        <span className="text-lg font-semiBold text-gray-800">{keyword}</span>
-      </span>
-      <span className="flex gap-x-2">
-        <span className="w-16 text-sm font-regular text-gray-500">{count}</span>
-        <span className="w-16 text-sm font-regular text-gray-500">{views}</span>
-        <span className="flex gap-x-1">
-          <span className="h-7 w-7"></span>
-          <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+    <Link href={`/hotBoard/keyword`}>
+      <div className="flex cursor-pointer items-center justify-between rounded-xl py-4 pl-2 pr-4 hover:bg-gray-100">
+        <span className="flex items-center gap-x-3">
+          <span className="h-7 w-7 text-center text-lg font-bold text-gray-800">{rank}</span>
+          <span className="text-lg font-semiBold text-gray-800">{keyword}</span>
         </span>
-      </span>
-    </div>
+        <span className="flex gap-x-2">
+          <span className="w-16 text-sm font-regular text-gray-500">{count}</span>
+          <span className="w-16 text-sm font-regular text-gray-500">{views}</span>
+          <span className="flex gap-x-1">
+            <span className="h-7 w-7"></span>
+            <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+          </span>
+        </span>
+      </div>
+    </Link>
   );
 }

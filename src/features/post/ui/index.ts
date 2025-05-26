@@ -1,4 +1,5 @@
 import BookmarkButton from './BookmarkButton';
-import KebabButton from './KebabButton';
+import CommentKebabButton from './CommentKebabButton';
+import PostKebabButton from './PostKebabButton';
 
-export { BookmarkButton, KebabButton };
+export { BookmarkButton, CommentKebabButton, PostKebabButton };

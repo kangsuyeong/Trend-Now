@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/shared/lib';
+import Link from 'next/link';
 
 const timerVariants = cva('text-2xl font-bold', {
   variants: {
@@ -34,49 +35,50 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
   const sec = (timer % 60).toString().padStart(2, '0');
 
   return (
-    <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-x-4">
-          {rank === 1 ? (
-            <Image
-              src="/images/gold.gif"
-              alt="gold"
-              width={40}
-              height={40}
-              priority
-              className="aspect-square object-cover"
-            />
-          ) : rank === 2 ? (
-            <Image
-              src="/images/silver.gif"
-              alt="gold"
-              width={40}
-              height={40}
-              priority
-              className="aspect-square object-cover"
-            />
-          ) : (
-            <Image
-              src="/images/bronze.gif"
-              alt="gold"
-              width={40}
-              height={40}
-              priority
-              className="aspect-square object-cover"
-            />
-          )}
-          <span className="text-xl font-bold text-brand-500">{keyword}</span>
-        </span>
-        <span className="flex items-center gap-x-2">
-          <span className="w-16 text-center text-md font-regular text-gray-500">{count}</span>
-          <span className="w-16 text-center text-md font-regular text-gray-500">{views}</span>
-          <span className="flex gap-x-1">
-            <span className="h-8 w-8"></span>
-            <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+    <Link href={`/hotBoard/keyword`}>
+      <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-x-4">
+            {rank === 1 ? (
+              <Image
+                src="/images/gold.gif"
+                alt="gold"
+                width={40}
+                height={40}
+                priority
+                className="aspect-square object-cover"
+              />
+            ) : rank === 2 ? (
+              <Image
+                src="/images/silver.gif"
+                alt="gold"
+                width={40}
+                height={40}
+                priority
+                className="aspect-square object-cover"
+              />
+            ) : (
+              <Image
+                src="/images/bronze.gif"
+                alt="gold"
+                width={40}
+                height={40}
+                priority
+                className="aspect-square object-cover"
+              />
+            )}
+            <span className="text-xl font-bold text-brand-500">{keyword}</span>
           </span>
-        </span>
-      </div>
-      {/* {currentExpand === rank && (
+          <span className="flex items-center gap-x-2">
+            <span className="w-16 text-center text-md font-regular text-gray-500">{count}</span>
+            <span className="w-16 text-center text-md font-regular text-gray-500">{views}</span>
+            <span className="flex gap-x-1">
+              <span className="h-8 w-8"></span>
+              <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+            </span>
+          </span>
+        </div>
+        {/* {currentExpand === rank && (
         <div className="gap-y-1 rounded-2xl bg-white px-4 py-3">
           <div>
             <span className="flex items-center gap-x-1">
@@ -101,6 +103,7 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
           </div>
         </div>
       )} */}
-    </div>
+      </div>
+    </Link>
   );
 }

@@ -24,7 +24,7 @@ const MenuBar = () => {
               type="radio"
               name="menu-bar"
               className="hidden appearance-none"
-              onChange={() => router.push('/')}
+              onChange={() => router.push('/home')}
             />
             <span className="flex items-center justify-center text-nowrap rounded-full px-5 py-2 text-base font-semiBold text-gray-500 group-has-[:checked]:bg-gray-200 group-has-[:checked]:text-gray-900">
               <House24 className="fill-gray-500 group-has-[:checked]:fill-gray-800" />

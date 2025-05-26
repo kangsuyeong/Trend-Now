@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/shared/lib';
 import { BadgeButton } from '@/shared/ui';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const rowVariants = cva('flex gap-x-2 px-2 py-[1.125rem] items-center', {
   variants: {
@@ -46,6 +50,7 @@ export default function BoardRow({
   comments,
   type,
 }: BoardRowProps) {
+  const pathname = usePathname();
   const month = created.getMonth() + 1;
   const date = created.getDate();
 
@@ -58,10 +63,14 @@ export default function BoardRow({
         ) : type === 'issue' ? (
           <BadgeButton variant="blue">이슈</BadgeButton>
         ) : null}
-        <span className="flex gap-x-1.5">
-          <span className="text-md font-semiBold text-gray-800">{title}</span>
-          <span className="text-xs font-regular text-gray-500">[{comments.toLocaleString()}]</span>
-        </span>
+        <Link href={`${pathname}/post/${number}`}>
+          <span className="flex cursor-pointer gap-x-1.5">
+            <span className="text-md font-semiBold text-gray-800 hover:underline">{title}</span>
+            <span className="text-xs font-regular text-gray-500">
+              [{comments.toLocaleString()}]
+            </span>
+          </span>
+        </Link>
       </span>
       <span className="flex w-[6.25rem] items-center gap-x-1.5">
         <Image
