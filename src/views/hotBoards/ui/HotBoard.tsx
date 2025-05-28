@@ -2,6 +2,7 @@ import { DateDivider, Pagination, Pencil24, PrimaryButton, SecondaryButton } fro
 import React from 'react';
 import Image from 'next/image';
 import { BoardList } from '@/widgets/boards';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface HotBoardProps {
   /**@param {string} keyword 인기 검색어 키워드 */
@@ -9,6 +10,9 @@ interface HotBoardProps {
 }
 
 export default function HotBoard({ keyword }: HotBoardProps) {
+  const router = useRouter();
+  const path = usePathname();
+
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
@@ -52,7 +56,12 @@ export default function HotBoard({ keyword }: HotBoardProps) {
               2025년 4월 1일
             </SecondaryButton>
           </span>
-          <PrimaryButton variant="black" size="m" className="pl-4">
+          <PrimaryButton
+            variant="black"
+            size="m"
+            className="pl-4"
+            onClick={() => router.push(path + '/write')}
+          >
             <span className="flex items-center gap-x-1">
               <Pencil24 />
               글쓰기

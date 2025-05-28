@@ -2,7 +2,12 @@ import { CommentKebabButton } from '@/features/post';
 import { UserProfile24 } from '@/shared/ui';
 import React from 'react';
 
-export default function Reply() {
+interface ReplyProps {
+  /**@param {boolean} showMenu 댓글 수정 삭제 메뉴 표시 여부  */
+  showMenu?: boolean;
+}
+
+export default function Reply({ showMenu = false }: ReplyProps) {
   return (
     <div className="flex w-full items-center justify-between py-5">
       <span className="flex flex-col gap-y-0.5">
@@ -17,7 +22,7 @@ export default function Reply() {
           간첩지지냐 설마! 디씨하는 한국인이 ㅋㄱㄱ
         </span>
       </span>
-      <CommentKebabButton />
+      <span>{showMenu && <CommentKebabButton />}</span>
     </div>
   );
 }
