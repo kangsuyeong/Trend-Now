@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import QueryProvider from '@/providers/query-provider';
 import localFont from 'next/font/local';
-import { AppBar, MenuBar } from '@/widgets/header';
-import { TrendBar } from '@/widgets/sideBar';
+import { AppBar } from '@/widgets/header';
 import { Footer } from '@/widgets/footer';
 
 const pretendard = localFont({
@@ -39,13 +38,7 @@ export default function RootLayout({
       <body className="relative font-pretendard antialiased">
         <QueryProvider>
           <AppBar />
-          <MenuBar />
-          <div className="flex w-full justify-center gap-x-12 px-8">
-            <div className="max-w-[52.5rem] flex-1">{children}</div>
-            <div className="flex h-[400px] max-w-[22.5rem] flex-1 flex-col gap-y-3">
-              <TrendBar />
-            </div>
-          </div>
+          {children}
           <div className="pt-[6.25rem]">
             <Footer />
           </div>
