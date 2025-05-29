@@ -1,5 +1,6 @@
 import React from 'react';
+import { Board } from '@/views/boards';
 
 export default function Page() {
-  return <div>Politics</div>;
+  return <Board type="politics" />;
 }
