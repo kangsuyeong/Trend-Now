@@ -1,3 +1,5 @@
+'use client';
+
 import { DateDivider, Pagination, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
 import React from 'react';
 import Image from 'next/image';

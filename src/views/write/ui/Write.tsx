@@ -29,10 +29,8 @@ export default function Write({ boardType, keyword }: WriteProps) {
   const handleGetContent = () => {
     if (editorRef.current) {
       const content = editorRef.current.getContent(); // Get the editor content
-      console.log('content', content);
       setEditorContent(content); // Update the state with the content
     }
-    console.log(editorRef.current);
   };
 
   return (
@@ -40,7 +38,7 @@ export default function Write({ boardType, keyword }: WriteProps) {
       <div className="flex items-center gap-x-1.5 border-b border-gray-200 pb-4">
         <span className="">📝</span>
         {keyword ? (
-          <span className="text-2xl font-bold text-brand-500">{boardType}</span>
+          <span className="text-2xl font-bold text-brand-500">{keyword}</span>
         ) : (
           <span className="text-2xl font-bold text-gray-900">{boardType}</span>
         )}
