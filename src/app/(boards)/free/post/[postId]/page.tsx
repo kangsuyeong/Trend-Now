@@ -1,6 +1,12 @@
 import { Post } from '@/views/post';
 import React from 'react';
 
-export default function Page({ params }: { params: { postId: string } }) {
+interface PageProps {
+  params: {
+    postId: string;
+  };
+}
+
+export default function Page({ params }: PageProps) {
   return <Post postId={params.postId} />;
 }
