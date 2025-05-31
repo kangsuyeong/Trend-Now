@@ -1,12 +1,11 @@
+'use client';
+
 import { Post } from '@/views/post';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
-interface PageProps {
-  params: {
-    postId: string;
-  };
-}
+export default function Page() {
+  const postId = useParams().postId as string;
 
-export default function Page({ params }: PageProps) {
-  return <Post postId={params.postId} />;
+  return <Post postId={postId} />;
 }
