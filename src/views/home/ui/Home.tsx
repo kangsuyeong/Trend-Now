@@ -16,6 +16,7 @@ export default function Home() {
           fill
           sizes="100%"
           priority
+          unoptimized
           className="rounded-[1.25rem] object-cover"
         />
         <span className="z-10 w-fit select-none text-base font-semiBold text-white">

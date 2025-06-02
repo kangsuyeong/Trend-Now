@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { Close } from './icons';
+import { handleGoogleLogin } from '../api';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -39,7 +40,10 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
           </span>
         </div>
         <div className="flex w-full flex-col gap-y-3 px-8 *:select-none">
-          <div className="flex cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-3 py-2">
+          <div
+            className="flex cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-3 py-2"
+            onClick={handleGoogleLogin}
+          >
             <Image
               src="/images/icons/icon_google_160x160.png"
               alt="구글 로그인"

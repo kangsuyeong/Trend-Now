@@ -30,6 +30,7 @@ export default function HotBoard({ keyword }: HotBoardProps) {
                   width={40}
                   height={40}
                   priority
+                  unoptimized
                   className="aspect-square object-cover"
                 />
                 <span className="text-3xl font-bold text-gray-800">{keyword}</span>
