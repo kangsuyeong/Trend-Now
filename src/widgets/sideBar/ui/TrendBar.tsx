@@ -22,6 +22,7 @@ export default function TrendBar() {
               alt="trend"
               width={58}
               height={58}
+              unoptimized
               className="aspect-square object-cover"
             />
             <span className="font-himpun text-[2.75rem]/[120%] text-white">TOP 10</span>
