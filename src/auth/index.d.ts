@@ -4,12 +4,10 @@ import 'next-auth/jwt';
 declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: User & DefaultSession['User'];
-    expires: string;
-    accessToken?: string;
-    accessTokenExpires?: number;
-    refreshToken?: string;
-    refreshTokenExpires?: number;
-    error?: 'RefreshAccessTokenError';
+    access_token?: string;
+    refresh_token?: string;
+    expires_at?: number;
+    error?: 'RefreshTokenError';
   }
 
   interface User {
@@ -20,13 +18,9 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    id: string;
-    name: string;
-    accessToken?: string;
-    accessTokenExpires?: number;
-    refreshToken?: string;
-    refreshTokenExpires?: number;
-    exp: number;
-    error?: 'RefreshAccessTokenError';
+    access_token?: string;
+    refresh_token?: string;
+    expires_at?: number;
+    error?: 'RefreshTokenError';
   }
 }
