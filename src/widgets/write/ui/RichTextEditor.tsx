@@ -37,7 +37,6 @@ const RichTextEditor = forwardRef<RichTextEditorHandle>((_, ref) => {
   // Expose the getContent function to the parent component
   useImperativeHandle(ref, () => ({
     getContent: () => {
-      console.log('quillRef.current', quillRef.current);
       if (quillRef.current) {
         return quillRef.current.root.innerHTML; // Return the HTML content
       }

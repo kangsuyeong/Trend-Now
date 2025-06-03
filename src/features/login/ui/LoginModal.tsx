@@ -1,7 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import React from 'react';
 import { Close } from './icons';
-import { handleGoogleLogin } from '../api';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -15,6 +16,13 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
+  };
+
+  const googleLogin = async () => {
+    const res = await fetch('/api/google-auth-url');
+    const url = await res.json();
+
+    window.location.href = url.url;
   };
 
   return (
@@ -42,7 +50,7 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
         <div className="flex w-full flex-col gap-y-3 px-8 *:select-none">
           <div
             className="flex cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-3 py-2"
-            onClick={handleGoogleLogin}
+            onClick={googleLogin}
           >
             <Image
               src="/images/icons/icon_google_160x160.png"
