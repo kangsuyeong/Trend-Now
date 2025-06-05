@@ -78,7 +78,7 @@ export default {
         '2xl': [
           '1.5rem',
           {
-            lineHeight: '1.85rem',
+            lineHeight: '2.1rem',
           },
         ],
         '1xl': [
@@ -90,7 +90,7 @@ export default {
         lg: [
           '1.125rem',
           {
-            lineHeight: '1.688rem',
+            lineHeight: '1.575rem',
           },
         ],
         base: [
