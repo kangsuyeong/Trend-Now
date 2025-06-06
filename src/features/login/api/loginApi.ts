@@ -1,11 +1,10 @@
+'use server';
+
+import { UnauthorizedError } from '@/shared/error/error';
 import { LoginResponse } from '../types';
 
-const REST_API_URL = fetch('/api/rest-api-url');
-
 export async function getAccessToken(code: string): Promise<LoginResponse> {
-  const urlResponse = await (await REST_API_URL).json();
-
-  const response = await fetch(urlResponse.url + '/api/v1/member/login/google', {
+  const response = await fetch(process.env.REST_API_URL + '/api/v1/member/login/google', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +12,9 @@ export async function getAccessToken(code: string): Promise<LoginResponse> {
     body: JSON.stringify({ code }),
   });
 
+  console.log(response);
+
   if (response.ok) return await response.json();
 
-  throw new Error('Failed to fetch user data');
+  throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
 }
