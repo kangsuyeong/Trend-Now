@@ -4,7 +4,6 @@ import QueryProvider from '@/providers/query-provider';
 import localFont from 'next/font/local';
 import { AppBar } from '@/widgets/header';
 import { Footer } from '@/widgets/footer';
-import AuthProvider from './api/auth/authProvider';
 
 const pretendard = localFont({
   src: '../../static/fonts/PretendardVariable.woff2',
@@ -37,15 +36,13 @@ export default function RootLayout({
       style={{ scrollbarGutter: 'stable' }}
     >
       <body className="relative font-pretendard antialiased">
-        <AuthProvider>
-          <QueryProvider>
-            <AppBar />
-            {children}
-            <div className="pt-[6.25rem]">
-              <Footer />
-            </div>
-          </QueryProvider>
-        </AuthProvider>
+        <QueryProvider>
+          <AppBar />
+          {children}
+          <div className="pt-[6.25rem]">
+            <Footer />
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );
