@@ -1,4 +1,4 @@
-import { RankChangeType } from './';
+import { RankChangeType } from '.';
 
 export interface SignalKeyword {
   now: number;

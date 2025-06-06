@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { memo } from 'react';
 import { Bar, Down, Up } from './icons';
-import { RankChangeType, SignalKeyword, Top10 } from '../model';
+import { RankChangeType, SignalKeyword, Top10 } from '../types';
 
 export default function TrendBar() {
   const today = new Date(top10.now);
