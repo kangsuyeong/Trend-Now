@@ -1,3 +1,3 @@
-import { getAccessToken } from './loginApi';
+import { getGoogleAccessToken, getKakaoAccessToken, getNaverAccessToken } from './loginApi';
 
-export { getAccessToken };
+export { getGoogleAccessToken, getKakaoAccessToken, getNaverAccessToken };
