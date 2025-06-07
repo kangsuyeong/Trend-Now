@@ -1,6 +1,6 @@
 'use client';
 
-import { getGoogleAccessToken } from '@/features/login';
+import { getKakaoAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
 import { LocalStorage } from '@/shared/model';
 import { useSearchParams } from 'next/navigation';
@@ -11,7 +11,7 @@ export default function Page() {
 
   useEffect(() => {
     if (code) {
-      getGoogleAccessToken(code).then((res) => {
+      getKakaoAccessToken(code).then((res) => {
         const token = res.jwt;
 
         LocalStorage.setItem('accessToken', token);
@@ -23,5 +23,5 @@ export default function Page() {
 
   if (!code) throw new UnauthorizedError('인가 코드 정보를 불러오지 못했습니다.');
 
-  return <div>구글 로그인 리다이렉트중...</div>;
+  return <div>카카오 로그인 리다이렉트중...</div>;
 }

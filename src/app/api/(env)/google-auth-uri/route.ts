@@ -1,11 +1,13 @@
+import { InternalServerError } from '@/shared/error/error';
+
 export async function GET() {
-  const clientId = process.env.AUTH_GOOGLE_ID;
-  const redirectUri = process.env.AUTH_REDIRECT_URL;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI;
   const scope = 'email profile';
   const responseType = 'code';
 
   if (!clientId) {
-    return new Response('Missing client ID', { status: 500 });
+    return new InternalServerError('Missing client ID');
   }
 
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
