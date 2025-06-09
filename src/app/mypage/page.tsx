@@ -1,6 +1,5 @@
-import { MyPage } from '@/views/mypage';
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return <MyPage />;
+  redirect('/mypage/posts');
 }

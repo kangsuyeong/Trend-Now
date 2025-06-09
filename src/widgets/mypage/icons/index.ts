@@ -1,5 +1,4 @@
-import BookmarkIcon from '@/widgets/mypage/icons/BookmarkIcon';
-import CopyIcon from '@/widgets/mypage/icons/CopyIcon';
-import DeleteAccountIcon from '@/widgets/mypage/icons/DeleteAccountIcon';
+import CopyIcon from './CopyIcon';
+import DeleteAccountIcon from './/DeleteAccountIcon';
 
-export { BookmarkIcon, DeleteAccountIcon, CopyIcon };
+export { DeleteAccountIcon, CopyIcon };
