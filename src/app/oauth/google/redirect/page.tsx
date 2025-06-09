@@ -3,7 +3,7 @@
 import { getGoogleAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
 import { LocalStorage } from '@/shared/model';
-import { useSearchParams } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 export default function Page() {
@@ -14,9 +14,13 @@ export default function Page() {
       getGoogleAccessToken(code).then((res) => {
         const token = res.jwt;
 
-        LocalStorage.setItem('accessToken', token);
+        console.log(token);
 
-        console.log(LocalStorage.getItem('accessToken'));
+        if (token) {
+          LocalStorage.setItem('accessToken', token);
+
+          redirect('/home');
+        }
       });
     }
   }, [code]);

@@ -42,9 +42,9 @@ class LocalStorage {
   /**
    * @description 로컬 스토리지에 해당 키와 값이 존재할 경우 해당 키와 값을 삭제합니다.
    *
-   * @param {string} key 키를 설정합니다.
+   * @param {LocalStorageKey} key 키를 설정합니다.
    */
-  static removeItem(key: string) {
+  static removeItem(key: LocalStorageKey) {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(key);
     }

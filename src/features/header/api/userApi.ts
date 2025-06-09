@@ -3,8 +3,8 @@
 import { UnauthorizedError } from '@/shared/error/error';
 
 export async function getUserInfo(jwt: string) {
-  const response = await fetch(process.env.REST_API_URL + '', {
-    method: 'POST',
+  const response = await fetch(process.env.REST_API_URL + '/api/v1/member/me', {
+    method: 'GET',
     headers: {
       Authorization: 'Bearer ' + jwt,
     },
