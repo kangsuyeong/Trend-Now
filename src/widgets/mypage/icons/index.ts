@@ -1,4 +1,4 @@
 import CopyIcon from './CopyIcon';
-import DeleteAccountIcon from './/DeleteAccountIcon';
+import DeleteAccountIcon from './DeleteAccountIcon';
 
 export { DeleteAccountIcon, CopyIcon };
