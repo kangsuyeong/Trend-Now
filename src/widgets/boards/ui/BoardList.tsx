@@ -25,6 +25,7 @@ export default function BoardList() {
           type="noti"
         />
       ))}
+
       {new Array(18).fill(0).map((_, idx) => (
         <BoardRow
           key={idx}
