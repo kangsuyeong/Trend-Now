@@ -1,5 +1,5 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return <div>마이페이지</div>;
+  redirect('/mypage/posts');
 }

@@ -26,6 +26,10 @@ import PageLeftChevron from './icons/pagination/PageLeftChevron';
 import PageLeftDoubleChevron from './icons/pagination/PageLeftDoubleChevron';
 import PageRightChevron from './icons/pagination/PageRightChevron';
 import PageRightDoubleChevron from './icons/pagination/PageRightDoubleChevron';
+import Settings20 from './icons/20/Settings20';
+import UserProfile20 from './icons/20/UserProfile20';
+import UserProfile64 from './icons/64/UserProfile64';
+import ChevronRight24 from './icons/24/ChevronRight24';
 import Trendnow from './icons/Trendnow';
 
 /** Text Fields */
@@ -62,6 +66,10 @@ export {
   PageRightChevron,
   PageRightDoubleChevron,
   Trendnow,
+  UserProfile64,
+  Settings20,
+  ChevronRight24,
+  UserProfile20,
   Dropdown,
   DropdownItem,
   InputField,
