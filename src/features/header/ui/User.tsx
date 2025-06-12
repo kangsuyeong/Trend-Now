@@ -56,7 +56,7 @@ export default function User() {
     };
   }, [dropMenuOpen]);
 
-  const { data, isLoading, error } = useQuery<UserProfile>({
+  const { data } = useQuery<UserProfile>({
     queryKey: ['userInfo', jwt],
     queryFn: () => getUserInfo(jwt!),
     enabled: !!jwt,
