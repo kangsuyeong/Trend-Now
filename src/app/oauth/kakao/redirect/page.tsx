@@ -4,9 +4,17 @@ import { getKakaoAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
 import { LocalStorage } from '@/shared/model';
 import { redirect, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 export default function Page() {
+  return (
+    <Suspense>
+      <Redirect />
+    </Suspense>
+  );
+}
+
+function Redirect() {
   const code = useSearchParams().get('code');
 
   useEffect(() => {

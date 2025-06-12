@@ -4,9 +4,17 @@ import { getNaverAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
 import { LocalStorage } from '@/shared/model';
 import { redirect, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 export default function Page() {
+  return (
+    <Suspense>
+      <Redirect />
+    </Suspense>
+  );
+}
+
+function Redirect() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
   const state = searchParams.get('state');
