@@ -20,6 +20,8 @@ export default function Page() {
           LocalStorage.setItem('accessToken', token);
 
           redirect('/home');
+        } else {
+          throw new UnauthorizedError('토큰 정보를 불러오지 못했습니다.');
         }
       });
     }
