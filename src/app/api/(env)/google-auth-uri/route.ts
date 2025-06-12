@@ -7,7 +7,7 @@ export async function GET() {
   const responseType = 'code';
 
   if (!clientId) {
-    return new InternalServerError('Missing client ID');
+    throw new InternalServerError('Missing client ID');
   }
 
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
