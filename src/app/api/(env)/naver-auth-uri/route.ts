@@ -8,7 +8,7 @@ export async function GET() {
   const state = await getSHA256(new Date().getMilliseconds().toString());
 
   if (!clientId) {
-    return new InternalServerError('Missing client ID');
+    throw new InternalServerError('Missing client ID');
   }
 
   const url = `https://nid.naver.com/oauth2.0/authorize?response_type=${responseType}&client_id=${clientId}&state=${state}&redirect_uri=${redirectUri}`;

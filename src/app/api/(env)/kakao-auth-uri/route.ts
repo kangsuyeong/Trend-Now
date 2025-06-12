@@ -6,7 +6,7 @@ export async function GET() {
   const responseType = 'code';
 
   if (!clientId) {
-    return new InternalServerError('Missing client ID');
+    throw new InternalServerError('Missing client ID');
   }
 
   const url = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`;

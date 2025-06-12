@@ -14,8 +14,6 @@ export default function Page() {
       getGoogleAccessToken(code).then((res) => {
         const token = res.jwt;
 
-        console.log(token);
-
         if (token) {
           LocalStorage.setItem('accessToken', token);
 
