@@ -2,45 +2,40 @@
 
 import { UnauthorizedError } from '@/shared/error/error';
 import { LoginResponse } from '../types';
+import { axiosGoogleAccessToken, axiosKakaoAccessToken, axiosNaverAccessToken } from '@/shared/api';
 
 export async function getGoogleAccessToken(code: string): Promise<LoginResponse> {
-  const response = await fetch(process.env.REST_API_URL + '/api/v1/member/login/google', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code }),
-  });
+  const result = axiosGoogleAccessToken<LoginResponse>(code)
+    .then((res) => {
+      return res;
+    })
+    .catch(() => {
+      throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+    });
 
-  if (response.ok) return await response.json();
-
-  throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+  return result;
 }
 
 export async function getKakaoAccessToken(code: string): Promise<LoginResponse> {
-  const response = await fetch(process.env.REST_API_URL + '/api/v1/member/login/kakao', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code }),
-  });
+  const result = axiosKakaoAccessToken<LoginResponse>(code)
+    .then((res) => {
+      return res;
+    })
+    .catch(() => {
+      throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+    });
 
-  if (response.ok) return await response.json();
-
-  throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+  return result;
 }
 
 export async function getNaverAccessToken(code: string, state: string): Promise<LoginResponse> {
-  const response = await fetch(process.env.REST_API_URL + '/api/v1/member/login/naver', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code, state }),
-  });
+  const result = axiosNaverAccessToken<LoginResponse>(code, state)
+    .then((res) => {
+      return res;
+    })
+    .catch(() => {
+      throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+    });
 
-  if (response.ok) return await response.json();
-
-  throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+  return result;
 }
