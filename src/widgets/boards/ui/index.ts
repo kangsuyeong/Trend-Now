@@ -1,3 +1,4 @@
+import BoardListByType from './BoardSectionByType';
 import BoardHedaer from './BoardHedaer';
-import BoardList from './BoardList';
-export { BoardList, BoardHedaer };
+
+export { BoardHedaer, BoardListByType };
