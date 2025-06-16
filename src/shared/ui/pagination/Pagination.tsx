@@ -2,7 +2,7 @@
 
 import { cn } from '@/shared/lib/';
 import { cva, VariantProps } from 'class-variance-authority';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import PageLeftDoubleChevron from '../icons/pagination/PageLeftDoubleChevron';
 import PageLeftChevron from '../icons/pagination/PageLeftChevron';
 import PageRightChevron from '../icons/pagination/PageRightChevron';
