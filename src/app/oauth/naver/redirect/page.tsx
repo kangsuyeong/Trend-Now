@@ -2,7 +2,7 @@
 
 import { getNaverAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
-import { LocalStorage } from '@/shared/model';
+import { useUserStore } from '@/shared/store';
 import { redirect, useSearchParams } from 'next/navigation';
 import React, { Suspense, useEffect } from 'react';
 
@@ -19,13 +19,15 @@ function Redirect() {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
 
+  const { login } = useUserStore();
+
   useEffect(() => {
     if (code && state) {
       getNaverAccessToken(code, state).then((res) => {
         const token = res.jwt;
 
         if (token) {
-          LocalStorage.setItem('accessToken', token);
+          login(res.jwt, res.memberId);
 
           redirect('/home');
         } else {

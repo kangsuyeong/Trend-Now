@@ -2,7 +2,7 @@
 
 import { getKakaoAccessToken } from '@/features/login';
 import { UnauthorizedError } from '@/shared/error/error';
-import { LocalStorage } from '@/shared/model';
+import { useUserStore } from '@/shared/store';
 import { redirect, useSearchParams } from 'next/navigation';
 import React, { Suspense, useEffect } from 'react';
 
@@ -17,13 +17,15 @@ export default function Page() {
 function Redirect() {
   const code = useSearchParams().get('code');
 
+  const { login } = useUserStore();
+
   useEffect(() => {
     if (code) {
       getKakaoAccessToken(code).then((res) => {
         const token = res.jwt;
 
         if (token) {
-          LocalStorage.setItem('accessToken', token);
+          login(res.jwt, res.memberId);
 
           redirect('/home');
         } else {
