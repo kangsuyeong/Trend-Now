@@ -3,16 +3,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Hamburger24, UserProfile28, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
-import { LocalStorage } from '@/shared/model';
 import { getUserInfo } from '../api';
 import { useQuery } from '@tanstack/react-query';
 import { UserProfile } from '../types';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/shared/store';
 
 export default function User() {
   const router = useRouter();
 
-  const jwt = LocalStorage.getItem('accessToken');
+  const { jwt, logout } = useUserStore();
 
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -105,7 +105,7 @@ export default function User() {
                 const confirmSignout = confirm('정말 로그아웃 하실 건가요?');
 
                 if (confirmSignout) {
-                  LocalStorage.removeItem('accessToken');
+                  logout();
                   router.refresh();
                 }
               }}
