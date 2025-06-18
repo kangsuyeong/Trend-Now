@@ -1,6 +1,6 @@
 'use client';
 
-import { DateDivider, Pagination, Pencil24, PrimaryButton } from '@/shared/ui';
+import { DateDivider, Pencil24, PrimaryButton } from '@/shared/ui';
 import React from 'react';
 import { BoardList } from '@/widgets/boards';
 import { usePathname, useRouter } from 'next/navigation';
@@ -41,7 +41,7 @@ export default function Board({ type }: BoardProps) {
           </div>
         </div>
         <BoardList />
-        <Pagination currentPage={1} maxPage={20} count={5} />
+        {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
       </div>
     </div>
   );
