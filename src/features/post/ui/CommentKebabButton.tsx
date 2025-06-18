@@ -11,7 +11,6 @@ export default function CommentKebabButton() {
   const dropMenuRep = useRef<HTMLSpanElement>(null);
 
   const handleDropMenuToggle = () => {
-    console.log('handleDropMenuToggle');
     setDropMenuOpen((prev) => {
       return !prev;
     });

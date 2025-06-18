@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { memo } from 'react';
 import { Bar, Down, Up } from './icons';
-import { RankChangeType, SignalKeyword, Top10 } from '../model';
+import { RankChangeType, SignalKeyword, Top10 } from '../types';
 
 export default function TrendBar() {
   const today = new Date(top10.now);
@@ -22,6 +22,7 @@ export default function TrendBar() {
               alt="trend"
               width={58}
               height={58}
+              unoptimized
               className="aspect-square object-cover"
             />
             <span className="font-himpun text-[2.75rem]/[120%] text-white">TOP 10</span>
