@@ -1,39 +1,73 @@
-// import { Pagination } from '@/shared/ui';
+'use client';
+
+import { PostsResponse } from '@/entities';
+import { axiosMyPosts } from '@/shared/api';
+import { InternalServerError } from '@/shared/error/error';
+import { useUserStore } from '@/shared/store';
+import { Pagination } from '@/shared/ui';
 import { MyPostRow } from '@/widgets/mypage';
-import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 
 const MyPosts = () => {
-  return (
-    <div className="flex flex-col gap-6">
-      {/* 목차 / 게시물 */}
-      <div className="flex flex-col gap-y-2">
-        <div className="flex justify-between gap-2 border-b border-gray-200 px-2 pb-3 text-center text-sm font-regular text-gray-500">
-          <div className="flex gap-2">
-            <div className="w-12">번호</div>
-            <div>게시물 제목</div>
+  const { jwt, memberId } = useUserStore();
+
+  const [page, setPage] = useState<number>(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['myposts', memberId],
+    queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
+    enabled: !!jwt,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  } else {
+    if (data && data.postsInfoListDto.length > 0) {
+      return (
+        <div className="flex flex-col gap-6">
+          {/* 목차 / 게시물 */}
+          <div className="flex flex-col gap-y-2">
+            <div className="flex justify-between gap-2 border-b border-gray-200 px-2 pb-3 text-center text-sm font-regular text-gray-500">
+              <div className="flex gap-2">
+                <div className="w-12">번호</div>
+                <div>게시물 제목</div>
+              </div>
+              <div className="flex gap-2">
+                <div className="w-12">조회수</div>
+                <div className="w-12">추천</div>
+                <div className="w-12">일자</div>
+              </div>
+            </div>
+            {data.postsInfoListDto.map((item, idx) => (
+              <MyPostRow
+                key={idx}
+                id={idx}
+                title={item.title}
+                views={item.viewCount}
+                likes={item.likeCount}
+                created={new Date(item.updatedAt)}
+                comments={123}
+              />
+            ))}
           </div>
-          <div className="flex gap-2">
-            <div className="w-12">조회수</div>
-            <div className="w-12">추천</div>
-            <div className="w-12">일자</div>
-          </div>
-        </div>
-        {new Array(20).fill(0).map((_, idx) => (
-          <MyPostRow
-            key={idx}
-            id={idx}
-            title={'간천지지냐 설마! 디씨하는 한국인이 ㅋㄱㄱ'}
-            views={125}
-            likes={2324}
-            created={new Date()}
-            comments={123}
+          {/* 페이지네이션 */}
+          <Pagination
+            currentPage={page}
+            maxPage={data.totalPageCount || 1}
+            count={5}
+            setPage={setPage}
           />
-        ))}
-      </div>
-      {/* 페이지네이션 */}
-      {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
-    </div>
-  );
+        </div>
+      );
+    } else {
+      return (
+        <div className="flex h-[25rem] items-center justify-center rounded-[1.25rem] bg-gray-100">
+          <span className="text-sm font-medium text-gray-500">작성한 게시글이 없습니다.</span>
+        </div>
+      );
+    }
+  }
 };
 
 export default MyPosts;

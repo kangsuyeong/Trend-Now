@@ -5,9 +5,9 @@ import { Hamburger24, UserProfile28, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
 import { getUserInfo } from '../api';
 import { useQuery } from '@tanstack/react-query';
-import { UserProfile } from '../types';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
+import { UserProfile } from '@/entities';
 
 export default function User() {
   const router = useRouter();
@@ -96,7 +96,10 @@ export default function User() {
               <UserProfile32 />
               {data.nickname}
             </span>
-            <span className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800">
+            <span
+              className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800"
+              onClick={() => router.push('/mypage')}
+            >
               마이페이지
             </span>
             <span

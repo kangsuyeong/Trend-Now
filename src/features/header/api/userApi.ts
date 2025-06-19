@@ -1,8 +1,8 @@
 'use server';
 
 import { UnauthorizedError } from '@/shared/error/error';
-import { UserProfile } from '../types';
 import { axiosUserProfile } from '@/shared/api';
+import { UserProfile } from '@/entities';
 
 export async function getUserInfo(jwt: string): Promise<UserProfile> {
   const result = axiosUserProfile<UserProfile>(jwt)

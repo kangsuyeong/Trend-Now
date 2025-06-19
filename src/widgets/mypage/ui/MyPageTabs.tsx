@@ -3,37 +3,71 @@
 import { cn } from '@/shared/lib';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const tabs = [
-  { name: '내가 작성한 게시글', path: '/mypage/posts', count: 31 },
-  { name: '내가 작성한 댓글', path: '/mypage/comments', count: 16 },
-  { name: '스크랩한 게시글', path: '/mypage/scraps', count: 4 },
-  { name: '설정', path: '/mypage/settings' },
-];
+import { mypageTabs } from '../const';
+import { useQueries } from '@tanstack/react-query';
+import { useUserStore } from '@/shared/store';
+import { axiosMyPosts, axiosMyScraps } from '@/shared/api';
+import { PostsResponse, ScrapsResponse } from '@/entities';
 
 const MyPageTabs = () => {
-  const pathname = usePathname();
+  const pathname = usePathname().split('/');
+  const { jwt, memberId } = useUserStore();
+
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['myposts', memberId],
+        queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
+        enabled: !!jwt,
+      },
+      {
+        queryKey: ['mycomments', memberId],
+        queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
+        enabled: !!jwt,
+      },
+      {
+        queryKey: ['myscraps', memberId],
+        queryFn: () => axiosMyScraps<ScrapsResponse>(jwt!),
+        enabled: !!jwt,
+      },
+    ],
+  });
+
   return (
     <ul className="flex gap-5 px-4">
-      {tabs.map((tab) => {
-        const href = tab.path;
-        const isActive = pathname.startsWith(href);
+      {Object.entries(mypageTabs).map((tab) => {
+        const href = tab[0];
+        const isActive = pathname[pathname.length - 1] === tab[0];
 
         return (
-          <li key={tab.name}>
+          <li key={tab[1].label}>
             <Link
-              href={href}
+              href={`/mypage/${href}`}
               className={cn(
                 'flex items-center gap-2 px-3 pb-2 text-base font-bold transition-colors duration-200',
                 isActive ? 'border-b-2 border-gray-800 text-gray-800' : 'text-gray-400'
               )}
             >
-              <span>{tab.name}</span>
-              {tab.count !== undefined && (
-                <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                  {tab.count}
-                </span>
-              )}
+              <span>{tab[1].label}</span>
+              {tab[0] === 'posts'
+                ? !results[0].isLoading && (
+                    <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
+                      {results[0].data?.postsInfoListDto.length}
+                    </span>
+                  )
+                : tab[0] === 'comments'
+                  ? !results[1].isLoading && (
+                      <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
+                        {results[1].data?.postsInfoListDto.length}
+                      </span>
+                    )
+                  : tab[0] === 'scraps'
+                    ? !results[2].isLoading && (
+                        <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
+                          {results[2].data?.scrapPostList.length}
+                        </span>
+                      )
+                    : null}
             </Link>
           </li>
         );
@@ -43,5 +77,3 @@ const MyPageTabs = () => {
 };
 
 export default MyPageTabs;
-
-// transition-colors duration-200
