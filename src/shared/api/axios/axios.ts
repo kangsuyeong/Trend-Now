@@ -86,17 +86,27 @@ export const axiosDeleteUser = async <T>(accessToken: string): Promise<T> =>
     })
   ).data;
 
-export const axiosMyScraps = async <T>(accessToken: string): Promise<T> =>
+export const axiosMyScraps = async <T>(
+  accessToken: string,
+  page?: number,
+  size?: number
+): Promise<T> =>
   (
     await axiosInstance.get('/api/v1/member/scrap', {
       headers: { Authorization: `Bearer ${accessToken}` },
+      params: { page: page, size: size },
     })
   ).data;
 
-export const axiosMyPosts = async <T>(accessToken: string): Promise<T> =>
+export const axiosMyPosts = async <T>(
+  accessToken: string,
+  page?: number,
+  size?: number
+): Promise<T> =>
   (
     await axiosInstance.get('/api/v1/member/posts', {
       headers: { Authorization: `Bearer ${accessToken}` },
+      params: { page: page, size: size },
     })
   ).data;
 //#endregion

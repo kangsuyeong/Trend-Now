@@ -7,7 +7,7 @@ import { mypageTabs } from '../const';
 import { useQueries } from '@tanstack/react-query';
 import { useUserStore } from '@/shared/store';
 import { axiosMyPosts, axiosMyScraps } from '@/shared/api';
-import { PostsResponse, ScrapsResponse } from '@/entities';
+import { PostsResponse } from '@/entities';
 
 const MyPageTabs = () => {
   const pathname = usePathname().split('/');
@@ -27,7 +27,7 @@ const MyPageTabs = () => {
       },
       {
         queryKey: ['myscraps', memberId],
-        queryFn: () => axiosMyScraps<ScrapsResponse>(jwt!),
+        queryFn: () => axiosMyScraps<PostsResponse>(jwt!),
         enabled: !!jwt,
       },
     ],
@@ -52,19 +52,19 @@ const MyPageTabs = () => {
               {tab[0] === 'posts'
                 ? !results[0].isLoading && (
                     <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                      {results[0].data?.postsInfoListDto.length}
+                      {results[0].data?.postListDto.length}
                     </span>
                   )
                 : tab[0] === 'comments'
                   ? !results[1].isLoading && (
                       <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                        {results[1].data?.postsInfoListDto.length}
+                        {results[1].data?.postListDto.length}
                       </span>
                     )
                   : tab[0] === 'scraps'
                     ? !results[2].isLoading && (
                         <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                          {results[2].data?.scrapPostList.length}
+                          {results[2].data?.postListDto.length}
                         </span>
                       )
                     : null}

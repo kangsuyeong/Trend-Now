@@ -2,14 +2,7 @@ export interface PostsResponse {
   message: string;
   totalCount: number;
   totalPageCount: number;
-  postsInfoListDto: Posts[];
-}
-
-export interface ScrapsResponse {
-  message: string;
-  totalCount: number;
-  totalPageCount: number;
-  scrapPostList: Posts[];
+  postListDto: Posts[];
 }
 
 export interface Posts {
@@ -19,5 +12,9 @@ export interface Posts {
   viewCount: number;
   likeCount: number;
   modifiable: boolean;
+  createdAt: string;
   updatedAt: string;
+  boardId: number;
+  boardIdName: string;
+  commentCount: number;
 }

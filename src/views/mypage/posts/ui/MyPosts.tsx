@@ -2,7 +2,6 @@
 
 import { PostsResponse } from '@/entities';
 import { axiosMyPosts } from '@/shared/api';
-import { InternalServerError } from '@/shared/error/error';
 import { useUserStore } from '@/shared/store';
 import { Pagination } from '@/shared/ui';
 import { MyPostRow } from '@/widgets/mypage';
@@ -16,14 +15,14 @@ const MyPosts = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['myposts', memberId],
-    queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
+    queryFn: () => axiosMyPosts<PostsResponse>(jwt!, page, 20),
     enabled: !!jwt,
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   } else {
-    if (data && data.postsInfoListDto.length > 0) {
+    if (data && data.postListDto.length > 0) {
       return (
         <div className="flex flex-col gap-6">
           {/* 목차 / 게시물 */}
@@ -39,7 +38,7 @@ const MyPosts = () => {
                 <div className="w-12">일자</div>
               </div>
             </div>
-            {data.postsInfoListDto.map((item, idx) => (
+            {data.postListDto.map((item, idx) => (
               <MyPostRow
                 key={idx}
                 id={idx}
@@ -47,7 +46,7 @@ const MyPosts = () => {
                 views={item.viewCount}
                 likes={item.likeCount}
                 created={new Date(item.updatedAt)}
-                comments={123}
+                comments={item.commentCount}
               />
             ))}
           </div>

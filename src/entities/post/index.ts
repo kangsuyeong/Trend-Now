@@ -1,3 +1,3 @@
-import { Posts, PostsResponse, ScrapsResponse } from './postTypes';
+import { Posts, PostsResponse } from './postTypes';
 
-export type { PostsResponse, ScrapsResponse, Posts };
+export type { PostsResponse, Posts };

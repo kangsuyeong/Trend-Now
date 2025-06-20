@@ -1,8 +1,7 @@
 'use client';
 
-import { ScrapsResponse } from '@/entities';
+import { PostsResponse } from '@/entities';
 import { axiosMyScraps } from '@/shared/api';
-import { InternalServerError } from '@/shared/error/error';
 import { useUserStore } from '@/shared/store';
 import { Pagination } from '@/shared/ui';
 import { MyScrapRow } from '@/widgets/mypage';
@@ -16,14 +15,14 @@ const MyScraps = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['myscraps', memberId],
-    queryFn: () => axiosMyScraps<ScrapsResponse>(jwt!),
+    queryFn: () => axiosMyScraps<PostsResponse>(jwt!, page, 20),
     enabled: !!jwt,
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   } else {
-    if (data && data.scrapPostList.length > 0) {
+    if (data && data.postListDto.length > 0) {
       return (
         <div className="flex flex-col gap-6">
           {/* 게시물 */}
@@ -37,16 +36,16 @@ const MyScraps = () => {
                 <div className="w-12">일자</div>
               </div>
             </div>
-            {data.scrapPostList.map((item, idx) => (
+            {data.postListDto.map((item, idx) => (
               <MyScrapRow
                 key={idx}
-                board={'게시판 제목'}
+                board={item.boardIdName}
                 title={item.title}
                 nickname={item.writer}
                 views={item.viewCount}
                 likes={item.likeCount}
                 created={new Date(item.updatedAt)}
-                comments={123}
+                comments={item.commentCount}
               />
             ))}
           </div>
