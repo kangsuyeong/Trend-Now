@@ -1,4 +1,4 @@
-import { Pagination } from '@/shared/ui';
+// import { Pagination } from '@/shared/ui';
 import { MyScrapRow } from '@/widgets/mypage';
 import React from 'react';
 
@@ -30,7 +30,7 @@ const MyScraps = () => {
         ))}
       </div>
       {/* 페이지네이션 */}
-      <Pagination currentPage={1} maxPage={20} count={5} />
+      {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
     </div>
   );
 };

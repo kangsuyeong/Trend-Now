@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Search24, Trendnow } from '@/shared/ui/';
 import Link from 'next/link';
-import User from './User';
+import { User } from '@/features/header';
 
 const Appbar = () => {
   const [keyword, setKeyword] = useState<string>();

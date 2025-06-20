@@ -46,6 +46,7 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
                 width={40}
                 height={40}
                 priority
+                unoptimized
                 className="aspect-square object-cover"
               />
             ) : rank === 2 ? (
@@ -55,6 +56,7 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
                 width={40}
                 height={40}
                 priority
+                unoptimized
                 className="aspect-square object-cover"
               />
             ) : (
@@ -64,6 +66,7 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
                 width={40}
                 height={40}
                 priority
+                unoptimized
                 className="aspect-square object-cover"
               />
             )}

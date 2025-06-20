@@ -1,6 +1,6 @@
 'use client';
 
-import { DateDivider, Pagination, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
+import { DateDivider, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
 import React from 'react';
 import Image from 'next/image';
 import { BoardList } from '@/widgets/boards';
@@ -30,6 +30,7 @@ export default function HotBoard({ keyword }: HotBoardProps) {
                   width={40}
                   height={40}
                   priority
+                  unoptimized
                   className="aspect-square object-cover"
                 />
                 <span className="text-3xl font-bold text-gray-800">{keyword}</span>
@@ -71,7 +72,7 @@ export default function HotBoard({ keyword }: HotBoardProps) {
           </PrimaryButton>
         </div>
         <BoardList />
-        <Pagination currentPage={1} maxPage={20} count={5} />
+        {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
       </div>
     </div>
   );

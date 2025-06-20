@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import React from 'react';
 import { Close } from './icons';
@@ -14,6 +16,27 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
+  };
+
+  const googleLogin = async () => {
+    const res = await fetch('/api/google-auth-uri');
+    const url = await res.json();
+
+    window.location.href = url.url;
+  };
+
+  const kakaoLogin = async () => {
+    const res = await fetch('/api/kakao-auth-uri');
+    const url = await res.json();
+
+    window.location.href = url.url;
+  };
+
+  const naverLogin = async () => {
+    const res = await fetch('/api/naver-auth-uri');
+    const url = await res.json();
+
+    window.location.href = url.url;
   };
 
   return (
@@ -39,7 +62,10 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
           </span>
         </div>
         <div className="flex w-full flex-col gap-y-3 px-8 *:select-none">
-          <div className="flex cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-3 py-2">
+          <div
+            className="flex cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-3 py-2"
+            onClick={googleLogin}
+          >
             <Image
               src="/images/icons/icon_google_160x160.png"
               alt="구글 로그인"
@@ -49,7 +75,10 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
             <span className="text-md font-medium text-gray-800">구글 3초 로그인/회원가입</span>
             <span />
           </div>
-          <div className="flex cursor-pointer items-center justify-between rounded-full bg-kakao px-3 py-2">
+          <div
+            className="flex cursor-pointer items-center justify-between rounded-full bg-kakao px-3 py-2"
+            onClick={kakaoLogin}
+          >
             <Image
               src="/images/icons/icon_kakao_160x160.png"
               alt="카카오 로그인"
@@ -59,7 +88,10 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
             <span className="text-md font-medium text-gray-800">카카오 3초 로그인/회원가입</span>
             <span />
           </div>
-          <div className="flex cursor-pointer items-center justify-between rounded-full bg-naver px-3 py-2">
+          <div
+            className="flex cursor-pointer items-center justify-between rounded-full bg-naver px-3 py-2"
+            onClick={naverLogin}
+          >
             <Image
               src="/images/icons/icon_naver_160x160.png"
               alt="네이버 로그인"

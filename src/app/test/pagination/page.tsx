@@ -1,4 +1,4 @@
-import { Pagination } from '@/shared/ui/';
+// import { Pagination } from '@/shared/ui/';
 import React from 'react';
 
 const Page = () => {
@@ -8,7 +8,7 @@ const Page = () => {
         {/* Page Button */}
         <div className="py-[8px] text-1xl font-medium">PAGE BUTTON</div>
         <div className="flex flex-row items-center">
-          <Pagination currentPage={1} maxPage={20} count={7} />
+          {/* <Pagination currentPage={1} maxPage={20} count={7} /> */}
         </div>
       </div>
     </div>

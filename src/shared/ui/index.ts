@@ -1,7 +1,7 @@
 /** Buttons */
 import BadgeButton from './buttons/BadgeButton';
 import { DropdownChip, DropdownChipItem } from './buttons/DropdownChip';
-import Pagination from './buttons/PaginationButton';
+import Pagination from './pagination/Pagination';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 
