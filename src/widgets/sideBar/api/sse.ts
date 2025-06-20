@@ -1,3 +1,4 @@
+import { getSHA256 } from '@/shared/lib';
 import { EventSource, ErrorEvent } from 'eventsource';
 
 interface SSEProps<T> {
@@ -8,12 +9,15 @@ interface SSEProps<T> {
 }
 
 export const connectSSE = async <T>({ onConnect, onMessage, onExpired, onError }: SSEProps<T>) => {
+  const clientId = await getSHA256(String(new Date().getMilliseconds()));
   const eventSource = new EventSource(
-    `http://13.124.181.116:8080/api/v1/subscribe?clientId=${new Date().getMilliseconds()}`
+    `http://13.124.181.116:8080/api/v1/subscribe?clientId=${clientId}`
   );
 
+  console.log('SSE connect request has been sent with client ID ', clientId);
+
   eventSource.onopen = () => {
-    console.log(eventSource.readyState);
+    console.log('SSE connection is ready');
   };
 
   eventSource.addEventListener('subscribe', (e) => onConnect?.(JSON.parse(e.data)));
@@ -27,5 +31,5 @@ export const connectSSE = async <T>({ onConnect, onMessage, onExpired, onError }
     eventSource.close();
   };
 
-  return eventSource;
+  return { eventSource, clientId };
 };

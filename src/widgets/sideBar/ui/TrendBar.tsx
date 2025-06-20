@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
-import { RankChangeType, SignalKeyword, Top10 } from '../model';
 import { EventSource } from 'eventsource';
 import { connectSSE } from '../api';
+import { Top10, SignalKeyword, RankChangeType, RealtimeTop10Response } from '@/entities';
+import { axiosDisconnectSSE, axiosRealtimeTop10 } from '@/shared/api';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<Top10[]>();
@@ -13,21 +14,27 @@ export default function TrendBar() {
 
   useEffect(() => {
     let eventSource: EventSource;
+    let clientId: string;
 
     (async () => {
-      eventSource = await connectSSE<SignalKeyword>({
-        onMessage: (data) => {
-          setTop10(data.top10WithDiff);
-        },
+      const sseResponse = await connectSSE<SignalKeyword>({
+        onMessage: (data) => setTop10(data.top10WithDiff),
       });
+
+      eventSource = sseResponse.eventSource;
+      clientId = sseResponse.clientId;
     })();
 
     return () => {
       eventSource?.close();
+      (async () => await axiosDisconnectSSE(clientId))();
     };
   }, []);
 
-  console.log(top10);
+  useEffect(() => {
+    (async () =>
+      await axiosRealtimeTop10<RealtimeTop10Response>().then((res) => setTop10(res.top10)))();
+  }, []);
 
   return (
     <div className="flex flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">

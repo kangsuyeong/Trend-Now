@@ -19,10 +19,10 @@ export const axiosTimeSync = async <T>(): Promise<T> =>
 export const axiosHotBoardList = async <T>(page?: number, size?: number): Promise<T> =>
   (await axiosInstance.get('/api/v1/boards/list', { params: { page: page, size: size } })).data;
 
-export const axiosConnectSSE = async <T>(clientId: number): Promise<T> =>
+export const axiosConnectSSE = async <T>(clientId: string): Promise<T> =>
   (await axiosInstance.get('/api/v1/subscribe', { params: { clientId: clientId } })).data;
 
-export const axiosDisconnectSSE = async <T>(clientId: number): Promise<T> =>
+export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
   (
     await axiosInstance.post('/api/v1/subscribe', JSON.stringify({ clientId }), {
       headers: {
