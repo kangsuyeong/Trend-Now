@@ -9,18 +9,18 @@ interface SSEProps<T> {
 
 export const connectSSE = async <T>({ onConnect, onMessage, onExpired, onError }: SSEProps<T>) => {
   const eventSource = new EventSource(
-    `http://13.124.181.116:8080/api/v1/subscribe?clientId=12555215215`
+    `http://13.124.181.116:8080/api/v1/subscribe?clientId=${new Date().getMilliseconds()}`
   );
 
   eventSource.onopen = () => {
     console.log(eventSource.readyState);
   };
 
-  eventSource.addEventListener('subscribe', (e) => onConnect?.(e.data));
+  eventSource.addEventListener('subscribe', (e) => onConnect?.(JSON.parse(e.data)));
 
-  eventSource.addEventListener('signalKeywordList', (e) => onMessage?.(e.data));
+  eventSource.addEventListener('signalKeywordList', (e) => onMessage?.(JSON.parse(e.data)));
 
-  eventSource.addEventListener('realtimeBoardExpired', (e) => onExpired?.(e.data));
+  eventSource.addEventListener('realtimeBoardExpired', (e) => onExpired?.(JSON.parse(e.data)));
 
   eventSource.onerror = (err) => {
     onError?.(err);
