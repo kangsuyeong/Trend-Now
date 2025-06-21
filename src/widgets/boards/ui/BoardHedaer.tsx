@@ -1,4 +1,5 @@
 'use client';
+import { BOARD_MAP } from '@/shared/constants';
 import { DateDivider, Pencil24, PrimaryButton } from '@/shared/ui';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
@@ -11,7 +12,7 @@ interface BoardHedaerProps {
 const BoardHedaer = ({ type }: BoardHedaerProps) => {
   const router = useRouter();
   const path = usePathname();
-  const boardType = type === 'entertain' ? '연예' : type === 'free' ? '자유' : '정치';
+  const boardName = BOARD_MAP[type].name;
 
   return (
     <div className="flex flex-col gap-y-6">
@@ -21,7 +22,7 @@ const BoardHedaer = ({ type }: BoardHedaerProps) => {
           <span className="text-md font-regular text-gray-500">
             이곳은 타이머 없는 이야기의 공간입니다. 누구나, 무엇이든 이야기 해보세요.
           </span>
-          <span className="text-3xl font-bold text-gray-800">{boardType}게시판</span>
+          <span className="text-3xl font-bold text-gray-800">{boardName}게시판</span>
         </span>
         <PrimaryButton
           variant="black"
