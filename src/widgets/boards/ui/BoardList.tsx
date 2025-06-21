@@ -1,7 +1,13 @@
 import React from 'react';
 import BoardRow from './BoardRow';
+import { Posts } from '@/entities';
 
-export default function BoardList() {
+interface BoardListProps {
+  /**@param {Posts[]} posts 게시글 목록 데이터 */
+  posts: Posts[];
+}
+
+export default function BoardList({ posts }: BoardListProps) {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex gap-x-2 border-b border-gray-200 px-2 pb-3 *:text-sm *:font-regular *:text-gray-500">
@@ -12,30 +18,16 @@ export default function BoardList() {
         <span className="w-12 text-center">추천</span>
         <span className="w-12 text-center">일자</span>
       </div>
-      {new Array(2).fill(0).map((_, idx) => (
+      {posts.map((item, idx) => (
         <BoardRow
           key={idx}
-          number={125}
-          title={'이승기, 前소속사 정산금 소송 이겼다'}
-          nickname={'Trendnow'}
-          views={125}
-          likes={2324}
-          created={new Date()}
-          comments={123}
-          type="noti"
-        />
-      ))}
-
-      {new Array(18).fill(0).map((_, idx) => (
-        <BoardRow
-          key={idx}
-          number={125}
-          title={'이승기, 前소속사 정산금 소송 이겼다'}
-          nickname={'Trendnow'}
-          views={125}
-          likes={2324}
-          created={new Date()}
-          comments={123}
+          number={item.postId}
+          title={item.title}
+          nickname={item.writer}
+          views={item.viewCount}
+          likes={item.likeCount}
+          created={new Date(item.createdAt)}
+          comments={item.commentCount}
           type="normal"
         />
       ))}

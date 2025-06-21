@@ -1,19 +1,33 @@
 'use client';
 
-import { DateDivider, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
-import React from 'react';
+import { DateDivider, Pagination, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { BoardList } from '@/widgets/boards';
 import { usePathname, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { axiosPosts } from '@/shared/api';
+import { PostsResponse } from '@/entities';
 
 interface HotBoardProps {
+  /**@param {number} boardId 게시판 Id */
+  boardId: number;
   /**@param {string} keyword 인기 검색어 키워드 */
   keyword: string;
 }
 
-export default function HotBoard({ keyword }: HotBoardProps) {
+export default function HotBoard({ boardId, keyword }: HotBoardProps) {
   const router = useRouter();
   const path = usePathname();
+
+  const [page, setPage] = useState<number>(1);
+
+  const { data } = useQuery({
+    queryKey: ['hotBoardPosts', keyword],
+    queryFn: () => axiosPosts<PostsResponse>(boardId, page, 20),
+  });
+
+  if (!data) return null;
 
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
@@ -71,8 +85,13 @@ export default function HotBoard({ keyword }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        <BoardList />
-        {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
+        <BoardList posts={data.postsListDto} />
+        <Pagination
+          currentPage={page}
+          maxPage={data.totalPageCount || 1}
+          count={5}
+          setPage={setPage}
+        />
       </div>
     </div>
   );

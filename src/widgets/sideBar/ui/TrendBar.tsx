@@ -18,7 +18,10 @@ export default function TrendBar() {
 
     (async () => {
       const sseResponse = await connectSSE<SignalKeyword>({
-        onMessage: (data) => setTop10(data.top10WithDiff),
+        onMessage: (data) => {
+          console.log(data.top10WithDiff);
+          setTop10(data.top10WithDiff);
+        },
       });
 
       eventSource = sseResponse.eventSource;

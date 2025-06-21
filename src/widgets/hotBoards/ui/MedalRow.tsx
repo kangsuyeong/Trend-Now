@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/shared/lib';
 import Link from 'next/link';
+import { BlueTimer32, GrayTimer32, OrangeTimer32 } from './icons';
 
 const timerVariants = cva('text-2xl font-bold', {
   variants: {
@@ -15,6 +16,8 @@ const timerVariants = cva('text-2xl font-bold', {
 });
 
 interface MedalRowProps {
+  /**@param {number} boardId 게시판 ID */
+  boardId: number;
   /**@param {number} rank 순위 */
   rank: number;
   /**@param {string} keyword 검색어 */
@@ -27,15 +30,31 @@ interface MedalRowProps {
   timer: number;
 }
 
-export default function MedalRow({ rank, keyword, count, views, timer }: MedalRowProps) {
-  const variant = timer === 0 ? 'gray' : timer < 600 ? 'orange' : 'blue';
-  const min = Math.floor(timer / 60)
+export default function MedalRow({ boardId, rank, keyword, count, views, timer }: MedalRowProps) {
+  const [timeLeft, setTimeLeft] = useState<number>(timer);
+
+  const variant = timeLeft === 0 ? 'gray' : timeLeft < 600 ? 'orange' : 'blue';
+  const min = Math.floor(timeLeft / 60)
     .toString()
     .padStart(2, '0');
-  const sec = (timer % 60).toString().padStart(2, '0');
+  const sec = (timeLeft % 60).toString().padStart(2, '0');
+
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    if (timeLeft < 1) {
+      clearInterval(timerId);
+    }
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [timeLeft]);
 
   return (
-    <Link href={`/hotBoard/keyword`}>
+    <Link href={`/hotBoard/${keyword}?boardId=${boardId}`}>
       <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-x-4">
@@ -75,8 +94,16 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
           <span className="flex items-center gap-x-2">
             <span className="w-16 text-center text-md font-regular text-gray-500">{count}</span>
             <span className="w-16 text-center text-md font-regular text-gray-500">{views}</span>
-            <span className="flex gap-x-1">
-              <span className="h-8 w-8"></span>
+            <span className="flex w-[6.5rem] items-center gap-x-1">
+              <span className="h-8 w-8">
+                {timeLeft === 0 ? (
+                  <GrayTimer32 />
+                ) : timeLeft < 600 ? (
+                  <OrangeTimer32 />
+                ) : (
+                  <BlueTimer32 />
+                )}
+              </span>
               <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
             </span>
           </span>
