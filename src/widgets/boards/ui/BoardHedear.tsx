@@ -4,12 +4,12 @@ import { DateDivider, Pencil24, PrimaryButton } from '@/shared/ui';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
-interface BoardHedaerProps {
+interface BoardHeaderProps {
   /**@param {'entertain' | 'free' | 'politics'} type 고정게시판 종류 */
   type: 'entertain' | 'free' | 'politics';
 }
 
-const BoardHedaer = ({ type }: BoardHedaerProps) => {
+const BoardHeader = ({ type }: BoardHeaderProps) => {
   const router = useRouter();
   const path = usePathname();
   const boardName = BOARD_MAP[type].name;
@@ -40,4 +40,4 @@ const BoardHedaer = ({ type }: BoardHedaerProps) => {
   );
 };
 
-export default BoardHedaer;
+export default BoardHeader;
