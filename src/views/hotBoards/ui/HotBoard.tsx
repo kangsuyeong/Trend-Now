@@ -3,7 +3,6 @@
 import { DateDivider, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
 import React from 'react';
 import Image from 'next/image';
-import { BoardList } from '@/widgets/boards';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface HotBoardProps {
@@ -71,7 +70,7 @@ export default function HotBoard({ keyword }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        <BoardList />
+        {/* <BoardList /> */}
         {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
       </div>
     </div>
