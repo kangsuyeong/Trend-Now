@@ -1,9 +1,11 @@
-import { PostsResponse } from '../model';
+import { PostListResponse } from '@/shared/types';
 import { axiosPosts } from '@/shared/api';
+import { BOARD_MAP } from '@/shared/constants';
 
 export async function getPoliticsPosts(page?: number, size?: number) {
   try {
-    const response = await axiosPosts<PostsResponse>(1815, page, size);
+    const boardId = BOARD_MAP.politics.id;
+    const response = await axiosPosts<PostListResponse>(boardId, page, size);
     return response;
   } catch (error) {
     console.error('자유게시판 게시물 불러오기 실패:', error);

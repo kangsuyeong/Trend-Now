@@ -1,11 +1,14 @@
-import { PostInfo } from '../model';
+import { PostInfo } from '@/shared/types';
 import BoardRow from './BoardRow';
+import { BOARD_PAGE_SIZE } from '@/shared/constants';
 
 interface BoardListProps {
   posts: PostInfo[];
+  totalCount: number; // 전체 게시물 수
+  page: number; // 현재 페이지
 }
 
-export default function BoardList({ posts = [] }: BoardListProps) {
+export default function BoardList({ posts, totalCount, page }: BoardListProps) {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex gap-x-2 border-b border-gray-200 px-2 pb-3 *:text-sm *:font-regular *:text-gray-500">
@@ -31,19 +34,10 @@ export default function BoardList({ posts = [] }: BoardListProps) {
           />
         ))} */}
 
-      {posts.map((post) => (
-        <BoardRow
-          key={post.postId}
-          number={post.postId}
-          title={post.title}
-          nickname={post.writer}
-          views={post.viewCount}
-          likes={post.likeCount}
-          created={new Date(post.updatedAt)}
-          comments={123}
-          type="normal"
-        />
-      ))}
+      {posts.map((post, index) => {
+        const postNumber = totalCount - (page - 1) * BOARD_PAGE_SIZE - index;
+        return <BoardRow key={post.postId} post={post} postNumber={postNumber} type="normal" />;
+      })}
     </div>
   );
 }
