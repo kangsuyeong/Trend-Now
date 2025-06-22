@@ -1,6 +1,7 @@
 'use client';
-import { BoardList, getEntertainPosts } from '@/entities/board';
-import { BOARD_PAGE_SIZE } from '@/shared/constants';
+import { BoardList } from '@/entities/board';
+import { axiosPosts } from '@/shared/api';
+import { BOARD_MAP, BOARD_PAGE_SIZE } from '@/shared/constants';
 import { PostListResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
@@ -8,9 +9,10 @@ import { useState } from 'react';
 
 const EntertainBoardSection = () => {
   const [page, setPage] = useState(1);
-  const { data } = useQuery<PostListResponse>({
+  const boardId = BOARD_MAP.entertain.id;
+  const { data } = useQuery({
     queryKey: ['EntertainPosts', page],
-    queryFn: () => getEntertainPosts(page, BOARD_PAGE_SIZE),
+    queryFn: () => axiosPosts<PostListResponse>(boardId, page, BOARD_PAGE_SIZE),
   });
   if (!data) return null;
   return (
