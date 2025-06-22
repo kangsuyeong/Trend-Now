@@ -11,7 +11,7 @@ const EntertainBoardSection = () => {
   const [page, setPage] = useState(1);
   const boardId = BOARD_MAP.entertain.id;
   const { data } = useQuery({
-    queryKey: ['EntertainPosts', page],
+    queryKey: ['posts', boardId, page],
     queryFn: () => axiosPosts<PostListResponse>(boardId, page, BOARD_PAGE_SIZE),
   });
   if (!data) return null;

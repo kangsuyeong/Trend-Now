@@ -11,7 +11,7 @@ const PoliticsBoardSection = () => {
   const [page, setPage] = useState(1);
   const boardId = BOARD_MAP.politics.id;
   const { data } = useQuery({
-    queryKey: ['politicsPosts', page],
+    queryKey: ['posts', boardId, page],
     queryFn: () => axiosPosts<PostListResponse>(boardId, page, BOARD_PAGE_SIZE),
   });
 

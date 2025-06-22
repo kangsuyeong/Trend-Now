@@ -11,7 +11,7 @@ const FreeBoardSection = () => {
   const [page, setPage] = useState(1);
   const boardId = BOARD_MAP.free.id;
   const { data } = useQuery({
-    queryKey: ['freePosts', page],
+    queryKey: ['posts', boardId, page],
     queryFn: () => axiosPosts<PostListResponse>(boardId, page, BOARD_PAGE_SIZE),
   });
 
