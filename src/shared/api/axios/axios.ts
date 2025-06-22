@@ -100,12 +100,12 @@ export const axiosMyPosts = async <T>(accessToken: string): Promise<T> =>
 //#endregion
 
 //#region 게시판
-export const axiosPosts = async <T>(boardId: number, page?: number, size?: number): Promise<T> =>
-  (
-    await axiosInstance.get(`/api/v1/boards/${boardId}/posts`, {
-      params: { page: page, size: size },
-    })
-  ).data;
+export const axiosPosts = async <T>(boardId: number, page?: number, size?: number): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/boards/${boardId}/posts`, {
+    params: { page: page, size: size },
+  });
+  return data;
+};
 
 export const axiosPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`)).data;
