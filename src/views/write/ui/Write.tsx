@@ -87,7 +87,9 @@ export default function Write({ boardType, keyword }: WriteProps) {
             </div>
             <div className="flex flex-col gap-y-1">
               <span className="text-xs font-regular text-gray-800">내용</span>
-              <RichTextEditor ref={editorRef} imageIdsRef={imageIdsRef} />
+              <div>
+                <RichTextEditor ref={editorRef} imageIdsRef={imageIdsRef} />
+              </div>
             </div>
           </div>
         </div>
