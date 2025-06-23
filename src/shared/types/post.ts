@@ -18,4 +18,25 @@ export interface PostInfo {
   createdAt: string;
   updatedAt: string;
 }
-//--------------------------------
+
+export interface PostDetailResponse {
+  message: string;
+  postInfoDto: PostDetail;
+}
+
+export interface PostDetail {
+  title: string;
+  writer: string;
+  content: string;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+  modifiable: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ImageInfo {
+  id: number;
+  imageUrl: string;
+}
