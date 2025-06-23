@@ -9,12 +9,12 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 const MyScraps = () => {
-  const { jwt, memberId } = useUserStore();
+  const { jwt } = useUserStore();
 
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myscraps', memberId],
+    queryKey: ['myscraps', page, jwt],
     queryFn: () => axiosMyScraps<PostsResponse>(jwt!, page, 20),
     enabled: !!jwt,
   });

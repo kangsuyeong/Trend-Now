@@ -9,12 +9,12 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 const MyComments = () => {
-  const { jwt, memberId } = useUserStore();
+  const { jwt } = useUserStore();
 
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myposts', memberId],
+    queryKey: ['myposts', page, jwt],
     queryFn: () => axiosMyPosts<PostsResponse>(jwt!, page, 20),
     enabled: !!jwt,
   });
