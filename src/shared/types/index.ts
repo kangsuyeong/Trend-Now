@@ -1,3 +1,2 @@
-import type { ImageUploadResponse, UploadedImage } from './image';
-
-export type { ImageUploadResponse, UploadedImage };
+export * from './image';
+export * from './post';

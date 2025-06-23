@@ -7,6 +7,8 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { axiosUploadPost } from '@/shared/api';
+import { BOARD_MAP } from '@/shared/constants';
+import { useUserStore } from '@/shared/store';
 
 // Quill이 SSR 중 로딩되지 않도록 방지
 const RichTextEditor = dynamic(() => import('@/widgets/write/ui/RichTextEditor'), {
@@ -27,18 +29,24 @@ interface WriteProps {
 
 export default function Write({ boardType, keyword }: WriteProps) {
   const router = useRouter();
-  const boardId = boardType ? boardMap[boardType].id : 1814; //
-  const boardName = boardType ? boardMap[boardType].name : '자유'; //
+  const { jwt } = useUserStore();
+  const boardId = boardType ? BOARD_MAP[boardType].id : 1814; //
+  const boardName = boardType ? BOARD_MAP[boardType].name : '자유'; //
 
   const editorRef = useRef<RichTextEditorHandle>(null); // Ref for RichTextEditor
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
+  const imageIdsRef = useRef<number[]>([]); // 이미지 index 저장하는 ref
 
   // 제출하는 함수
   const handlePostSubmit = async () => {
     const content = editorRef.current!.getContent(); // Get the editor content
-    const token =
-      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzUwMzQxNjgzLCJleHAiOjE3NTA1MjE2ODN9.uwghhYEI8aPQyJ-o-9Zm4KlUWRvI16D4U9rv9HDXf9gzdTHZrKJm3tItPZrR_e9tyZtlE1J8dl2Gk9nTLLlpIg';
-    await axiosUploadPost(token, boardId, titleRef.current!.value, content);
+
+    if (!jwt) {
+      // 로그인 안 된 상태이므로 요청 중단
+      return;
+    }
+
+    await axiosUploadPost(jwt, boardId, titleRef.current!.value, content, imageIdsRef.current);
     router.push(`/${boardType}`);
   };
   return (
@@ -79,7 +87,7 @@ export default function Write({ boardType, keyword }: WriteProps) {
             </div>
             <div className="flex flex-col gap-y-1">
               <span className="text-xs font-regular text-gray-800">내용</span>
-              <RichTextEditor ref={editorRef} />
+              <RichTextEditor ref={editorRef} imageIdsRef={imageIdsRef} />
             </div>
           </div>
         </div>
