@@ -6,6 +6,7 @@ import React from 'react';
 
 export default function Page() {
   const postId = useParams().postId as string;
+  const boardId = 1815;
 
-  return <Post postId={postId} />;
+  return <Post postId={Number(postId)} boardId={boardId} />;
 }
