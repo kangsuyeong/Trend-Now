@@ -114,7 +114,6 @@ export const axiosUploadImages = async <T>(accessToken: string, images: FormData
   (
     await axiosInstance.post('/api/v1/images/upload', images, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     })
@@ -123,16 +122,19 @@ export const axiosUploadImages = async <T>(accessToken: string, images: FormData
 export const axiosUploadPost = async <T>(
   accessToken: string,
   boardId: number,
-  contents: FormData
+  title: string,
+  content: string,
+  imageIds: number[]
 ): Promise<T> =>
-  (
-    await axiosInstance.post(`/api/v1/boards/${boardId}/posts`, contents, {
+  await axiosInstance.post(
+    `/api/v1/boards/${boardId}/posts`,
+    { title, content, imageIds },
+    {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-    })
-  ).data;
+    }
+  );
 
 // [2025-06-11 이동규] 댓글 작성 추후 추가
 
