@@ -1,11 +1,13 @@
 'use client';
 
+import { BOARD_MAP } from '@/shared/constants';
 import { Post } from '@/views/post';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
 export default function Page() {
   const postId = useParams().postId as string;
+  const boardId = BOARD_MAP['entertain'].id;
 
-  return <Post postId={postId} />;
+  return <Post postId={Number(postId)} boardId={boardId} />;
 }
