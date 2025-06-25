@@ -36,7 +36,7 @@ const MyComments = () => {
                 key={idx}
                 title={'게시판 제목'}
                 comment={'댓글 내용적어요'}
-                created={new Date()}
+                created={'2025-06-25'}
               />
             ))}
           </div>

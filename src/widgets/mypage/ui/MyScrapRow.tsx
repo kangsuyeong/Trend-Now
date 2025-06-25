@@ -1,5 +1,6 @@
 import { ScrapToggleButton } from '@/features/scrap';
 import { UserProfile20 } from '@/shared/ui';
+import dayjs from 'dayjs';
 import React from 'react';
 
 interface MyScrapRowProps {
@@ -13,8 +14,9 @@ interface MyScrapRowProps {
   views: number;
   /**@param {number} likes 추천 */
   likes: number;
-  /**@param {Date} created 일자 */
-  created: Date;
+  /**@param {  created: string;
+} created 일자 */
+  created: string;
   /**@param {number} comments 댓글 수 */
   comments: number;
 }
@@ -28,8 +30,6 @@ const MyScrapRow = ({
   created,
   comments,
 }: MyScrapRowProps) => {
-  const month = created.getMonth() + 1;
-  const date = created.getDate();
   return (
     <div className="flex w-full justify-between border-b border-gray-200 px-2 py-4">
       <div className="flex items-center gap-4">
@@ -49,9 +49,7 @@ const MyScrapRow = ({
         </div>
         <div className="w-12">{views.toLocaleString()}</div>
         <div className="w-12">{likes.toLocaleString()}</div>
-        <div className="w-12">
-          {month.toString().padStart(2, '0')}.{date.toString().padStart(2, '0')}
-        </div>
+        <div className="w-12">{dayjs(created).format('MM.DD')}</div>
       </div>
     </div>
   );

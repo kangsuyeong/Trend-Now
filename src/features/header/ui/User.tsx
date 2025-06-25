@@ -109,7 +109,7 @@ export default function User() {
 
                 if (confirmSignout) {
                   logout();
-                  router.refresh();
+                  router.push('/home');
                 }
               }}
             >

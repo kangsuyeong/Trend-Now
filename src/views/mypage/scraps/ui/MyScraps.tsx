@@ -44,7 +44,7 @@ const MyScraps = () => {
                 nickname={item.writer}
                 views={item.viewCount}
                 likes={item.likeCount}
-                created={new Date(item.updatedAt)}
+                created={item.createdAt}
                 comments={item.commentCount}
               />
             ))}

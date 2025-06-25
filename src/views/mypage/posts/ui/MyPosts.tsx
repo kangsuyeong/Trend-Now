@@ -45,7 +45,7 @@ const MyPosts = () => {
                 title={item.title}
                 views={item.viewCount}
                 likes={item.likeCount}
-                created={new Date(item.updatedAt)}
+                created={item.updatedAt}
                 comments={item.commentCount}
               />
             ))}
