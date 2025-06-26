@@ -2,6 +2,7 @@ import { Trendnow } from '@/shared/ui/';
 import Link from 'next/link';
 import { User } from '@/features/header';
 import { SearchBar } from '@/features/searchBar';
+import { Suspense } from 'react';
 
 const Appbar = () => {
   return (
@@ -10,7 +11,9 @@ const Appbar = () => {
         <Link href={`/home`} className="cursor-pointer">
           <Trendnow />
         </Link>
-        <SearchBar />
+        <Suspense>
+          <SearchBar />
+        </Suspense>
         <User />
       </div>
     </header>
