@@ -1,5 +1,5 @@
 import React from 'react';
-import { BoardHeader, BoardListByType } from '@/widgets/boards';
+import { BoardHeader } from '@/widgets/boards';
 import { BoardSection } from '@/features/board';
 
 interface BoardProps {
