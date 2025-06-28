@@ -1,3 +1,4 @@
+'use client';
 import { axiosPost } from '@/shared/api';
 import { PostDetailResponse } from '@/shared/types';
 import { Comments } from '@/widgets/comments';
