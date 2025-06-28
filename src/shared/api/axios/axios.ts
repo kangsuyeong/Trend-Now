@@ -161,3 +161,18 @@ export const axiosLike = async <T>(
     })
   ).data;
 //#endregion
+
+//#region 검색
+// 검색어 자동완성
+export const axiosGetAutocomplete = async <T>(accessToken: string, keyword: string): Promise<T> => {
+  const { data } = await axiosInstance.get('/api/v1/search/auto-complete', {
+    params: { keyword },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return data;
+};
+
+//#endregion
