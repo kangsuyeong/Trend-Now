@@ -2,13 +2,29 @@ import { UserProfile24 } from '@/shared/ui';
 import React from 'react';
 import Reply from './Reply';
 import { CommentKebabButton } from '@/features/post';
+import { ReplyList } from '@/shared/types';
+import dayjs from 'dayjs';
 
 interface CommentProps {
   /**@param {boolean} showMenu 댓글 수정 삭제 메뉴 표시 여부  */
   showMenu?: boolean;
+  /**@param {string} userName 유저 표시명  */
+  userName: string;
+  /**@param {string} date 작성 날짜  */
+  date: string;
+  /**@param {string} content 댓글 내용  */
+  content: string;
+  /**@param {ReplyList[]} replies 답글 리스트  */
+  replies?: ReplyList[];
 }
 
-export default function Comment({ showMenu = false }: CommentProps) {
+export default function Comment({
+  showMenu = false,
+  userName,
+  date,
+  content,
+  replies,
+}: CommentProps) {
   return (
     <div className="flex flex-col gap-y-4 py-5">
       <div className="flex items-center justify-between">
@@ -16,19 +32,26 @@ export default function Comment({ showMenu = false }: CommentProps) {
           <span className="flex items-center gap-x-4">
             <span className="flex items-center gap-x-2">
               <UserProfile24 />
-              <span className="text-xs font-medium text-gray-500">Trendnow_001</span>
+              <span className="text-xs font-medium text-gray-500">{userName}</span>
             </span>
-            <span className="text-sm font-regular text-gray-400">2025.04.03 21:52</span>
+            <span className="text-sm font-regular text-gray-400">
+              {dayjs(date).format('YYYY.MM-DD HH:mm')}
+            </span>
           </span>
-          <span className="pl-8 text-md font-medium text-gray-800">
-            간첩지지냐 설마! 디씨하는 한국인이 ㅋㄱㄱ
-          </span>
+          <span className="pl-8 text-md font-medium text-gray-800">{content}</span>
         </span>
         <span>{showMenu && <CommentKebabButton />}</span>
       </div>
       <div className="flex flex-col divide-y divide-gray-200 rounded-2xl bg-[#EEF3F5] px-5">
-        <Reply />
-        <Reply />
+        {replies &&
+          replies.map((item, idx) => (
+            <Reply
+              key={idx}
+              userName={'사용자 이름'}
+              date={item.createdAt}
+              content={item.content}
+            />
+          ))}
       </div>
     </div>
   );

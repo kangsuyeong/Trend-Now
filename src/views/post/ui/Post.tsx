@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 interface PostProps {
   /**@param {number} postId 게시글 아이디 */
   postId: number;
-  /**@param {number} postId 게시판 아이디 */
+  /**@param {number} boardId 게시판 아이디 */
   boardId: number;
 }
 
@@ -25,7 +25,7 @@ export default function Post({ postId, boardId }: PostProps) {
       <div className="flex w-full flex-col gap-y-8">
         <Header post={post} />
         <Content post={post} />
-        <Comments />
+        <Comments boardId={boardId} postId={postId} />
       </div>
     </div>
   );

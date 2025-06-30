@@ -162,6 +162,19 @@ export const axiosLike = async <T>(
   ).data;
 //#endregion
 
+//#region 댓글
+export const axiosGetComments = async <T>(
+  boardId: number,
+  postId: number,
+  accessToken: string
+): Promise<T> =>
+  (
+    await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+  ).data;
+//#endregion
+
 //#region 검색
 // 검색어 자동완성
 export const axiosGetAutocomplete = async <T>(accessToken: string, keyword: string): Promise<T> => {
