@@ -1,16 +1,11 @@
 'use client';
 
 import { useEffect, useRef, forwardRef, useImperativeHandle, useCallback } from 'react';
-import Quill from 'quill';
+import Quill, { Delta } from 'quill';
 import 'quill/dist/quill.snow.css'; // Import Quill styles
 import { axiosUploadImages } from '@/shared/api';
-import { ImageUploadResponse } from '@/shared/types';
+import { ImageUploadResponse, RichTextEditorHandle } from '@/shared/types';
 import { useUserStore } from '@/shared/store';
-
-// Define the ref type for the RichTextEditor component
-export type RichTextEditorHandle = {
-  getContent: () => string;
-};
 
 interface RichTextEditorProps {
   imageIdsRef: React.MutableRefObject<number[]>;
@@ -64,46 +59,48 @@ const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
     );
 
     useEffect(() => {
-      if (!quillRef.current && editorRef.current) {
-        const quill = new Quill(editorRef.current, {
-          theme: 'snow',
-          placeholder: '내용을 입력하세요.',
-          modules: {
-            toolbar: {
-              container: [
-                [{ header: [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link', 'image'],
-              ],
-              handlers: {
-                image: () => {
-                  imageHandler(quill);
-                },
+      // 에디터 DOM이 아직 렌더링되지 않은 경우 실행하지 않음
+      if (!editorRef.current) return;
+
+      // Quill이 이미 초기화된 경우 중복 초기화를 방지
+      if (quillRef.current) return;
+
+      const quill = new Quill(editorRef.current, {
+        theme: 'snow',
+        placeholder: '내용을 입력하세요.',
+        modules: {
+          toolbar: {
+            container: [
+              [{ header: [1, 2, 3, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'image'],
+            ],
+            handlers: {
+              image: () => {
+                imageHandler(quill);
               },
             },
           },
-        });
+        },
+      });
 
-        quillRef.current = quill;
+      quillRef.current = quill;
 
-        // quill.on('text-change', () => {
-        //   console.log('Text change!');
-        // });
-      }
+      // quill.on('text-change', () => {
+      //   console.log('Text change!');
+      // });
 
       // return () => {
       //   quillRef.current = null; // Cleanup to avoid memory leaks
       // };
     }, []);
 
-    // 부모 컴포넌트가 getContent 함수를 사용할 수 있도록 연결한다
+    // 부모 컴포넌트가 getContents 함수를 사용할 수 있도록 연결한다
     useImperativeHandle(ref, () => ({
-      getContent: () => {
-        if (quillRef.current) {
-          return quillRef.current.root.innerHTML; // Return the HTML content
-        }
-        return '';
+      getContents: () => quillRef.current?.getContents() ?? new Delta(),
+      setContents: (delta: Delta) => {
+        quillRef.current?.setContents(delta, 'api');
       },
     }));
 
