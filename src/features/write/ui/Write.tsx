@@ -35,6 +35,7 @@ export default function Write({
   titleRef,
   editorRef,
   imageIdsRef,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deleteImageIdsRef,
   onSubmit,
 }: WriteProps) {
