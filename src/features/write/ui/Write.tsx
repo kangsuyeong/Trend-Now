@@ -1,54 +1,43 @@
 'use client';
 
 import { cn } from '@/shared/lib';
+import { RichTextEditorHandle } from '@/shared/types';
 import { InputFieldTitle, PrimaryButton } from '@/shared/ui';
-import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { axiosUploadPost } from '@/shared/api';
-import { BOARD_MAP } from '@/shared/constants';
-import { useUserStore } from '@/shared/store';
+import type { RefObject, MutableRefObject } from 'react';
 
 // Quill이 SSR 중 로딩되지 않도록 방지
-const RichTextEditor = dynamic(() => import('@/widgets/write/ui/RichTextEditor'), {
+const RichTextEditor = dynamic(() => import('@/features/write/ui/RichTextEditor'), {
   ssr: false,
 });
 
-// Define the RichTextEditorHandle type
-type RichTextEditorHandle = {
-  getContent: () => string;
-};
-
 interface WriteProps {
-  /**@param {string} boardType 게시판 종류 */
-  boardType?: 'free' | 'entertain' | 'politics';
-  /**@param {string} keyword 실시간 인기 검색어일 경우 */
-  keyword?: string;
+  /** 게시판 이름 */
+  boardName: string;
+  /** 실시간 인기 게시판 여부 */
+  isHotBoard?: boolean;
+  /** 제목 입력 input 요소의 ref (추후 옵셔널 삭제)*/
+  titleRef: RefObject<HTMLInputElement | null>;
+  /** 에디터 인스턴스(ref)를 통한 getContents, setContents 접근 (추후 옵셔널 삭제)*/
+  editorRef: RefObject<RichTextEditorHandle | null>;
+  /** 업로드된 이미지 ID 목록을 저장하는 ref (추후 옵셔널 삭제)*/
+  imageIdsRef: MutableRefObject<number[]>;
+  /** 삭제할 이미지 ID 목록 (수정 시에만 사용됨) */
+  deleteImageIdsRef?: MutableRefObject<number[]>;
+  /** 게시글 등록 또는 수정 버튼 클릭 시 호출되는 함수 (추후 옵셔널 삭제)*/
+  onSubmit: () => void;
 }
 
-export default function Write({ boardType, keyword }: WriteProps) {
-  const router = useRouter();
-  const { jwt } = useUserStore();
-  const boardId = boardType ? BOARD_MAP[boardType].id : 1814; //
-  const boardName = boardType ? BOARD_MAP[boardType].name : '자유'; //
-
-  const editorRef = useRef<RichTextEditorHandle>(null); // Ref for RichTextEditor
-  const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
-  const imageIdsRef = useRef<number[]>([]); // 이미지 index 저장하는 ref
-
-  // 제출하는 함수
-  const handlePostSubmit = async () => {
-    const content = editorRef.current!.getContent(); // Get the editor content
-
-    if (!jwt) {
-      // 로그인 안 된 상태이므로 요청 중단
-      return;
-    }
-
-    await axiosUploadPost(jwt, boardId, titleRef.current!.value, content, imageIdsRef.current);
-    router.push(`/${boardType}`);
-  };
+export default function Write({
+  boardName,
+  isHotBoard = false,
+  titleRef,
+  editorRef,
+  imageIdsRef,
+  deleteImageIdsRef,
+  onSubmit,
+}: WriteProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-y-4">
@@ -61,9 +50,7 @@ export default function Write({ boardType, keyword }: WriteProps) {
             alt="연필 아이콘"
           />
           <span className="text-2xl font-bold">
-            <span className={cn(keyword ? 'text-brand-500' : 'text-gray-900')}>
-              {keyword ?? boardName}
-            </span>{' '}
+            <span className={cn(isHotBoard ? 'text-brand-500' : 'text-gray-900')}>{boardName}</span>{' '}
             <span className="text-gray-900">게시판</span>
           </span>
         </div>
@@ -99,7 +86,7 @@ export default function Write({ boardType, keyword }: WriteProps) {
         <PrimaryButton variant="gray" size="l">
           취소
         </PrimaryButton>
-        <PrimaryButton variant="black" size="l" onClick={handlePostSubmit}>
+        <PrimaryButton variant="black" size="l" onClick={onSubmit}>
           등록
         </PrimaryButton>
       </div>
