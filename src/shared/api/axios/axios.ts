@@ -163,6 +163,7 @@ export const axiosLike = async <T>(
 //#endregion
 
 //#region 댓글
+// 댓글 조회
 export const axiosGetComments = async <T>(
   boardId: number,
   postId: number,
@@ -172,6 +173,23 @@ export const axiosGetComments = async <T>(
     await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
+  ).data;
+
+// 댓글 저장
+export const axiosWriteComment = async <T>(
+  accessToken: string,
+  boardId: number,
+  postId: number,
+  content: string
+): Promise<T> =>
+  (
+    await axiosInstance.post(
+      `/api/v1/boards/${boardId}/posts/${postId}/comments`,
+      { content },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    )
   ).data;
 //#endregion
 

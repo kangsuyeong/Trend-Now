@@ -1,4 +1,4 @@
-import axiosInstance, { axiosGetComments } from './axios/axios';
+import axiosInstance, { axiosGetComments, axiosWriteComment } from './axios/axios';
 import {
   axiosGoogleAccessToken,
   axiosKakaoAccessToken,
@@ -45,4 +45,5 @@ export {
   axiosUserProfile,
   axiosGetAutocomplete,
   axiosGetComments,
+  axiosWriteComment,
 };
