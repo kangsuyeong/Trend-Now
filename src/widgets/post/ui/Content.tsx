@@ -21,7 +21,6 @@ export default function Content({ post }: { post: PostDetail }) {
       return '';
     });
     html = converter.convert();
-    console.log(html);
   } catch {
     html = post.content;
   }
