@@ -22,6 +22,7 @@ export interface PostInfo {
 export interface PostDetailResponse {
   message: string;
   postInfoDto: PostDetail;
+  imageInfos: ImageInfo[];
 }
 
 export interface PostDetail {
