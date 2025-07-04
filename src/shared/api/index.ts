@@ -20,6 +20,7 @@ import {
   axiosUploadPost,
   axiosUserProfile,
   axiosGetAutocomplete,
+  axiosUpdatePost,
 } from './axios/axios';
 
 export {
@@ -44,4 +45,5 @@ export {
   axiosUploadPost,
   axiosUserProfile,
   axiosGetAutocomplete,
+  axiosUpdatePost,
 };
