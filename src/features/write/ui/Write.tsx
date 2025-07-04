@@ -5,7 +5,7 @@ import { RichTextEditorHandle } from '@/shared/types';
 import { InputFieldTitle, PrimaryButton } from '@/shared/ui';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import type { RefObject, MutableRefObject } from 'react';
+import type { RefObject } from 'react';
 
 // Quill이 SSR 중 로딩되지 않도록 방지
 const RichTextEditor = dynamic(() => import('@/features/write/ui/RichTextEditor'), {
@@ -21,10 +21,6 @@ interface WriteProps {
   titleRef: RefObject<HTMLInputElement | null>;
   /** 에디터 인스턴스(ref)를 통한 getContents, setContents 접근 (추후 옵셔널 삭제)*/
   editorRef: RefObject<RichTextEditorHandle | null>;
-  /** 업로드된 이미지 ID 목록을 저장하는 ref (추후 옵셔널 삭제)*/
-  imageIdsRef: MutableRefObject<number[]>;
-  /** 삭제할 이미지 ID 목록 (수정 시에만 사용됨) */
-  deleteImageIdsRef?: MutableRefObject<number[]>;
   /** 게시글 등록 또는 수정 버튼 클릭 시 호출되는 함수 (추후 옵셔널 삭제)*/
   onSubmit: () => void;
 }
@@ -34,9 +30,6 @@ export default function Write({
   isHotBoard = false,
   titleRef,
   editorRef,
-  imageIdsRef,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  deleteImageIdsRef,
   onSubmit,
 }: WriteProps) {
   return (
@@ -76,7 +69,7 @@ export default function Write({
             <div className="flex flex-col gap-y-1">
               <span className="text-xs font-regular text-gray-800">내용</span>
               <div>
-                <RichTextEditor ref={editorRef} imageIdsRef={imageIdsRef} />
+                <RichTextEditor ref={editorRef} />
               </div>
             </div>
           </div>
