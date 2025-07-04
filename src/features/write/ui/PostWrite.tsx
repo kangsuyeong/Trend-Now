@@ -1,11 +1,11 @@
 'use client';
+import { extractImageIdsFromDelta } from '../lib';
 import Write from './Write';
 import { axiosUploadPost } from '@/shared/api';
 import { useUserStore } from '@/shared/store';
 import { RichTextEditorHandle } from '@/shared/types';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import type { Delta } from 'quill';
 
 interface PostWriteProps {
   /** 게시판 이름 */
@@ -21,21 +21,6 @@ const PostWrite = ({ boardName, boardId, path }: PostWriteProps) => {
   const { jwt } = useUserStore();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
-
-  // Delta에서 img id 추출함수
-  const extractImageIdsFromDelta = (delta: Delta): number[] => {
-    const ids: number[] = [];
-    delta.ops.forEach((op) => {
-      if (typeof op.insert === 'object' && op.insert !== null) {
-        const insert = op.insert as { customImage?: { id: string | number } };
-        if (insert.customImage?.id) {
-          ids.push(Number(insert.customImage.id));
-        }
-      }
-    });
-
-    return ids;
-  };
 
   const handleSubmit = async () => {
     const title = titleRef.current?.value;
