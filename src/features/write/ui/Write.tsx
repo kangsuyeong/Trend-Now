@@ -5,6 +5,7 @@ import { RichTextEditorHandle } from '@/shared/types';
 import { InputFieldTitle, PrimaryButton } from '@/shared/ui';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import type { Delta } from 'quill';
 import type { RefObject } from 'react';
 
 // Quill이 SSR 중 로딩되지 않도록 방지
@@ -23,6 +24,8 @@ interface WriteProps {
   editorRef: RefObject<RichTextEditorHandle | null>;
   /** 게시글 등록 또는 수정 버튼 클릭 시 호출되는 함수 (추후 옵셔널 삭제)*/
   onSubmit: () => void;
+  /** 글 수정 시 에디터에 미리 채워 넣을 초기 Delta 데이터 */
+  initialDelta?: Delta;
 }
 
 export default function Write({
@@ -30,6 +33,7 @@ export default function Write({
   isHotBoard = false,
   titleRef,
   editorRef,
+  initialDelta,
   onSubmit,
 }: WriteProps) {
   return (
@@ -69,7 +73,7 @@ export default function Write({
             <div className="flex flex-col gap-y-1">
               <span className="text-xs font-regular text-gray-800">내용</span>
               <div>
-                <RichTextEditor ref={editorRef} />
+                <RichTextEditor ref={editorRef} initialDelta={initialDelta} />
               </div>
             </div>
           </div>
