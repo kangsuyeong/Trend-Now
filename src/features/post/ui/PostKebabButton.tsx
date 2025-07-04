@@ -2,8 +2,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Delete, Write } from './icons';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function PostKebabButton() {
+  const pathname = usePathname();
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
 
   const dropMenuButtonRep = useRef<HTMLSpanElement>(null);
@@ -44,9 +47,13 @@ export default function PostKebabButton() {
           ref={dropMenuRep}
           className="absolute right-0 z-10 mt-2 flex h-fit w-[12.5rem] flex-col gap-y-1 rounded-[1.25rem] bg-white p-4 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]"
         >
-          <span className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100">
-            <Write /> <span>게시글 수정</span>
-          </span>
+          <Link
+            href={`${pathname}/edit`}
+            className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100"
+          >
+            <Write />
+            <span>게시글 수정</span>
+          </Link>
           <span className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-negative hover:bg-gray-100">
             <Delete /> <span>게시글 삭제</span>
           </span>
