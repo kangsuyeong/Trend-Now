@@ -5,7 +5,6 @@ import Quill, { Delta } from 'quill';
 import 'quill/dist/quill.snow.css'; // Import Quill styles
 import { axiosUploadImages } from '@/shared/api';
 import { ImageUploadResponse, RichTextEditorHandle } from '@/shared/types';
-import { useUserStore } from '@/shared/store';
 import '../lib/customImageBlot';
 
 interface RichTextEditorProps {
@@ -15,52 +14,43 @@ interface RichTextEditorProps {
 
 const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
   ({ initialDelta }, ref) => {
-    const { jwt } = useUserStore();
     const editorRef = useRef<HTMLDivElement>(null); // 에디터 컨테이너
     const quillRef = useRef<Quill | null>(null); // Quill 인스턴스
 
-    const imageHandler = useCallback(
-      (editor: Quill) => {
-        // 파일 입력창 생성
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.setAttribute('name', 'file');
-        input.setAttribute('multiple', '');
-        input.click();
+    const imageHandler = useCallback((editor: Quill) => {
+      // 파일 입력창 생성
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.setAttribute('name', 'file');
+      input.setAttribute('multiple', '');
+      input.click();
 
-        // 파일 선택 후 이벤트 처리
-        input.onchange = async (event: Event) => {
-          const target = event.target as HTMLInputElement;
-          const files = target.files;
-          if (!files || files.length === 0) return;
+      // 파일 선택 후 이벤트 처리
+      input.onchange = async (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const files = target.files;
+        if (!files || files.length === 0) return;
 
-          const formData = new FormData();
-          for (let i = 0; i < files.length; i++) {
-            formData.append('images', files[i]);
-          }
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('images', files[i]);
+        }
 
-          if (!jwt) {
-            // 로그인 안 된 상태이므로 요청 중단
-            return;
-          }
+        //  S3 업로드 요청
+        const response = await axiosUploadImages<ImageUploadResponse>(formData); // 다중 파일
 
-          //  S3 업로드 요청
-          const response = await axiosUploadImages<ImageUploadResponse>(jwt, formData); // 다중 파일
-
-          // Quill 에디터에 <img> 태그 추가
-          response?.imageUploadDto.forEach((img) => {
-            const range = editor.getSelection()!;
-            editor.insertEmbed(range.index, 'customImage', {
-              url: img.imageUrl,
-              id: img.id,
-            });
-            editor.setSelection(range.index + 1);
+        // Quill 에디터에 <img> 태그 추가
+        response?.imageUploadDto.forEach((img) => {
+          const range = editor.getSelection()!;
+          editor.insertEmbed(range.index, 'customImage', {
+            url: img.imageUrl,
+            id: img.id,
           });
-        };
-      },
-      [jwt]
-    );
+          editor.setSelection(range.index + 1);
+        });
+      };
+    }, []);
 
     useEffect(() => {
       // 에디터 DOM이 아직 렌더링되지 않은 경우 실행하지 않음
