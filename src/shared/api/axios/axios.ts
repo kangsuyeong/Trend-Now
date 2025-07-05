@@ -136,6 +136,31 @@ export const axiosUploadPost = async <T>(
     }
   );
 
+export const axiosUpdatePost = async <T>(
+  accessToken: string,
+  boardId: number,
+  postId: number,
+  title: string,
+  content: string,
+  newImageIdList: number[],
+  deleteImageIdList: number[]
+): Promise<T> => {
+  return await axiosInstance.put(
+    `/api/v1/boards/${boardId}/posts/${postId}`,
+    {
+      title,
+      content,
+      newImageIdList,
+      deleteImageIdList,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+
 // [2025-06-11 이동규] 댓글 작성 추후 추가
 
 export const axiosScrapPost = async <T>(
