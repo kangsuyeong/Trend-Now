@@ -18,7 +18,6 @@ export default function Post({ postId, boardId }: PostProps) {
     queryFn: () => axiosPost<PostDetailResponse>(boardId, postId),
     select: (data) => data.postInfoDto,
   });
-  if (!post) return null;
 
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
