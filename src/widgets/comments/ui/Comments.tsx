@@ -20,7 +20,7 @@ export default function Comments({ postId, boardId }: CommentsProps) {
 
   const { data, refetch } = useQuery({
     queryKey: ['comments', boardId, postId, jwt],
-    queryFn: () => axiosGetComments<CommentResponse>(boardId, postId, jwt),
+    queryFn: () => axiosGetComments<CommentResponse>(boardId, postId, jwt, 1, 50),
     enabled: !!boardId && !!postId,
     select: (data) => data.findAllCommentsDtos,
   });
@@ -37,19 +37,21 @@ export default function Comments({ postId, boardId }: CommentsProps) {
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-col divide-y divide-gray-200">
             {data &&
-              data.map((item, idx) => (
-                <Comment
-                  key={idx}
-                  userName={item.writer}
-                  date={item.createdAt}
-                  content={item.content}
-                  showMenu={item.writerId === memberId}
-                  boardId={boardId}
-                  postId={postId}
-                  commentId={item.id}
-                  refetch={refetch}
-                />
-              ))}
+              data
+                .sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt))
+                .map((item, idx) => (
+                  <Comment
+                    key={idx}
+                    userName={item.writer}
+                    date={item.createdAt}
+                    content={item.content}
+                    showMenu={item.writerId === memberId}
+                    boardId={boardId}
+                    postId={postId}
+                    commentId={item.id}
+                    refetch={refetch}
+                  />
+                ))}
           </div>
         </div>
         <WriteComment boardId={boardId} postId={postId} refetch={refetch} />

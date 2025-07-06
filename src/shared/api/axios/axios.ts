@@ -136,8 +136,6 @@ export const axiosUploadPost = async <T>(
     }
   );
 
-// [2025-06-11 이동규] 댓글 작성 추후 추가
-
 export const axiosScrapPost = async <T>(
   accessToken: string,
   boardId: number,
@@ -167,10 +165,13 @@ export const axiosLike = async <T>(
 export const axiosGetComments = async <T>(
   boardId: number,
   postId: number,
-  accessToken: string | null
+  accessToken: string | null,
+  page?: number,
+  size?: number
 ): Promise<T> =>
   (
     await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+      params: { page: page, size: size },
       headers: { jwt: `Bearer ${accessToken}` },
     })
   ).data;
