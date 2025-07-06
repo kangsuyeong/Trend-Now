@@ -167,11 +167,11 @@ export const axiosLike = async <T>(
 export const axiosGetComments = async <T>(
   boardId: number,
   postId: number,
-  accessToken: string
+  accessToken: string | null
 ): Promise<T> =>
   (
     await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { jwt: `Bearer ${accessToken}` },
     })
   ).data;
 
@@ -190,6 +190,19 @@ export const axiosWriteComment = async <T>(
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     )
+  ).data;
+
+// 댓글 삭제
+export const axiosDeleteComment = async <T>(
+  accessToken: string,
+  boardId: number,
+  postId: number,
+  commentId: number
+): Promise<T> =>
+  (
+    await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
   ).data;
 //#endregion
 

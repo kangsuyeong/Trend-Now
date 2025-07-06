@@ -5,7 +5,7 @@ import Comment from './Comment';
 import { useQuery } from '@tanstack/react-query';
 import { useUserStore } from '@/shared/store';
 import { axiosGetComments } from '@/shared/api';
-import { CommentList } from '@/shared/types';
+import { CommentResponse } from '@/shared/types';
 import WriteComment from './WriteComment';
 
 interface CommentsProps {
@@ -16,12 +16,13 @@ interface CommentsProps {
 }
 
 export default function Comments({ postId, boardId }: CommentsProps) {
-  const { jwt } = useUserStore();
+  const { jwt, memberId } = useUserStore();
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['comments', boardId, postId, jwt],
-    queryFn: () => axiosGetComments<CommentList[]>(boardId, postId, jwt!),
-    enabled: !!jwt && !!boardId && !!postId,
+    queryFn: () => axiosGetComments<CommentResponse>(boardId, postId, jwt),
+    enabled: !!boardId && !!postId,
+    select: (data) => data.findAllCommentsDtos,
   });
 
   return (
@@ -39,14 +40,19 @@ export default function Comments({ postId, boardId }: CommentsProps) {
               data.map((item, idx) => (
                 <Comment
                   key={idx}
-                  userName={'사용자 이름'}
+                  userName={item.writer}
                   date={item.createdAt}
                   content={item.content}
+                  showMenu={item.writerId === memberId}
+                  boardId={boardId}
+                  postId={postId}
+                  commentId={item.id}
+                  refetch={refetch}
                 />
               ))}
           </div>
         </div>
-        <WriteComment boardId={boardId} postId={postId} />
+        <WriteComment boardId={boardId} postId={postId} refetch={refetch} />
       </div>
     </div>
   );

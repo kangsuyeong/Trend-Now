@@ -6,6 +6,12 @@ import { ReplyList } from '@/shared/types';
 import dayjs from 'dayjs';
 
 interface CommentProps {
+  /**@param {number} boardId 게시판 아이디 */
+  boardId: number;
+  /**@param {number} postId 게시글 아이디 */
+  postId: number;
+  /**@param {number} commentId 댓글 아이디 */
+  commentId: number;
   /**@param {boolean} showMenu 댓글 수정 삭제 메뉴 표시 여부  */
   showMenu?: boolean;
   /**@param {string} userName 유저 표시명  */
@@ -16,14 +22,20 @@ interface CommentProps {
   content: string;
   /**@param {ReplyList[]} replies 답글 리스트  */
   replies?: ReplyList[];
+  /**@param {() => void} refetch 댓글 목록을 다시 불러오는 함수 */
+  refetch: () => void;
 }
 
 export default function Comment({
+  boardId,
+  postId,
+  commentId,
   showMenu = false,
   userName,
   date,
   content,
   replies,
+  refetch,
 }: CommentProps) {
   return (
     <div className="flex flex-col gap-y-4 py-5">
@@ -40,7 +52,16 @@ export default function Comment({
           </span>
           <span className="pl-8 text-md font-medium text-gray-800">{content}</span>
         </span>
-        <span>{showMenu && <CommentKebabButton />}</span>
+        <span>
+          {showMenu && (
+            <CommentKebabButton
+              boardId={boardId}
+              postId={postId}
+              commentId={commentId}
+              refetch={refetch}
+            />
+          )}
+        </span>
       </div>
       <div className="flex flex-col divide-y divide-gray-200 rounded-2xl bg-[#EEF3F5] px-5">
         {replies &&

@@ -3,18 +3,18 @@ import { PrimaryButton } from '@/shared/ui';
 import { CommentIcon } from '../icons';
 import { axiosWriteComment } from '@/shared/api';
 import { useUserStore } from '@/shared/store';
-import { useRouter } from 'next/navigation';
 import { InternalServerError } from '@/shared/error/error';
 
-type WriteCommentProps = {
+interface WriteCommentProps {
   /**@param {number} boardId 게시판 아이디 */
   boardId: number;
   /**@param {number} postId 게시글 아이디 */
   postId: number;
-};
+  /**@param {() => void} refetch 댓글 목록을 다시 불러오는 함수 */
+  refetch: () => void;
+}
 
-export default function WriteComment({ boardId, postId }: WriteCommentProps) {
-  const router = useRouter();
+export default function WriteComment({ boardId, postId, refetch }: WriteCommentProps) {
   const { jwt } = useUserStore();
   const [commentText, setCommentText] = useState('');
 
@@ -41,9 +41,8 @@ export default function WriteComment({ boardId, postId }: WriteCommentProps) {
         });
 
       if (result) {
-        alert('댓글이 등록되었습니다.');
-
-        router.refresh();
+        refetch();
+        setCommentText('');
       } else {
         throw new InternalServerError('댓글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }
@@ -58,6 +57,7 @@ export default function WriteComment({ boardId, postId }: WriteCommentProps) {
       </span>
       <div className="flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
         <textarea
+          value={commentText}
           ref={commentRef}
           onChange={handleCommentChange}
           placeholder="댓글을 작성해주세요."

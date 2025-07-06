@@ -3,8 +3,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Delete, Write } from './icons';
 import { Kebab32 } from '@/shared/ui';
+import { useUserStore } from '@/shared/store';
+import { axiosDeleteComment } from '@/shared/api';
+import { InternalServerError } from '@/shared/error/error';
 
-export default function CommentKebabButton() {
+interface WriteCommentProps {
+  /**@param {number} boardId 게시판 아이디 */
+  boardId: number;
+  /**@param {number} postId 게시글 아이디 */
+  postId: number;
+  /**@param {number} commentId 댓글 아이디 */
+  commentId: number;
+  /**@param {() => void} refetch 댓글 목록을 다시 불러오는 함수 */
+  refetch: () => void;
+}
+
+export default function CommentKebabButton({
+  boardId,
+  postId,
+  commentId,
+  refetch,
+}: WriteCommentProps) {
+  const { jwt } = useUserStore();
+
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
 
   const dropMenuButtonRep = useRef<HTMLSpanElement>(null);
@@ -14,6 +35,28 @@ export default function CommentKebabButton() {
     setDropMenuOpen((prev) => {
       return !prev;
     });
+  };
+
+  const handleDeleteComment = async () => {
+    const yn = confirm('정말 댓글을 삭제하시겠습니까?');
+
+    if (yn) {
+      if (jwt) {
+        const result = await axiosDeleteComment<boolean>(jwt, boardId, postId, commentId)
+          .then(() => true)
+          .catch((err) => {
+            console.error(err);
+
+            return false;
+          });
+
+        if (result) {
+          refetch();
+        } else {
+          throw new InternalServerError('댓글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -50,7 +93,10 @@ export default function CommentKebabButton() {
           <span className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100">
             <Write /> <span>댓글 수정</span>
           </span>
-          <span className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-negative hover:bg-gray-100">
+          <span
+            className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-negative hover:bg-gray-100"
+            onClick={handleDeleteComment}
+          >
             <Delete /> <span>댓글 삭제</span>
           </span>
         </span>
