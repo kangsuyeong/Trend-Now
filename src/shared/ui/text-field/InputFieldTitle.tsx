@@ -3,7 +3,7 @@ import InputField from './InputField';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/';
 
-const inputFieldVariants = cva('font-light', {
+const inputFieldVariants = cva('font-normal', {
   variants: {
     variant: {
       basic: 'text-gray-800',
