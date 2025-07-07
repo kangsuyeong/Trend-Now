@@ -1,9 +1,29 @@
+import { useUserStore } from '@/shared/store';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REST_API_URL,
   timeout: 10000,
 });
+
+// Axios 요청 인터셉터 설정
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Zustand 스토어에서 현재 accessToken 가져오기
+    const token = useUserStore.getState().jwt;
+    // accessToken이 존재할 경우, 요청 헤더에 Authorization 추가
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // 수정된 config 반환 → 이 설정으로 실제 요청이 전송됨
+    return config;
+  },
+  (error) => {
+    // 요청을 보내기 전 에러가 발생한 경우 처리
+    return Promise.reject(error); // 에러를 호출한 곳으로 전파
+  }
+);
 
 export default axiosInstance;
 
@@ -60,43 +80,20 @@ export const axiosNaverAccessToken = async <T>(code: string, state: string): Pro
 //#endregion
 
 //#region 회원 정보
-export const axiosUserProfile = async <T>(accessToken: string): Promise<T> =>
-  (
-    await axiosInstance.get('/api/v1/member/me', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+export const axiosUserProfile = async <T>(): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/me')).data;
 
-export const axiosEditUsername = async <T>(accessToken: string, nickname: string): Promise<T> =>
-  (
-    await axiosInstance.patch('/api/v1/member/login/naver', JSON.stringify({ nickname }), {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-  ).data;
+export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
+  (await axiosInstance.patch('/api/v1/member/login/naver', JSON.stringify({ nickname }))).data;
 
-export const axiosDeleteUser = async <T>(accessToken: string): Promise<T> =>
-  (
-    await axiosInstance.delete('/api/v1/member/me', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+export const axiosDeleteUser = async <T>(): Promise<T> =>
+  (await axiosInstance.delete('/api/v1/member/me')).data;
 
-export const axiosMyScraps = async <T>(accessToken: string): Promise<T> =>
-  (
-    await axiosInstance.get('/api/v1/member/scrap', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+export const axiosMyScraps = async <T>(): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/scrap')).data;
 
-export const axiosMyPosts = async <T>(accessToken: string): Promise<T> =>
-  (
-    await axiosInstance.get('/api/v1/member/posts', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+export const axiosMyPosts = async <T>(): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/posts')).data;
 //#endregion
 
 //#region 게시판
@@ -110,34 +107,18 @@ export const axiosPosts = async <T>(boardId: number, page?: number, size?: numbe
 export const axiosPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`)).data;
 
-export const axiosUploadImages = async <T>(accessToken: string, images: FormData): Promise<T> =>
-  (
-    await axiosInstance.post('/api/v1/images/upload', images, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-  ).data;
+export const axiosUploadImages = async <T>(images: FormData): Promise<T> =>
+  (await axiosInstance.post('/api/v1/images/upload', images)).data;
 
 export const axiosUploadPost = async <T>(
-  accessToken: string,
   boardId: number,
   title: string,
   content: string,
   imageIds: number[]
 ): Promise<T> =>
-  await axiosInstance.post(
-    `/api/v1/boards/${boardId}/posts`,
-    { title, content, imageIds },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  await axiosInstance.post(`/api/v1/boards/${boardId}/posts`, { title, content, imageIds });
 
 export const axiosUpdatePost = async <T>(
-  accessToken: string,
   boardId: number,
   postId: number,
   title: string,
@@ -145,56 +126,32 @@ export const axiosUpdatePost = async <T>(
   newImageIdList: number[],
   deleteImageIdList: number[]
 ): Promise<T> => {
-  return await axiosInstance.put(
-    `/api/v1/boards/${boardId}/posts/${postId}`,
-    {
-      title,
-      content,
-      newImageIdList,
-      deleteImageIdList,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  return await axiosInstance.put(`/api/v1/boards/${boardId}/posts/${postId}`, {
+    title,
+    content,
+    newImageIdList,
+    deleteImageIdList,
+  });
 };
 
 // [2025-06-11 이동규] 댓글 작성 추후 추가
 
-export const axiosScrapPost = async <T>(
-  accessToken: string,
-  boardId: number,
-  postId: number
-): Promise<T> =>
-  (
-    await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
 export const axiosLike = async <T>(
-  accessToken: string,
   boardName: string,
   boardId: number,
   postId: number
 ): Promise<T> =>
-  (
-    await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+  (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
 //#endregion
 
 //#region 검색
 // 검색어 자동완성
-export const axiosGetAutocomplete = async <T>(accessToken: string, keyword: string): Promise<T> => {
+export const axiosGetAutocomplete = async <T>(keyword: string): Promise<T> => {
   const { data } = await axiosInstance.get('/api/v1/search/auto-complete', {
     params: { keyword },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   });
 
   return data;
