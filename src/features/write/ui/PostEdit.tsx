@@ -1,7 +1,6 @@
 'use client';
 import Write from './Write';
 import { axiosPost, axiosUpdatePost } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { PostDetailResponse, RichTextEditorHandle } from '@/shared/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -21,7 +20,6 @@ interface postEditeProps {
 
 const PostEdit = ({ boardName, boardId, postId, path }: postEditeProps) => {
   const router = useRouter();
-  const { jwt } = useUserStore();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
   const originalImageIdsRef = useRef<number[]>([]); // 수정 전 에디터에 포함된 이미지 ID 목록 저장용
@@ -46,11 +44,7 @@ const PostEdit = ({ boardName, boardId, postId, path }: postEditeProps) => {
       (id) => !newImageIdList.includes(id)
     );
 
-    if (!jwt) {
-      // 로그인 안 된 상태이므로 요청 중단
-      return;
-    }
-    await axiosUpdatePost(jwt, boardId, postId, title, content, newImageIdList, deleteImageIdList);
+    await axiosUpdatePost(boardId, postId, title, content, newImageIdList, deleteImageIdList);
     router.push(`${path}`);
   };
 
