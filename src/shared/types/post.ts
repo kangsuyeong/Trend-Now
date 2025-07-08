@@ -41,3 +41,8 @@ export interface ImageInfo {
   id: number;
   imageUrl: string;
 }
+
+export interface PostScrapResponse {
+  message: string;
+  scrapAction: 'SCRAPPED' | 'UNSCRAPPED';
+}

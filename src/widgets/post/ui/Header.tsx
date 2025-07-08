@@ -7,7 +7,16 @@ import { UserProfile28 } from '@/shared/ui';
 import dayjs from 'dayjs';
 import { usePathname } from 'next/navigation';
 
-export default function Header({ post }: { post: PostDetail }) {
+interface HeaderProps {
+  /**@param {number} postId 게시글 아이디 */
+  postId: number;
+  /**@param {number} postId 게시판 아이디 */
+  boardId: number;
+  /**@param {PostDetail} post 게시글 정보 */
+  post: PostDetail;
+}
+
+export default function Header({ postId, boardId, post }: HeaderProps) {
   const pathname = usePathname(); //  현재 URL 경로를 문자열로 가져옴
   const boardType = pathname.split('/')[1] as keyof typeof BOARD_MAP; // 예: "/free/post/6" → "free"
   const boardName = BOARD_MAP[boardType].name;
@@ -20,7 +29,7 @@ export default function Header({ post }: { post: PostDetail }) {
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
-          <BookmarkButton />
+          <BookmarkButton postId={postId} boardId={boardId} />
           <PostKebabButton />
         </span>
       </div>

@@ -23,7 +23,7 @@ export default function Post({ postId, boardId }: PostProps) {
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
-        <Header post={post} />
+        <Header post={post} postId={postId} boardId={boardId} />
         <Content post={post} />
         <Comments />
       </div>
