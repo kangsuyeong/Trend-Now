@@ -19,6 +19,8 @@ export default function Post({ postId, boardId }: PostProps) {
     select: (data) => data.postInfoDto,
   });
 
+  if (!post) return null;
+
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
