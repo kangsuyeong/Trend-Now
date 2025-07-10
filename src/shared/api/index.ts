@@ -21,6 +21,8 @@ import {
   axiosUserProfile,
   axiosGetAutocomplete,
   axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
 } from './axios/axios';
 
 export {
@@ -46,4 +48,6 @@ export {
   axiosUserProfile,
   axiosGetAutocomplete,
   axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
 };

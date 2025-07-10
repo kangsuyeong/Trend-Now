@@ -44,6 +44,9 @@ import Textarea from './text-field/Textarea';
 /** Timer */
 import CountdownTimer from './timer/CountdownTimer';
 
+/** EmptyState */
+import EmptyState from './emptystate/EmptyState';
+
 export {
   BadgeButton,
   DropdownChip,
@@ -83,4 +86,5 @@ export {
   InputFieldTitle,
   Textarea,
   CountdownTimer,
+  EmptyState,
 };
