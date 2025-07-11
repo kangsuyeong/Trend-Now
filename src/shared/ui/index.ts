@@ -46,10 +46,9 @@ import CountdownTimer from './timer/CountdownTimer';
 
 /** EmptyState */
 import EmptyState from './emptystate/EmptyState';
-=======
+
 /** Skeletons */
 import { Skeleton } from './skeleton/Skeleton';
-
 
 export {
   BadgeButton,
