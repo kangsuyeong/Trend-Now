@@ -41,6 +41,9 @@ import InputFieldPassword from './text-field/InputFieldPassword';
 import InputFieldTitle from './text-field/InputFieldTitle';
 import Textarea from './text-field/Textarea';
 
+/** Skeletons */
+import { Skeleton } from './skeleton/Skeleton';
+
 export {
   BadgeButton,
   DropdownChip,
@@ -79,4 +82,5 @@ export {
   InputFieldPassword,
   InputFieldTitle,
   Textarea,
+  Skeleton,
 };
