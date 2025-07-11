@@ -17,13 +17,13 @@ const timerVariants = cva('font-bold', {
 });
 
 interface CountdownTimerProps {
-  // 초기 시간(초)
+  /** 초기 시간 (초 단위) */
   initialSeconds: number;
 
-  // 아이콘 크기 (기본값: 28)
+  /** 아이콘 크기 (기본값: 28) */
   iconSize?: number;
 
-  // 텍스트 크기 클래스 (기본값: "text-lg")
+  /** 텍스트 크기 클래스 (Tailwind 등에서 사용, 기본값: "text-lg") */
   textSize?: string;
 }
 
