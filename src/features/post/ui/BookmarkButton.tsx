@@ -1,6 +1,7 @@
 import { axiosScrapPost } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
 import { PostScrapResponse } from '@/shared/types';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 interface BookmarkButtonProps {
@@ -13,21 +14,21 @@ interface BookmarkButtonProps {
 export default function BookmarkButton({ postId, boardId }: BookmarkButtonProps) {
   const [isScraped, setIsScraped] = useState<boolean>(false);
 
-  const handlePostScrap = async () => {
-    try {
-      const result = await axiosScrapPost<PostScrapResponse>(boardId, postId);
-
-      if (result.scrapAction === 'SCRAPPED') {
+  const { mutate } = useMutation({
+    mutationFn: () => axiosScrapPost<PostScrapResponse>(boardId, postId),
+    onSuccess: (res) => {
+      if (res.scrapAction === 'SCRAPPED') {
         setIsScraped(true);
       } else {
         setIsScraped(false);
       }
-    } catch {
+    },
+    onError: () => {
       throw new InternalServerError(
         '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
       );
-    }
-  };
+    },
+  });
 
   return (
     <input
@@ -35,7 +36,7 @@ export default function BookmarkButton({ postId, boardId }: BookmarkButtonProps)
       checked={isScraped}
       onChange={(e) => {
         e.preventDefault();
-        handlePostScrap();
+        mutate();
       }}
       className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
     />
