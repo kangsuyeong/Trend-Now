@@ -152,6 +152,42 @@ export const axiosLike = async <T>(
 //#endregion
 
 //#region 검색
+// 실시간 게시판 목록 검색
+export const axiosSearchRealtimeBoards = async <T>(keyword: string): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/realtimeBoards`, {
+    params: { keyword },
+  });
+
+  return data;
+};
+
+// 실시간 게시판의 게시글 검색
+export const axiosSearchRealtimePosts = async <T>(
+  keyword: string,
+  page: number = 1,
+  size: number = 10
+): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/realtimePosts`, {
+    params: { keyword, page, size },
+  });
+
+  return data;
+};
+
+// 고정 게시판의 게시글 검색
+export const axiosSearchFixedBoardPosts = async <T>(
+  keyword: string,
+  boardId: number,
+  page: number = 1,
+  size: number = 10
+): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/fixedPosts`, {
+    params: { keyword, boardId, page, size },
+  });
+
+  return data;
+};
+
 // 검색어 자동완성
 export const axiosGetAutocomplete = async <T>(keyword: string): Promise<T> => {
   const { data } = await axiosInstance.get('/api/v1/search/auto-complete', {
