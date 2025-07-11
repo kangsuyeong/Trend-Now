@@ -23,6 +23,7 @@ import {
   axiosUpdatePost,
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
+  axiosDeletePost,
 } from './axios/axios';
 
 export {
@@ -50,4 +51,5 @@ export {
   axiosUpdatePost,
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
+  axiosDeletePost,
 };
