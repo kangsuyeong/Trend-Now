@@ -21,6 +21,7 @@ import {
   axiosUserProfile,
   axiosGetAutocomplete,
   axiosUpdatePost,
+  axiosDeletePost,
 } from './axios/axios';
 
 export {
@@ -46,4 +47,5 @@ export {
   axiosUserProfile,
   axiosGetAutocomplete,
   axiosUpdatePost,
+  axiosDeletePost,
 };

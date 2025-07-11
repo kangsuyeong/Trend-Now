@@ -134,6 +134,10 @@ export const axiosUpdatePost = async <T>(
   });
 };
 
+export const axiosDeletePost = async <T>(boardId: number, postId: number): Promise<T> => {
+  return await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
+};
+
 // [2025-06-11 이동규] 댓글 작성 추후 추가
 
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
