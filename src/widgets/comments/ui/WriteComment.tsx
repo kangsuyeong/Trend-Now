@@ -4,6 +4,7 @@ import { CommentIcon } from '../icons';
 import { axiosWriteComment } from '@/shared/api';
 import { useUserStore } from '@/shared/store';
 import { InternalServerError } from '@/shared/error/error';
+import { useMutation } from '@tanstack/react-query';
 
 interface WriteCommentProps {
   /**@param {number} boardId 게시판 아이디 */
@@ -24,6 +25,17 @@ export default function WriteComment({ boardId, postId, refetch }: WriteCommentP
     setCommentText(e.target.value);
   };
 
+  const { mutate } = useMutation({
+    mutationFn: (token: string) => axiosWriteComment<boolean>(token, boardId, postId, commentText),
+    onSuccess: () => {
+      refetch();
+      setCommentText('');
+    },
+    onError: () => {
+      throw new InternalServerError('댓글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    },
+  });
+
   const handleSaveComment = async () => {
     if (commentText.length === 0) {
       alert('댓글을 입력해주세요.');
@@ -32,20 +44,7 @@ export default function WriteComment({ boardId, postId, refetch }: WriteCommentP
     }
 
     if (jwt) {
-      const result = await axiosWriteComment<boolean>(jwt, boardId, postId, commentText)
-        .then(() => true)
-        .catch((err) => {
-          console.error(err);
-
-          return false;
-        });
-
-      if (result) {
-        refetch();
-        setCommentText('');
-      } else {
-        throw new InternalServerError('댓글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
-      }
+      mutate(jwt);
     }
   };
 
