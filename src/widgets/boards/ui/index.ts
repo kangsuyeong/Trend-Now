@@ -1,3 +1,3 @@
-import BoardList from './BoardList';
+import BoardHeader from './BoardHeader';
 
-export { BoardList };
+export { BoardHeader };

@@ -20,6 +20,11 @@ import {
   axiosUploadPost,
   axiosUserProfile,
   axiosHotBoardInfo,
+  axiosGetAutocomplete,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 } from './axios/axios';
 
 export {
@@ -44,4 +49,9 @@ export {
   axiosUploadPost,
   axiosUserProfile,
   axiosHotBoardInfo,
+  axiosGetAutocomplete,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 };

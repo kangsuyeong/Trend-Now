@@ -10,11 +10,11 @@ import {
 } from '@/shared/ui';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { BoardList } from '@/widgets/boards';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosPosts } from '@/shared/api';
 import { HotBoardInfoResponse, PostsResponse } from '@/entities';
+import { BoardList } from '@/entities/board';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -102,7 +102,12 @@ export default function HotBoard({ boardId, keyword }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        <BoardList posts={posts.postsListDto} />
+        <BoardList
+          posts={posts.postsListDto}
+          totalCount={posts.totalCount}
+          page={1}
+          basePath={`/hotBoard/${keyword}`}
+        />
         <Pagination
           currentPage={page}
           maxPage={posts.totalPageCount || 1}
