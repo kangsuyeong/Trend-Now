@@ -9,6 +9,7 @@ export default function HotBoardList() {
   const { data } = useQuery({
     queryKey: ['hotBoardList'],
     queryFn: () => axiosHotBoardList<HotBoardResponse>(),
+    refetchOnMount: true,
   });
 
   if (!data) return null;

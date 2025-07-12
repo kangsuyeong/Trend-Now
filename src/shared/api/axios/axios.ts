@@ -15,10 +15,10 @@ export const axiosTimeSync = async <T>(): Promise<T> =>
   (await axiosInstance.get('/api/v1/timeSync')).data;
 
 export const axiosHotBoardList = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/boards/list', { params: { page: page, size: size } })).data;
+  (await axiosInstance.get('/api/v1/boards/list', { params: { page, size } })).data;
 
 export const axiosConnectSSE = async <T>(clientId: string): Promise<T> =>
-  (await axiosInstance.get('/api/v1/subscribe', { params: { clientId: clientId } })).data;
+  (await axiosInstance.get('/api/v1/subscribe', { params: { clientId } })).data;
 
 export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
   (
@@ -28,6 +28,9 @@ export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
       },
     })
   ).data;
+
+export const axiosHotBoardInfo = async <T>(boardId: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/boards/realtime', { params: { boardId } })).data;
 //#endregion
 
 //#region 로그인

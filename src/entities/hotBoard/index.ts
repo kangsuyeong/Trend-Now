@@ -1,3 +1,3 @@
-import { HotBoardResponse, HotBoardList } from './hotBoardType';
+import { HotBoardResponse, HotBoardList, HotBoardInfoResponse } from './hotBoardType';
 
-export type { HotBoardList, HotBoardResponse };
+export type { HotBoardList, HotBoardResponse, HotBoardInfoResponse };

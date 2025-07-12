@@ -8,3 +8,10 @@ export interface HotBoardList {
   boardLiveTime: number;
   score: number;
 }
+
+export interface HotBoardInfoResponse {
+  boardId: number;
+  boardName: string;
+  boardLiveTime: number;
+  score: number;
+}

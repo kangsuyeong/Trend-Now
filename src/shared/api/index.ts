@@ -19,6 +19,7 @@ import {
   axiosUploadImages,
   axiosUploadPost,
   axiosUserProfile,
+  axiosHotBoardInfo,
 } from './axios/axios';
 
 export {
@@ -42,4 +43,5 @@ export {
   axiosUploadImages,
   axiosUploadPost,
   axiosUserProfile,
+  axiosHotBoardInfo,
 };
