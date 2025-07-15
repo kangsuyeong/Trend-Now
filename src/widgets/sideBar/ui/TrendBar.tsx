@@ -5,8 +5,8 @@ import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
 import { EventSource } from 'eventsource';
 import { connectSSE } from '../api';
-import { Top10, SignalKeyword, RankChangeType, RealtimeTop10Response } from '@/entities';
 import { axiosDisconnectSSE, axiosRealtimeTop10 } from '@/shared/api';
+import { Top10, SignalKeyword, RankChangeType, RealtimeTop10Response } from '@/shared/types';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<Top10[]>();

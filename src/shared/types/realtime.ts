@@ -1,4 +1,4 @@
-import { Top10 } from '../sse';
+import { Top10 } from './sse';
 
 export interface RealtimeTop10Response {
   now: string;

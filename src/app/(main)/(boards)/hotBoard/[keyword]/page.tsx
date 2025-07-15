@@ -11,5 +11,5 @@ export default function Page() {
 
   if (!boardId) throw new NotFoundError();
 
-  return <HotBoard boardId={+boardId} keyword={decodeURI(keyword)} />;
+  return <HotBoard boardId={Number(boardId)} keyword={decodeURI(keyword)} />;
 }

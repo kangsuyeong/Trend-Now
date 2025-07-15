@@ -13,8 +13,8 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosPosts } from '@/shared/api';
-import { HotBoardInfoResponse, PostsResponse } from '@/entities';
 import { BoardList } from '@/entities/board';
+import { HotBoardInfoResponse, PostListResponse } from '@/shared/types';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -31,7 +31,7 @@ export default function HotBoard({ boardId, keyword }: HotBoardProps) {
 
   const { data: posts } = useQuery({
     queryKey: ['hotBoardPosts', keyword, boardId, page],
-    queryFn: () => axiosPosts<PostsResponse>(boardId, page, 20),
+    queryFn: () => axiosPosts<PostListResponse>(boardId, page, 20),
   });
 
   const { data: boardInfo } = useQuery({

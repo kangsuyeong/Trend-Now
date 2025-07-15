@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { cva } from 'class-variance-authority';
-import { cn } from '@/shared/lib';
 import Link from 'next/link';
-import { BlueTimer32, GrayTimer32, OrangeTimer32 } from './icons';
-
-const timerVariants = cva('text-2xl font-bold', {
-  variants: {
-    variant: {
-      blue: 'text-brand-500',
-      orange: 'text-point-500',
-      gray: 'text-gray-400',
-    },
-  },
-});
+import { CountdownTimer } from '@/shared/ui';
 
 interface MedalRowProps {
   /**@param {number} boardId 게시판 ID */
@@ -31,28 +19,6 @@ interface MedalRowProps {
 }
 
 export default function MedalRow({ boardId, rank, keyword, count, views, timer }: MedalRowProps) {
-  const [timeLeft, setTimeLeft] = useState<number>(timer);
-
-  const variant = timeLeft === 0 ? 'gray' : timeLeft < 600 ? 'orange' : 'blue';
-  const min = Math.floor(timeLeft / 60)
-    .toString()
-    .padStart(2, '0');
-  const sec = (timeLeft % 60).toString().padStart(2, '0');
-
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-
-    if (timeLeft < 1) {
-      clearInterval(timerId);
-    }
-
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [timeLeft]);
-
   return (
     <Link href={`/hotBoard/${keyword}?boardId=${boardId}`}>
       <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
@@ -94,17 +60,8 @@ export default function MedalRow({ boardId, rank, keyword, count, views, timer }
           <span className="flex items-center gap-x-2">
             <span className="w-16 text-center text-md font-regular text-gray-500">{count}</span>
             <span className="w-16 text-center text-md font-regular text-gray-500">{views}</span>
-            <span className="flex w-[6.5rem] items-center gap-x-1">
-              <span className="h-8 w-8">
-                {timeLeft === 0 ? (
-                  <GrayTimer32 />
-                ) : timeLeft < 600 ? (
-                  <OrangeTimer32 />
-                ) : (
-                  <BlueTimer32 />
-                )}
-              </span>
-              <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+            <span className="flex w-[6.5rem]">
+              <CountdownTimer initialSeconds={timer} iconSize={32} textSize="text-2xl" />
             </span>
           </span>
         </div>
