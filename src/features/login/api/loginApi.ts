@@ -9,8 +9,9 @@ export async function getGoogleAccessToken(code: string): Promise<LoginResponse>
     .then((res) => {
       return res;
     })
-    .catch(() => {
-      throw new UnauthorizedError('로그인 정보를 불러오는 데 실패했습니다.');
+    .catch((e) => {
+      console.error(e.response);
+      throw new UnauthorizedError(e);
     });
 
   return result;

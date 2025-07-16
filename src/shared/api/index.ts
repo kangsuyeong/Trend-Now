@@ -1,5 +1,6 @@
 import axiosInstance, {
   axiosDeleteComment,
+  axiosEditComment,
   axiosGetComments,
   axiosWriteComment,
 } from './axios/axios';
@@ -51,4 +52,5 @@ export {
   axiosGetComments,
   axiosWriteComment,
   axiosDeleteComment,
+  axiosEditComment,
 };

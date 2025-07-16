@@ -205,6 +205,19 @@ export const axiosDeleteComment = async <T>(
       headers: { Authorization: `Bearer ${accessToken}` },
     })
   ).data;
+
+// 댓글 삭제
+export const axiosEditComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number,
+  updateContent: string
+): Promise<T> =>
+  (
+    await axiosInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      updateContent,
+    })
+  ).data;
 //#endregion
 
 //#region 검색

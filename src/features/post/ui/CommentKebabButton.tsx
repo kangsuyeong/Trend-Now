@@ -16,6 +16,8 @@ interface WriteCommentProps {
   commentId: number;
   /**@param {() => void} refetch 댓글 목록을 다시 불러오는 함수 */
   refetch: () => void;
+  /**@param {() => void} onEditClick 수정 버튼 클릭 시 실행되는 함수 */
+  onEditClick: () => void;
 }
 
 export default function CommentKebabButton({
@@ -23,6 +25,7 @@ export default function CommentKebabButton({
   postId,
   commentId,
   refetch,
+  onEditClick,
 }: WriteCommentProps) {
   const { jwt } = useUserStore();
 
@@ -90,7 +93,10 @@ export default function CommentKebabButton({
           ref={dropMenuRep}
           className="absolute right-0 z-10 mt-2 flex h-fit w-[12.5rem] flex-col gap-y-1 rounded-[1.25rem] bg-white p-4 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]"
         >
-          <span className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100">
+          <span
+            className="flex h-11 w-full cursor-pointer items-center gap-x-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100"
+            onClick={onEditClick}
+          >
             <Write /> <span>댓글 수정</span>
           </span>
           <span

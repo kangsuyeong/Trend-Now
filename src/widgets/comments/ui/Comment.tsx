@@ -1,9 +1,12 @@
-import { UserProfile24 } from '@/shared/ui';
-import React from 'react';
+import { PrimaryButton, UserProfile24 } from '@/shared/ui';
+import React, { useRef, useState } from 'react';
 import Reply from './Reply';
 import { CommentKebabButton } from '@/features/post';
 import { ReplyList } from '@/shared/types';
 import dayjs from 'dayjs';
+import { useMutation } from '@tanstack/react-query';
+import { axiosEditComment } from '@/shared/api';
+import { InternalServerError } from '@/shared/error/error';
 
 interface CommentProps {
   /**@param {number} boardId 게시판 아이디 */
@@ -37,6 +40,37 @@ export default function Comment({
   replies,
   refetch,
 }: CommentProps) {
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [commentText, setCommentText] = useState(content);
+
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+
+  const { mutate } = useMutation({
+    mutationFn: () => axiosEditComment<boolean>(boardId, postId, commentId, commentText),
+    onSuccess: () => {
+      refetch();
+      setCommentText('');
+      setEditMode(false);
+    },
+    onError: () => {
+      throw new InternalServerError('댓글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    },
+  });
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentText(e.target.value);
+  };
+
+  const handleSaveComment = async () => {
+    if (commentText.length === 0) {
+      alert('댓글을 입력해주세요.');
+
+      return;
+    }
+
+    mutate();
+  };
+
   return (
     <div className="flex flex-col gap-y-4 py-5">
       <div className="flex items-center justify-between">
@@ -50,7 +84,29 @@ export default function Comment({
               {dayjs(date).format('YYYY.MM-DD HH:mm')}
             </span>
           </span>
-          <span className="pl-8 text-md font-medium text-gray-800">{content}</span>
+          {editMode ? (
+            <div className="flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
+              <textarea
+                value={commentText}
+                ref={commentRef}
+                onChange={handleCommentChange}
+                placeholder="댓글을 작성해주세요."
+                className="w-full resize-none text-md font-medium text-gray-800 field-sizing-content placeholder:text-gray-500 focus:outline-none"
+              ></textarea>
+              <div className="flex justify-end">
+                <PrimaryButton
+                  variant={commentText.length > 0 ? 'black' : 'gray'}
+                  size="m"
+                  disabled={!commentText}
+                  onClick={handleSaveComment}
+                >
+                  등록
+                </PrimaryButton>
+              </div>
+            </div>
+          ) : (
+            <span className="pl-8 text-md font-medium text-gray-800">{content}</span>
+          )}
         </span>
         <span>
           {showMenu && (
@@ -59,6 +115,7 @@ export default function Comment({
               postId={postId}
               commentId={commentId}
               refetch={refetch}
+              onEditClick={() => setEditMode(true)}
             />
           )}
         </span>
