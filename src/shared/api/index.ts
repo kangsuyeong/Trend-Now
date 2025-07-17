@@ -25,6 +25,10 @@ import {
   axiosUploadPost,
   axiosUserProfile,
   axiosGetAutocomplete,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 } from './axios/axios';
 
 export {
@@ -53,4 +57,8 @@ export {
   axiosWriteComment,
   axiosDeleteComment,
   axiosEditComment,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 };
