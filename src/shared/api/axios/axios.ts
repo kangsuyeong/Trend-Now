@@ -1,9 +1,29 @@
+import { useUserStore } from '@/shared/store';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REST_API_URL,
   timeout: 10000,
 });
+
+// Axios 요청 인터셉터 설정
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Zustand 스토어에서 현재 accessToken 가져오기
+    const token = useUserStore.getState().jwt;
+    // accessToken이 존재할 경우, 요청 헤더에 Authorization 추가
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // 수정된 config 반환 → 이 설정으로 실제 요청이 전송됨
+    return config;
+  },
+  (error) => {
+    // 요청을 보내기 전 에러가 발생한 경우 처리
+    return Promise.reject(error); // 에러를 호출한 곳으로 전파
+  }
+);
 
 export default axiosInstance;
 

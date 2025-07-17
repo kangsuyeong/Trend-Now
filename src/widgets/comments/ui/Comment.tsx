@@ -74,7 +74,7 @@ export default function Comment({
   return (
     <div className="flex flex-col gap-y-4 py-5">
       <div className="flex items-center justify-between">
-        <span className="flex flex-col gap-y-0.5">
+        <span className="flex flex-1 flex-col gap-y-0.5">
           <span className="flex items-center gap-x-4">
             <span className="flex items-center gap-x-2">
               <UserProfile24 />
@@ -85,7 +85,7 @@ export default function Comment({
             </span>
           </span>
           {editMode ? (
-            <div className="flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
+            <div className="ml-8 flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
               <textarea
                 value={commentText}
                 ref={commentRef}
@@ -95,12 +95,12 @@ export default function Comment({
               ></textarea>
               <div className="flex justify-end">
                 <PrimaryButton
-                  variant={commentText.length > 0 ? 'black' : 'gray'}
+                  variant={commentText.length > 0 ? 'error' : 'gray'}
                   size="m"
                   disabled={!commentText}
                   onClick={handleSaveComment}
                 >
-                  등록
+                  수정 완료
                 </PrimaryButton>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function Comment({
           )}
         </span>
         <span>
-          {showMenu && (
+          {showMenu && !editMode && (
             <CommentKebabButton
               boardId={boardId}
               postId={postId}
