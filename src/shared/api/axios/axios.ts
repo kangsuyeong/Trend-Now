@@ -184,16 +184,12 @@ export const axiosWriteComment = async <T>(
 
 // 댓글 삭제
 export const axiosDeleteComment = async <T>(
-  accessToken: string,
   boardId: number,
   postId: number,
   commentId: number
 ): Promise<T> =>
-  (
-    await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-  ).data;
+  (await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
+    .data;
 
 // 댓글 삭제
 export const axiosEditComment = async <T>(

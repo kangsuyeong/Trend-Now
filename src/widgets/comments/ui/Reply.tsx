@@ -32,7 +32,7 @@ export default function Reply({ showMenu = false, userName, date, content }: Rep
         </span>
         <span className="pl-8 text-md font-medium text-gray-800">{content}</span>
       </span>
-      <span>{showMenu && <CommentKebabButton />}</span>
+      <span>{showMenu && <CommentKebabButton boardId={0} postId={0} commentId={0} />}</span>
     </div>
   );
 }
