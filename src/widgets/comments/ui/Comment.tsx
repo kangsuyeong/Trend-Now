@@ -1,5 +1,5 @@
 import { PrimaryButton, UserProfile24 } from '@/shared/ui';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Reply from './Reply';
 import { CommentKebabButton } from '@/features/post';
 import { ReplyList } from '@/shared/types';
@@ -43,13 +43,10 @@ export default function Comment({
   const [editMode, setEditMode] = useState<boolean>(false);
   const [commentText, setCommentText] = useState(content);
 
-  const commentRef = useRef<HTMLTextAreaElement>(null);
-
   const { mutate } = useMutation({
     mutationFn: () => axiosEditComment<boolean>(boardId, postId, commentId, commentText),
     onSuccess: () => {
       refetch();
-      setCommentText('');
       setEditMode(false);
     },
     onError: () => {
@@ -88,7 +85,6 @@ export default function Comment({
             <div className="ml-8 flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
               <textarea
                 value={commentText}
-                ref={commentRef}
                 onChange={handleCommentChange}
                 placeholder="댓글을 작성해주세요."
                 className="w-full resize-none text-md font-medium text-gray-800 field-sizing-content placeholder:text-gray-500 focus:outline-none"

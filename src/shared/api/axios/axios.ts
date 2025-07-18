@@ -167,20 +167,12 @@ export const axiosGetComments = async <T>(
 
 // 댓글 저장
 export const axiosWriteComment = async <T>(
-  accessToken: string,
   boardId: number,
   postId: number,
   content: string
 ): Promise<T> =>
-  (
-    await axiosInstance.post(
-      `/api/v1/boards/${boardId}/posts/${postId}/comments`,
-      { content },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    )
-  ).data;
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
+    .data;
 
 // 댓글 삭제
 export const axiosDeleteComment = async <T>(

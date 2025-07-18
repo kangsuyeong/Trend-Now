@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { PrimaryButton } from '@/shared/ui';
 import { CommentIcon } from '../icons';
 import { axiosWriteComment } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { InternalServerError } from '@/shared/error/error';
 import { useMutation } from '@tanstack/react-query';
 
@@ -16,17 +15,14 @@ interface WriteCommentProps {
 }
 
 export default function WriteComment({ boardId, postId, refetch }: WriteCommentProps) {
-  const { jwt } = useUserStore();
   const [commentText, setCommentText] = useState('');
-
-  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentText(e.target.value);
   };
 
   const { mutate } = useMutation({
-    mutationFn: (token: string) => axiosWriteComment<boolean>(token, boardId, postId, commentText),
+    mutationFn: () => axiosWriteComment<boolean>(boardId, postId, commentText),
     onSuccess: () => {
       refetch();
       setCommentText('');
@@ -43,9 +39,7 @@ export default function WriteComment({ boardId, postId, refetch }: WriteCommentP
       return;
     }
 
-    if (jwt) {
-      mutate(jwt);
-    }
+    mutate();
   };
 
   return (
@@ -57,7 +51,6 @@ export default function WriteComment({ boardId, postId, refetch }: WriteCommentP
       <div className="flex flex-col gap-y-2 rounded-2xl border border-gray-300 bg-white p-4">
         <textarea
           value={commentText}
-          ref={commentRef}
           onChange={handleCommentChange}
           placeholder="댓글을 작성해주세요."
           className="w-full resize-none text-md font-medium text-gray-800 field-sizing-content placeholder:text-gray-500 focus:outline-none"
