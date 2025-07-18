@@ -31,7 +31,6 @@
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.78.0",
-    "@types/event-source-polyfill": "^1.0.5",
     "@types/lodash": "^4.17.18",
     "@types/node": "^20",
     "@types/react": "^19",
