@@ -1,7 +1,7 @@
 'use client';
 import { axiosPost } from '@/shared/api';
 import { PostDetailResponse } from '@/shared/types';
-import { Comments } from '@/widgets/comments';
+import { Comments } from '@/entities/comments';
 import { Content, Header } from '@/widgets/post';
 import { useQuery } from '@tanstack/react-query';
 
