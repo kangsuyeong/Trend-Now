@@ -1,19 +1,10 @@
-import { cn } from '@/shared/lib';
-import { cva } from 'class-variance-authority';
 import Link from 'next/link';
 import React from 'react';
-
-const timerVariants = cva('text-xl font-semiBold', {
-  variants: {
-    variant: {
-      blue: 'text-brand-500',
-      orange: 'text-point-500',
-      gray: 'text-gray-400',
-    },
-  },
-});
+import { CountdownTimer } from '@/shared/ui';
 
 interface HotBoardListRowProps {
+  /**@param {number} boardId 게시판 ID */
+  boardId: number;
   /**@param {number} rank 순위 */
   rank: number;
   /**@param {string} keyword 검색어 */
@@ -30,32 +21,24 @@ interface HotBoardListRowProps {
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=110-12045&t=J0Jb8mvTQUQUNMvU-4
  */
 export default function HotBoardListRow({
+  boardId,
   rank,
   keyword,
   count,
   views,
   timer,
 }: HotBoardListRowProps) {
-  const variant = timer === 0 ? 'gray' : timer < 600 ? 'orange' : 'blue';
-  const min = Math.floor(timer / 60)
-    .toString()
-    .padStart(2, '0');
-  const sec = (timer % 60).toString().padStart(2, '0');
-
   return (
-    <Link href={`/hotBoard/keyword`}>
+    <Link href={`/hotBoard/${keyword}?boardId=${boardId}`}>
       <div className="flex cursor-pointer items-center justify-between rounded-xl py-4 pl-2 pr-4 hover:bg-gray-100">
         <span className="flex items-center gap-x-3">
           <span className="h-7 w-7 text-center text-lg font-bold text-gray-800">{rank}</span>
           <span className="text-lg font-semiBold text-gray-800">{keyword}</span>
         </span>
-        <span className="flex gap-x-2">
+        <span className="flex items-center gap-x-2">
           <span className="w-16 text-sm font-regular text-gray-500">{count}</span>
           <span className="w-16 text-sm font-regular text-gray-500">{views}</span>
-          <span className="flex gap-x-1">
-            <span className="h-7 w-7"></span>
-            <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
-          </span>
+          <CountdownTimer textSize="text-xl" iconSize={28} initialSeconds={timer} />
         </span>
       </div>
     </Link>
