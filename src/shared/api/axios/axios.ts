@@ -135,8 +135,6 @@ export const axiosDeletePost = async <T>(boardId: number, postId: number): Promi
   return await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
 };
 
-// [2025-06-11 이동규] 댓글 작성 추후 추가
-
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
@@ -146,6 +144,54 @@ export const axiosLike = async <T>(
   postId: number
 ): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+//#endregion
+
+//#region 댓글
+// 댓글 조회
+export const axiosGetComments = async <T>(
+  boardId: number,
+  postId: number,
+  accessToken: string | null,
+  page?: number,
+  size?: number
+): Promise<T> =>
+  (
+    await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+      params: { page: page, size: size },
+      headers: { jwt: `Bearer ${accessToken}` },
+    })
+  ).data;
+
+// 댓글 저장
+export const axiosWriteComment = async <T>(
+  boardId: number,
+  postId: number,
+  content: string
+): Promise<T> =>
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
+    .data;
+
+// 댓글 삭제
+export const axiosDeleteComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number
+): Promise<T> =>
+  (await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
+    .data;
+
+// 댓글 삭제
+export const axiosEditComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number,
+  updateContent: string
+): Promise<T> =>
+  (
+    await axiosInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      updateContent,
+    })
+  ).data;
 //#endregion
 
 //#region 검색
