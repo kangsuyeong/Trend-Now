@@ -1,11 +1,7 @@
-'use client';
-
 import { BookmarkButton, PostKebabButton } from '@/features/post';
-import { BOARD_MAP } from '@/shared/constants';
 import { PostDetail } from '@/shared/types';
 import { UserProfile28 } from '@/shared/ui';
 import dayjs from 'dayjs';
-import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   /**@param {number} postId 게시글 아이디 */
@@ -25,7 +21,7 @@ export default function Header({ postId, boardId, post }: HeaderProps) {
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
         <span className="flex flex-col gap-y-3">
-          <span className="text-lg font-semiBold text-gray-500">{boardName}게시판</span>
+          <span className="text-lg font-semiBold text-gray-500">임시 게시판</span>
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
