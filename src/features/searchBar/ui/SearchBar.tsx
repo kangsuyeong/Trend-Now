@@ -78,7 +78,7 @@ const SearchBar = () => {
 
   const onSubmit = () => {
     if (!keyword || keyword === queryKeyword) return; // 현재 value와 쿼리스트링이 같으면 실행 X
-    router.push(`/search/hotBoards?keyword=${keyword}`);
+    router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (
@@ -102,7 +102,7 @@ const SearchBar = () => {
           {suggestions.map((s) => (
             <li key={s.boardId} className="rounded-lg hover:bg-gray-100">
               <Link
-                href={`/search/hotBoards?keyword=${s.boardName}`}
+                href={`/search?keyword=${encodeURIComponent(s.boardName)}`}
                 className="block h-full w-full px-3 py-2 text-md"
               >
                 {highlightMatch(s.boardName, keyword)}

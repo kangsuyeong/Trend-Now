@@ -35,19 +35,16 @@ export const axiosTimeSync = async <T>(): Promise<T> =>
   (await axiosInstance.get('/api/v1/timeSync')).data;
 
 export const axiosHotBoardList = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/boards/list', { params: { page: page, size: size } })).data;
+  (await axiosInstance.get('/api/v1/boards/list', { params: { page, size } })).data;
 
-export const axiosConnectSSE = async <T>(clientId: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/subscribe', { params: { clientId: clientId } })).data;
+export const axiosConnectSSE = async <T>(clientId: string): Promise<T> =>
+  (await axiosInstance.get('/api/v1/subscribe', { params: { clientId } })).data;
 
-export const axiosDisconnectSSE = async <T>(clientId: number): Promise<T> =>
-  (
-    await axiosInstance.post('/api/v1/subscribe', JSON.stringify({ clientId }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ).data;
+export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
+  (await axiosInstance.post('/api/v1/subscribe', { clientId })).data;
+
+export const axiosHotBoardInfo = async <T>(boardId: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/boards/realtime', { params: { boardId } })).data;
 //#endregion
 
 //#region 로그인
@@ -134,7 +131,9 @@ export const axiosUpdatePost = async <T>(
   });
 };
 
-// [2025-06-11 이동규] 댓글 작성 추후 추가
+export const axiosDeletePost = async <T>(boardId: number, postId: number): Promise<T> => {
+  return await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
+};
 
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
@@ -147,7 +146,91 @@ export const axiosLike = async <T>(
   (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
 //#endregion
 
+//#region 댓글
+// 댓글 조회
+export const axiosGetComments = async <T>(
+  boardId: number,
+  postId: number,
+  accessToken: string | null,
+  page?: number,
+  size?: number
+): Promise<T> =>
+  (
+    await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+      params: { page: page, size: size },
+      headers: { jwt: `Bearer ${accessToken}` },
+    })
+  ).data;
+
+// 댓글 저장
+export const axiosWriteComment = async <T>(
+  boardId: number,
+  postId: number,
+  content: string
+): Promise<T> =>
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
+    .data;
+
+// 댓글 삭제
+export const axiosDeleteComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number
+): Promise<T> =>
+  (await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
+    .data;
+
+// 댓글 삭제
+export const axiosEditComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number,
+  updateContent: string
+): Promise<T> =>
+  (
+    await axiosInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      updateContent,
+    })
+  ).data;
+//#endregion
+
 //#region 검색
+// 실시간 게시판 목록 검색
+export const axiosSearchRealtimeBoards = async <T>(keyword: string): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/realtimeBoards`, {
+    params: { keyword },
+  });
+
+  return data;
+};
+
+// 실시간 게시판의 게시글 검색
+export const axiosSearchRealtimePosts = async <T>(
+  keyword: string,
+  page: number = 1,
+  size: number = 10
+): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/realtimePosts`, {
+    params: { keyword, page, size },
+  });
+
+  return data;
+};
+
+// 고정 게시판의 게시글 검색
+export const axiosSearchFixedBoardPosts = async <T>(
+  keyword: string,
+  boardId: number,
+  page: number = 1,
+  size: number = 10
+): Promise<T> => {
+  const { data } = await axiosInstance.get(`/api/v1/search/fixedPosts`, {
+    params: { keyword, boardId, page, size },
+  });
+
+  return data;
+};
+
 // 검색어 자동완성
 export const axiosGetAutocomplete = async <T>(keyword: string): Promise<T> => {
   const { data } = await axiosInstance.get('/api/v1/search/auto-complete', {
