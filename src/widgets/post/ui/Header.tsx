@@ -29,7 +29,7 @@ export default function Header({ postId, boardId, post }: HeaderProps) {
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
-          <BookmarkButton postId={postId} boardId={boardId} />
+          <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
           <PostKebabButton />
         </span>
       </div>

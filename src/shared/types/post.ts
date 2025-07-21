@@ -35,6 +35,7 @@ export interface PostDetail {
   modifiable: boolean;
   createdAt: string;
   updatedAt: string;
+  scraped: boolean;
 }
 
 export interface ImageInfo {

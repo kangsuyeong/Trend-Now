@@ -9,10 +9,12 @@ interface BookmarkButtonProps {
   postId: number;
   /**@param {number} postId 게시판 아이디 */
   boardId: number;
+  /**@param {boolean} scraped 북마크 여부 */
+  scraped?: boolean;
 }
 
-export default function BookmarkButton({ postId, boardId }: BookmarkButtonProps) {
-  const [isScraped, setIsScraped] = useState<boolean>(false);
+export default function BookmarkButton({ postId, boardId, scraped = false }: BookmarkButtonProps) {
+  const [isScraped, setIsScraped] = useState<boolean>(scraped);
 
   const { mutate } = useMutation({
     mutationFn: () => axiosScrapPost<PostScrapResponse>(boardId, postId),
