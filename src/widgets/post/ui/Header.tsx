@@ -13,10 +13,6 @@ interface HeaderProps {
 }
 
 export default function Header({ postId, boardId, post }: HeaderProps) {
-  const pathname = usePathname(); //  현재 URL 경로를 문자열로 가져옴
-  const boardType = pathname.split('/')[1] as keyof typeof BOARD_MAP; // 예: "/free/post/6" → "free"
-  const boardName = BOARD_MAP[boardType].name;
-
   return (
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
