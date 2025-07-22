@@ -20,7 +20,7 @@ interface MedalRowProps {
 
 export default function MedalRow({ boardId, rank, keyword, count, views, timer }: MedalRowProps) {
   return (
-    <Link href={`/hotBoard/${keyword}?boardId=${boardId}`}>
+    <Link href={`/hotboard/${boardId}`}>
       <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-x-4">
