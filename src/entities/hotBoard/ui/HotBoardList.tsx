@@ -1,6 +1,6 @@
 import React from 'react';
+import HotBoardListRow from './HotBoardListRow';
 import MedalRow from './MedalRow';
-import HotBoardListRow from './CurrentHotRow';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardList } from '@/shared/api';
 import { HotBoardResponse } from '@/shared/types';
