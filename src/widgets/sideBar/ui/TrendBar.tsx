@@ -3,30 +3,20 @@
 import Image from 'next/image';
 import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
-import { EventSource } from 'eventsource';
-import { connectSSE } from '../api';
-import { axiosDisconnectSSE, axiosRealtimeTop10 } from '@/shared/api';
-import { Top10, SignalKeyword, RankChangeType, RealtimeTop10Response } from '@/shared/types';
+import { axiosDisconnectSSE, axiosRealtimeTop10, SSE } from '@/shared/api';
+import { Top10, RankChangeType, RealtimeTop10Response } from '@/shared/types';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<Top10[]>();
   const today = new Date(Date.now());
 
   useEffect(() => {
-    let eventSource: EventSource;
-    let clientId: string;
-
-    (async () => {
-      const sseResponse = await connectSSE<SignalKeyword>({
-        onMessage: (data) => {
-          console.log(data.top10WithDiff);
-          setTop10(data.top10WithDiff);
-        },
-      });
-
-      eventSource = sseResponse.eventSource;
-      clientId = sseResponse.clientId;
-    })();
+    const { eventSource, clientId } = SSE.getInstance({
+      onKeywordList: (data) => {
+        console.log(data);
+        setTop10(data.top10WithDiff);
+      },
+    });
 
     return () => {
       eventSource?.close();

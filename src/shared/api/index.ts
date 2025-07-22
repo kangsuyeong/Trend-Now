@@ -27,6 +27,8 @@ import {
   axiosDeletePost,
 } from './axios/axios';
 
+import { SSE } from './sse/sse';
+
 export {
   axiosInstance,
   axiosGoogleAccessToken,
@@ -54,4 +56,5 @@ export {
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
   axiosDeletePost,
+  SSE,
 };
