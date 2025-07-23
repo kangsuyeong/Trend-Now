@@ -2,10 +2,11 @@ import { getSHA256 } from '@/shared/lib';
 import { SSEProps } from '@/shared/types';
 
 export class SSE {
+  private static instance: SSE;
   private static eventSource: EventSource;
   private static clientId: string;
 
-  private static init({ onKeywordList }: SSEProps) {
+  private constructor({ onKeywordList }: SSEProps) {
     const clientId = getSHA256(String(new Date().getMilliseconds()));
 
     console.log('clientId: ', clientId);
@@ -35,9 +36,13 @@ export class SSE {
 
   static getInstance({ onKeywordList }: SSEProps) {
     if (!SSE.eventSource) {
-      SSE.init({ onKeywordList });
+      SSE.instance = new SSE({ onKeywordList });
     }
 
+    return SSE.instance;
+  }
+
+  getEventSource() {
     return { eventSource: SSE.eventSource, clientId: SSE.clientId };
   }
 }
