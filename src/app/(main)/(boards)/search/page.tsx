@@ -12,7 +12,9 @@ export default async function Page({
     <div className="flex flex-col gap-10">
       <SearchHeader keyword={keyword} />
       <HotBoardsSection keyword={keyword} />
+      <div className="h-2 bg-gray-100" />
       <HotPostsSection keyword={keyword} />
+      <div className="h-2 bg-gray-100" />
       <FixedBoardsSection keyword={keyword} />
     </div>
   );
