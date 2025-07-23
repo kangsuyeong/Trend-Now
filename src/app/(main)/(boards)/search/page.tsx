@@ -9,7 +9,7 @@ export default async function Page({
   const { keyword } = await searchParams;
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 border-r border-gray-200 pr-8">
       <SearchHeader keyword={keyword} />
       <HotBoardsSection keyword={keyword} />
       <div className="h-2 bg-gray-100" />
