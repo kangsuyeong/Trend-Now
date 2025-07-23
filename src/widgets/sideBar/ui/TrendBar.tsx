@@ -11,14 +11,17 @@ export default function TrendBar() {
   const today = new Date(Date.now());
 
   useEffect(() => {
-    const { eventSource, clientId } = SSE.getInstance({
+    const sseInstance = SSE.getInstance({
       onKeywordList: (data) => {
         console.log(data);
         setTop10(data.top10WithDiff);
       },
     });
 
+    const { eventSource, clientId } = sseInstance.getEventSource();
+
     return () => {
+      console.log('SSE connection closed');
       eventSource?.close();
       (async () => await axiosDisconnectSSE(clientId))();
     };
