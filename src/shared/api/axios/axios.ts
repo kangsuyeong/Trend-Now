@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Zustand 스토어에서 현재 accessToken 가져오기
-    const token = useUserStore.getState().jwt;
+    const token = useUserStore.getState().accessToken;
     // accessToken이 존재할 경우, 요청 헤더에 Authorization 추가
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
