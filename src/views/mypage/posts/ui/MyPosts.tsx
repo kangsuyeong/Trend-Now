@@ -37,7 +37,8 @@ const MyPosts = () => {
             {data.postListDto.map((item, idx) => (
               <MyPostRow
                 key={idx}
-                id={idx}
+                boardId={item.boardId}
+                postId={item.postId}
                 title={item.title}
                 views={item.viewCount}
                 likes={item.likeCount}

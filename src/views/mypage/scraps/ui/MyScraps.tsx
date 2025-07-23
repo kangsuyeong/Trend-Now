@@ -35,7 +35,9 @@ const MyScraps = () => {
             {data.postListDto.map((item, idx) => (
               <MyScrapRow
                 key={idx}
-                board={item.boardIdName}
+                boardId={item.boardId}
+                postId={item.postId}
+                boardName={item.boardIdName}
                 title={item.title}
                 nickname={item.writer}
                 views={item.viewCount}
