@@ -13,12 +13,12 @@ export const useUserStore = create<UserState>()(
     (set) => ({
       jwt: null,
       memberId: null,
-      login: (jwt, memberId) => set({ jwt, memberId: memberId }),
+      login: (jwt, memberId) => set({ jwt, memberId }),
       logout: () => set({ jwt: null, memberId: null }),
     }),
     {
       name: 'userInfo',
-      partialize: (state) => ({ jwt: state.jwt, nickname: state.memberId }),
+      partialize: (state) => ({ jwt: state.jwt, memberId: state.memberId }),
     }
   )
 );

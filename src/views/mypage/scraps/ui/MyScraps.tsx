@@ -2,21 +2,17 @@
 
 import { PostsResponse } from '@/entities';
 import { axiosMyScraps } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { Pagination } from '@/shared/ui';
 import { MyScrapRow } from '@/widgets/mypage';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 const MyScraps = () => {
-  const { jwt } = useUserStore();
-
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myscraps', page, jwt],
-    queryFn: () => axiosMyScraps<PostsResponse>(jwt!, page, 20),
-    enabled: !!jwt,
+    queryKey: ['myscraps', page],
+    queryFn: () => axiosMyScraps<PostsResponse>(page, 20),
   });
 
   if (isLoading) {

@@ -1,20 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import { cva } from 'class-variance-authority';
-import { cn } from '@/shared/lib';
 import Link from 'next/link';
-
-const timerVariants = cva('text-2xl font-bold', {
-  variants: {
-    variant: {
-      blue: 'text-brand-500',
-      orange: 'text-point-500',
-      gray: 'text-gray-400',
-    },
-  },
-});
+import { CountdownTimer } from '@/shared/ui';
 
 interface MedalRowProps {
+  /**@param {number} boardId 게시판 ID */
+  boardId: number;
   /**@param {number} rank 순위 */
   rank: number;
   /**@param {string} keyword 검색어 */
@@ -27,15 +18,9 @@ interface MedalRowProps {
   timer: number;
 }
 
-export default function MedalRow({ rank, keyword, count, views, timer }: MedalRowProps) {
-  const variant = timer === 0 ? 'gray' : timer < 600 ? 'orange' : 'blue';
-  const min = Math.floor(timer / 60)
-    .toString()
-    .padStart(2, '0');
-  const sec = (timer % 60).toString().padStart(2, '0');
-
+export default function MedalRow({ boardId, rank, keyword, count, views, timer }: MedalRowProps) {
   return (
-    <Link href={`/hotBoard/keyword`}>
+    <Link href={`/hotboard/${boardId}`}>
       <div className="flex cursor-pointer flex-col gap-y-4 rounded-[1.25rem] bg-brand-100 p-4 hover:bg-[#EDF5FF]">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-x-4">
@@ -75,9 +60,8 @@ export default function MedalRow({ rank, keyword, count, views, timer }: MedalRo
           <span className="flex items-center gap-x-2">
             <span className="w-16 text-center text-md font-regular text-gray-500">{count}</span>
             <span className="w-16 text-center text-md font-regular text-gray-500">{views}</span>
-            <span className="flex gap-x-1">
-              <span className="h-8 w-8"></span>
-              <span className={cn(timerVariants({ variant }))}>{`${min}:${sec}`}</span>
+            <span className="flex w-[6.5rem]">
+              <CountdownTimer initialSeconds={timer} iconSize={32} textSize="text-2xl" />
             </span>
           </span>
         </div>

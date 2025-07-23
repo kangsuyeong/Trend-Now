@@ -3,7 +3,7 @@ import React from 'react';
 import { cn } from '@/shared/lib/';
 
 const inputFieldVariants = cva(
-  'border rounded-xl w-full font-light text-gray-800 focus:outline-none focus:border-gray-400',
+  'border rounded-xl w-full font-normal text-gray-800 focus:outline-none focus:border-gray-400',
   {
     variants: {
       variant: {

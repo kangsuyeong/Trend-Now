@@ -1,4 +1,9 @@
-import axiosInstance from './axios/axios';
+import axiosInstance, {
+  axiosDeleteComment,
+  axiosEditComment,
+  axiosGetComments,
+  axiosWriteComment,
+} from './axios/axios';
 import {
   axiosGoogleAccessToken,
   axiosKakaoAccessToken,
@@ -19,6 +24,12 @@ import {
   axiosUploadImages,
   axiosUploadPost,
   axiosUserProfile,
+  axiosHotBoardInfo,
+  axiosGetAutocomplete,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 } from './axios/axios';
 
 export {
@@ -42,4 +53,14 @@ export {
   axiosUploadImages,
   axiosUploadPost,
   axiosUserProfile,
+  axiosHotBoardInfo,
+  axiosGetAutocomplete,
+  axiosGetComments,
+  axiosWriteComment,
+  axiosDeleteComment,
+  axiosEditComment,
+  axiosUpdatePost,
+  axiosSearchRealtimeBoards,
+  axiosSearchRealtimePosts,
+  axiosDeletePost,
 };

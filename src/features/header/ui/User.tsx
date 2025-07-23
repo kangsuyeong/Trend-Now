@@ -3,16 +3,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Hamburger24, UserProfile28, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
-import { getUserInfo } from '../api';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
 import { UserProfile } from '@/entities';
+import { axiosUserProfile } from '@/shared/api';
 
 export default function User() {
   const router = useRouter();
 
-  const { jwt, logout } = useUserStore();
+  const { logout } = useUserStore();
 
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -57,9 +57,8 @@ export default function User() {
   }, [dropMenuOpen]);
 
   const { data } = useQuery<UserProfile>({
-    queryKey: ['userInfo', jwt],
-    queryFn: () => getUserInfo(jwt!),
-    enabled: !!jwt,
+    queryKey: ['userInfo'],
+    queryFn: () => axiosUserProfile(),
   });
 
   return (

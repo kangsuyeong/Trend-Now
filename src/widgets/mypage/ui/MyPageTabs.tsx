@@ -11,24 +11,21 @@ import { PostsResponse } from '@/entities';
 
 const MyPageTabs = () => {
   const pathname = usePathname().split('/');
-  const { jwt, memberId } = useUserStore();
+  const { memberId } = useUserStore();
 
   const results = useQueries({
     queries: [
       {
         queryKey: ['myposts', memberId],
-        queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
-        enabled: !!jwt,
+        queryFn: () => axiosMyPosts<PostsResponse>(),
       },
       {
         queryKey: ['mycomments', memberId],
-        queryFn: () => axiosMyPosts<PostsResponse>(jwt!),
-        enabled: !!jwt,
+        queryFn: () => axiosMyPosts<PostsResponse>(),
       },
       {
         queryKey: ['myscraps', memberId],
-        queryFn: () => axiosMyScraps<PostsResponse>(jwt!),
-        enabled: !!jwt,
+        queryFn: () => axiosMyScraps<PostsResponse>(),
       },
     ],
   });

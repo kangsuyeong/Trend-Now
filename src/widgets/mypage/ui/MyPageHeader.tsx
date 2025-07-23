@@ -2,18 +2,14 @@
 
 import { UserProfile } from '@/entities';
 import { axiosUserProfile } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { SecondaryButton, Settings20, UserProfile64 } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 const MyPageHeader = () => {
-  const { jwt } = useUserStore();
-
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['mypage'],
-    queryFn: () => axiosUserProfile<UserProfile>(jwt!),
-    enabled: !!jwt,
+    queryFn: () => axiosUserProfile<UserProfile>(),
   });
 
   return (

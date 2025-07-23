@@ -2,21 +2,17 @@
 
 import { PostsResponse } from '@/entities';
 import { axiosMyPosts } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { Pagination } from '@/shared/ui';
 import { MyPostRow } from '@/widgets/mypage';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 const MyPosts = () => {
-  const { jwt } = useUserStore();
-
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myposts', page, jwt],
-    queryFn: () => axiosMyPosts<PostsResponse>(jwt!, page, 20),
-    enabled: !!jwt,
+    queryKey: ['myposts', page],
+    queryFn: () => axiosMyPosts<PostsResponse>(page, 20),
   });
 
   if (isLoading) {
