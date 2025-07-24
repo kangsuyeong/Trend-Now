@@ -29,7 +29,7 @@ export default function HotBoardListRow({
   timer,
 }: HotBoardListRowProps) {
   return (
-    <Link href={`/hotBoard/${keyword}?boardId=${boardId}`}>
+    <Link href={`/hotboard/${boardId}`}>
       <div className="flex cursor-pointer items-center justify-between rounded-xl py-4 pl-2 pr-4 hover:bg-gray-100">
         <span className="flex items-center gap-x-3">
           <span className="h-7 w-7 text-center text-lg font-bold text-gray-800">{rank}</span>
