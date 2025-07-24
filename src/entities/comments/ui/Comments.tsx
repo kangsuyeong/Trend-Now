@@ -16,11 +16,11 @@ interface CommentsProps {
 }
 
 export default function Comments({ postId, boardId }: CommentsProps) {
-  const { jwt, memberId } = useUserStore();
+  const { accessToken, memberId } = useUserStore();
 
   const { data, refetch } = useQuery({
-    queryKey: ['comments', boardId, postId, jwt],
-    queryFn: () => axiosGetComments<CommentResponse>(boardId, postId, jwt, 1, 50),
+    queryKey: ['comments', boardId, postId, accessToken],
+    queryFn: () => axiosGetComments<CommentResponse>(boardId, postId, accessToken, 1, 50),
     enabled: !!boardId && !!postId,
     select: (data) => data.findAllCommentsDtos,
   });
