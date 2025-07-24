@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
 import { UserProfile } from '@/entities';
 import { axiosUserProfile } from '@/shared/api';
+import Link from 'next/link';
 
 export default function User() {
   const router = useRouter();
@@ -95,12 +96,11 @@ export default function User() {
               <UserProfile32 />
               {data.nickname}
             </span>
-            <span
-              className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800"
-              onClick={() => router.push('/mypage')}
-            >
-              마이페이지
-            </span>
+            <Link href="/mypage">
+              <span className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800">
+                마이페이지
+              </span>
+            </Link>
             <span
               className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800"
               onClick={() => {
