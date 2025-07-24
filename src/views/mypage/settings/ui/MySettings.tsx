@@ -3,15 +3,17 @@
 import { axiosDeleteUser } from '@/shared/api';
 import { DeleteAccountButton, ReferralCodeSection } from '@/widgets/mypage';
 import { useMutation } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const MySettings = () => {
+  const router = useRouter();
+
   const { mutate } = useMutation({
     mutationKey: ['deleteUser'],
     mutationFn: axiosDeleteUser,
     onSuccess: () => {
-      redirect('/home');
+      router.push('/home');
     },
     onError: () => {
       alert('회원 탈퇴 과정에 오류가 있었습니다. 다시 시도해주세요.');
