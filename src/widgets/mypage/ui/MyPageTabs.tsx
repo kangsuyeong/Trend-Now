@@ -9,35 +9,33 @@ import { useUserStore } from '@/shared/store';
 import { axiosMyPosts, axiosMyScraps } from '@/shared/api';
 import { PostsResponse } from '@/entities';
 
+const tabQueries = {
+  posts: () => axiosMyPosts<PostsResponse>(),
+  comments: () => axiosMyPosts<PostsResponse>(),
+  scraps: () => axiosMyScraps<PostsResponse>(),
+};
+
 const MyPageTabs = () => {
   const pathname = usePathname().split('/');
   const { memberId } = useUserStore();
 
+  const queryKeys = Object.keys(tabQueries);
+
   const results = useQueries({
-    queries: [
-      {
-        queryKey: ['myposts', memberId],
-        queryFn: () => axiosMyPosts<PostsResponse>(),
-      },
-      {
-        queryKey: ['mycomments', memberId],
-        queryFn: () => axiosMyPosts<PostsResponse>(),
-      },
-      {
-        queryKey: ['myscraps', memberId],
-        queryFn: () => axiosMyScraps<PostsResponse>(),
-      },
-    ],
+    queries: queryKeys.map((key) => ({
+      queryKey: [key, memberId],
+      queryFn: tabQueries[key as keyof typeof tabQueries],
+    })),
   });
 
   return (
     <ul className="flex gap-5 px-4">
-      {Object.entries(mypageTabs).map((tab) => {
+      {Object.entries(mypageTabs).map((tab, idx) => {
         const href = tab[0];
         const isActive = pathname[pathname.length - 1] === tab[0];
 
         return (
-          <li key={tab[1].label}>
+          <li key={href}>
             <Link
               href={`/mypage/${href}`}
               className={cn(
@@ -46,25 +44,11 @@ const MyPageTabs = () => {
               )}
             >
               <span>{tab[1].label}</span>
-              {tab[0] === 'posts'
-                ? !results[0].isLoading && (
-                    <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                      {results[0].data?.postListDto.length}
-                    </span>
-                  )
-                : tab[0] === 'comments'
-                  ? !results[1].isLoading && (
-                      <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                        {results[1].data?.postListDto.length}
-                      </span>
-                    )
-                  : tab[0] === 'scraps'
-                    ? !results[2].isLoading && (
-                        <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                          {results[2].data?.postListDto.length}
-                        </span>
-                      )
-                    : null}
+              {idx != 3 && (
+                <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
+                  {results[idx].data?.postListDto.length}
+                </span>
+              )}
             </Link>
           </li>
         );
