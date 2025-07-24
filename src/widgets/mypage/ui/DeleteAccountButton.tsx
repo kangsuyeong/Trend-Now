@@ -3,7 +3,7 @@ import React from 'react';
 
 interface DeleteAccountButtonProps {
   /**@param {() => void} onClick 클릭 시 실행할 함수 */
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 // 회원탈퇴 버튼
