@@ -1,7 +1,7 @@
 'use client';
 
 import { axiosDeleteUser } from '@/shared/api';
-import { DeleteAccountButton, ReferralCodeSection } from '@/widgets/mypage';
+import { DeleteAccountButton } from '@/widgets/mypage';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -30,7 +30,7 @@ const MySettings = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <ReferralCodeSection />
+      {/* <ReferralCodeSection /> */}
       <div className="flex justify-end">
         <DeleteAccountButton onClick={handleDeleteAccount} />
       </div>
