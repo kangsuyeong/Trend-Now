@@ -10,10 +10,10 @@ interface BookmarkButtonProps {
   /**@param {number} postId 게시판 아이디 */
   boardId: number;
   /**@param {boolean} scraped 북마크 여부 */
-  scraped?: boolean;
+  scraped: boolean;
 }
 
-export default function BookmarkButton({ postId, boardId, scraped = false }: BookmarkButtonProps) {
+export default function BookmarkButton({ postId, boardId, scraped }: BookmarkButtonProps) {
   const [isScraped, setIsScraped] = useState<boolean>(scraped);
 
   const { mutate } = useMutation({
