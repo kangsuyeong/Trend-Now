@@ -5,7 +5,10 @@ import Link from 'next/link';
 const HotBoardSearchListRow = ({ board }: { board: RealtimeBoard }) => {
   return (
     <div className="flex h-14 items-center justify-between pl-2 pr-4">
-      <Link href={'/'} className="text-lg font-semiBold text-gray-800 hover:underline">
+      <Link
+        href={`/hotboard/${board.boardId}`}
+        className="text-lg font-semiBold text-gray-800 hover:underline"
+      >
         {board.boardName}
       </Link>
       <div className="flex items-center gap-x-2 text-center text-sm font-regular text-gray-500">
