@@ -12,12 +12,15 @@ export default function HotPostsSearchListRow({ post }: HotPostsSearchListRowPro
     <div className="flex h-20 items-center justify-between gap-x-2 px-2">
       <div className="flex flex-col gap-y-1">
         {/* 게시판 이름 */}
-        <Link href={'/'} className="text-xs font-medium text-brand-500">
+        <Link href={`/hotboard/${post.boardId}`} className="text-xs font-medium text-brand-500">
           {post.boardName}
         </Link>
         {/* 게시물 이름 */}
         <div className="flex items-center gap-x-1.5">
-          <Link href={'/'} className="text-md font-semiBold text-gray-800 hover:underline">
+          <Link
+            href={`/hotboard/${post.boardId}/post/${post.postId}`}
+            className="text-md font-semiBold text-gray-800 hover:underline"
+          >
             {post.title}
           </Link>
           <div className="text-xs text-gray-500">[{post.commentCount.toLocaleString()}]</div>
