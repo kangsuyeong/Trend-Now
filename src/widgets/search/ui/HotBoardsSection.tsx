@@ -18,10 +18,10 @@ const HotBoardsSection = ({ keyword }: HotBoardsSectionProps) => {
   if (!boards) return;
 
   return (
-    <div className="flex flex-col gap-y-5">
+    <section aria-label="실시간 인기 게시판 목록" className="flex flex-col gap-y-5">
       <SearchSectionTitle title="실시간 인기 게시판" count={boards.length} />
       <HotBoardSearchList boards={boards} />
-    </div>
+    </section>
   );
 };
 

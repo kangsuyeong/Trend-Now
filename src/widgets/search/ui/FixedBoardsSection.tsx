@@ -65,7 +65,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
   }[currentTab];
 
   return (
-    <div className="flex flex-col gap-5">
+    <section aria-label="고정 게시판 게시글 목록" className="flex flex-col gap-5">
       <SearchSectionTitle title="고정 게시판" count={totalCount} />
       <SearchTypeTabs tabs={tabs} currentTab={currentTab} onTabChange={setCurrentTab} />
       {postData.postList.length === 0 ? (
@@ -84,7 +84,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
           />
         </>
       )}
-    </div>
+    </section>
   );
 };
 
