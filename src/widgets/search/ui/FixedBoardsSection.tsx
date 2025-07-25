@@ -75,13 +75,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
         />
       ) : (
         <>
-          <BoardList
-            posts={postData.postList}
-            totalCount={postData.totalCount}
-            page={page}
-            basePath={`/${currentTab}`}
-            showNumber={false}
-          />
+          <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
           <Pagination
             currentPage={page}
             maxPage={postData.totalPageCount}

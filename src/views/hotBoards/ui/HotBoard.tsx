@@ -100,12 +100,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        <BoardList
-          posts={posts.postsListDto}
-          totalCount={posts.totalCount}
-          page={1}
-          basePath={`/hotboard/${boardId}`}
-        />
+        <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
         <Pagination
           currentPage={page}
           maxPage={posts.totalPageCount || 1}
