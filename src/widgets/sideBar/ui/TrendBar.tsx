@@ -4,21 +4,22 @@ import Image from 'next/image';
 import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
 import { axiosDisconnectSSE, axiosRealtimeTop10, SSE } from '@/shared/api';
-import { Top10, RankChangeType, RealtimeTop10Response } from '@/shared/types';
+import { Top10, RankChangeType, RealtimeTop10Response, SignalKeyword } from '@/shared/types';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<Top10[]>();
   const today = new Date(Date.now());
 
   useEffect(() => {
-    const sseInstance = SSE.getInstance({
-      onKeywordList: (data) => {
-        console.log(data);
-        setTop10(data.top10WithDiff);
-      },
-    });
+    const sseInstance = SSE.getInstance();
 
     const { eventSource, clientId } = sseInstance.getEventSource();
+
+    eventSource.addEventListener('signalKeywordList', (e) => {
+      const data: SignalKeyword = JSON.parse(e.data);
+      console.log('TrendBar', data);
+      setTop10(data.top10WithDiff);
+    });
 
     return () => {
       console.log('SSE connection closed');
