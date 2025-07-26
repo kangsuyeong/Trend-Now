@@ -96,10 +96,11 @@ export default function User() {
               <UserProfile32 />
               {data.nickname}
             </span>
-            <Link href="/mypage">
-              <span className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800">
-                마이페이지
-              </span>
+            <Link
+              href="/mypage"
+              className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800"
+            >
+              마이페이지
             </Link>
             <span
               className="flex h-11 w-full cursor-pointer items-center rounded-lg p-2 text-base font-medium text-gray-800"
