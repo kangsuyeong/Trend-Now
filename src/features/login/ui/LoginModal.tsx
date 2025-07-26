@@ -21,16 +21,20 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
     e.stopPropagation();
   };
 
+  const encodedUri = encodeURIComponent(
+    `http://localhost:3000/oauth/redirect?redirectPath=${pathname}`
+  );
+
   const googleLogin = async () => {
-    window.location.href = `https://api.trendnow.me/oauth2/authorization/google?redirect_url=https://www.trendnow.me${pathname}`;
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/google?redirect_url=${encodedUri}`;
   };
 
   const kakaoLogin = async () => {
-    window.location.href = `https://api.trendnow.me/oauth2/authorization/kakao?redirect_url=https://www.trendnow.me${pathname}`;
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/kakao?redirect_url=${encodedUri}`;
   };
 
   const naverLogin = async () => {
-    window.location.href = `https://api.trendnow.me/oauth2/authorization/naver?redirect_url=https://www.trendnow.me${pathname}`;
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/naver?redirect_url=${encodedUri}`;
   };
 
   return (

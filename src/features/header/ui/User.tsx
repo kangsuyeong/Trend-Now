@@ -5,12 +5,13 @@ import { Hamburger24, UserProfile28, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
 import { useQuery } from '@tanstack/react-query';
 import { UserProfile } from '../types';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
 import { axiosUserProfile } from '@/shared/api';
 
 export default function User() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const { logout } = useUserStore();
 
@@ -105,7 +106,7 @@ export default function User() {
 
                 if (confirmSignout) {
                   logout();
-                  router.refresh();
+                  router.replace(pathname);
                 }
               }}
             >
