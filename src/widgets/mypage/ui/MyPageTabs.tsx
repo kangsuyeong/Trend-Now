@@ -3,35 +3,50 @@
 import { cn } from '@/shared/lib';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { mypageTabs } from '../const';
+import { useQueries } from '@tanstack/react-query';
+import { useUserStore } from '@/shared/store';
+import { axiosMyPosts, axiosMyScraps } from '@/shared/api';
+import { PostsResponse } from '@/entities';
 
-const tabs = [
-  { name: '내가 작성한 게시글', path: '/mypage/posts', count: 31 },
-  { name: '내가 작성한 댓글', path: '/mypage/comments', count: 16 },
-  { name: '스크랩한 게시글', path: '/mypage/scraps', count: 4 },
-  { name: '설정', path: '/mypage/settings' },
-];
+const tabQueries = {
+  posts: () => axiosMyPosts<PostsResponse>(),
+  comments: () => axiosMyPosts<PostsResponse>(),
+  scraps: () => axiosMyScraps<PostsResponse>(),
+};
 
 const MyPageTabs = () => {
-  const pathname = usePathname();
+  const pathname = usePathname().split('/');
+  const { memberId } = useUserStore();
+
+  const queryKeys = Object.keys(tabQueries);
+
+  const results = useQueries({
+    queries: queryKeys.map((key) => ({
+      queryKey: [key, memberId],
+      queryFn: tabQueries[key as keyof typeof tabQueries],
+    })),
+  });
+
   return (
     <ul className="flex gap-5 px-4">
-      {tabs.map((tab) => {
-        const href = tab.path;
-        const isActive = pathname.startsWith(href);
+      {Object.entries(mypageTabs).map((tab, idx) => {
+        const href = tab[0];
+        const isActive = pathname[pathname.length - 1] === tab[0];
 
         return (
-          <li key={tab.name}>
+          <li key={href}>
             <Link
-              href={href}
+              href={`/mypage/${href}`}
               className={cn(
                 'flex items-center gap-2 px-3 pb-2 text-base font-bold transition-colors duration-200',
                 isActive ? 'border-b-2 border-gray-800 text-gray-800' : 'text-gray-400'
               )}
             >
-              <span>{tab.name}</span>
-              {tab.count !== undefined && (
+              <span>{tab[1].label}</span>
+              {idx != 3 && (
                 <span className={cn(isActive ? 'text-brand-500' : 'text-gray-400')}>
-                  {tab.count}
+                  {results[idx].data?.postListDto.length}
                 </span>
               )}
             </Link>
@@ -43,5 +58,3 @@ const MyPageTabs = () => {
 };
 
 export default MyPageTabs;
-
-// transition-colors duration-200

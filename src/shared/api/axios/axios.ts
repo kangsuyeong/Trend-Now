@@ -86,11 +86,11 @@ export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
 export const axiosDeleteUser = async <T>(): Promise<T> =>
   (await axiosInstance.delete('/api/v1/member/me')).data;
 
-export const axiosMyScraps = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/scrap')).data;
+export const axiosMyScraps = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/scrap', { params: { page, size } })).data;
 
-export const axiosMyPosts = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/posts')).data;
+export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
 //#endregion
 
 //#region 게시판

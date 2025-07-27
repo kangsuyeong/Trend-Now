@@ -1,8 +1,32 @@
-// import { Pagination } from '@/shared/ui';
+'use client';
+
+import { PostsResponse } from '@/entities';
+import { axiosMyPosts } from '@/shared/api';
+import { Pagination } from '@/shared/ui';
 import { MyCommentRow } from '@/widgets/mypage';
-import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 
 const MyComments = () => {
+  const [page, setPage] = useState<number>(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['myposts', page],
+    queryFn: () => axiosMyPosts<PostsResponse>(page, 20),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || data.postListDto.length === 0) {
+    return (
+      <div className="flex h-[25rem] items-center justify-center rounded-[1.25rem] bg-gray-100">
+        <span className="text-sm font-medium text-gray-500">작성한 댓글이 없습니다.</span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6">
       {/* 게시물 */}
@@ -14,14 +38,19 @@ const MyComments = () => {
         {new Array(20).fill(0).map((_, idx) => (
           <MyCommentRow
             key={idx}
-            title={'게시판 제목'}
-            comment={'댓글 내용적어요'}
-            created={new Date()}
+            title="게시판 제목"
+            comment="댓글 내용적어요"
+            created="2025-06-25"
           />
         ))}
       </div>
       {/* 페이지네이션 */}
-      {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
+      <Pagination
+        currentPage={page}
+        maxPage={data.totalPageCount || 1}
+        count={5}
+        setPage={setPage}
+      />
     </div>
   );
 };

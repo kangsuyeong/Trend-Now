@@ -1,8 +1,32 @@
-// import { Pagination } from '@/shared/ui';
+'use client';
+
+import { PostsResponse } from '@/entities';
+import { axiosMyPosts } from '@/shared/api';
+import { Pagination } from '@/shared/ui';
 import { MyPostRow } from '@/widgets/mypage';
-import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 
 const MyPosts = () => {
+  const [page, setPage] = useState<number>(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['myposts', page],
+    queryFn: () => axiosMyPosts<PostsResponse>(page, 20),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || data.postListDto.length === 0) {
+    return (
+      <div className="flex h-[25rem] items-center justify-center rounded-[1.25rem] bg-gray-100">
+        <span className="text-sm font-medium text-gray-500">작성한 게시글이 없습니다.</span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6">
       {/* 목차 / 게시물 */}
@@ -18,20 +42,26 @@ const MyPosts = () => {
             <div className="w-12">일자</div>
           </div>
         </div>
-        {new Array(20).fill(0).map((_, idx) => (
+        {data.postListDto.map((item, idx) => (
           <MyPostRow
             key={idx}
-            id={idx}
-            title={'간천지지냐 설마! 디씨하는 한국인이 ㅋㄱㄱ'}
-            views={125}
-            likes={2324}
-            created={new Date()}
-            comments={123}
+            boardId={item.boardId}
+            postId={item.postId}
+            title={item.title}
+            views={item.viewCount}
+            likes={item.likeCount}
+            created={item.updatedAt}
+            comments={item.commentCount}
           />
         ))}
       </div>
       {/* 페이지네이션 */}
-      {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
+      <Pagination
+        currentPage={page}
+        maxPage={data.totalPageCount || 1}
+        count={5}
+        setPage={setPage}
+      />
     </div>
   );
 };
