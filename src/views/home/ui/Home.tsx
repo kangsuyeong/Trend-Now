@@ -1,11 +1,22 @@
 'use client';
 
+import { useUserStore } from '@/shared/store';
 import { DateDivider } from '@/shared/ui';
 import { HotBoardList, SortChip, SortChipItem } from '@/widgets/hotBoards';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Home() {
   // const ads = ['/images/ad1.png', '/images/ad1.png', '/images/ad1.png'];
+
+  useEffect(() => {
+    useUserStore
+      .getState()
+      .login(
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNSIsImlhdCI6MTc1MzU3NTIyNSwiZXhwIjoxNzUzNzU1MjI1fQ.QDWc6dEeMsGi8Y_q3tXQgE0dVrCLyPUe-cKRLhSFV-9TFrYctrX7pELYUGX9J1kDBDbHj6AvHEUeqpE4-sX-Rw',
+        123
+      );
+  }, []);
 
   return (
     <div className="flex flex-col gap-y-12 border-r border-gray-200 bg-white pr-8">

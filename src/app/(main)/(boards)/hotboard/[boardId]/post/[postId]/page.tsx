@@ -7,5 +7,5 @@ export default async function Page({
 }) {
   const { boardId, postId } = await params;
 
-  return <Post postId={Number(postId)} boardId={Number(boardId)} />;
+  return <Post postId={Number(postId)} boardId={Number(boardId)} isHotBoard />;
 }

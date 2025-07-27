@@ -1,3 +1,4 @@
+import { BoardName } from '@/entities/board';
 import { DateDivider, Pencil24, PrimaryButton } from '@/shared/ui';
 import Link from 'next/link';
 
@@ -14,7 +15,7 @@ const BoardHeader = ({ boardId }: BoardHeaderProps) => {
           이곳은 타이머 없는 이야기의 공간입니다. 누구나, 무엇이든 이야기 해보세요.
         </div>
         <div className="flex items-end justify-between">
-          <div className="text-3xl font-bold text-gray-800">임시 게시판</div>
+          <BoardName boardId={boardId} className="text-3xl font-bold text-gray-800" />
           <Link href={`/board/${boardId}/write`}>
             <PrimaryButton variant="primary" size="m" className="pl-4">
               <span className="flex items-center gap-x-1.5">
