@@ -9,9 +9,9 @@ const MenuBar = () => {
   const pathname = usePathname();
 
   const menus = [
-    { name: '자유게시판', path: '/free' },
-    { name: '정치게시판', path: '/politics' },
-    { name: '연예게시판', path: '/entertain' },
+    { name: '자유게시판', path: '/board/1814' },
+    { name: '정치게시판', path: '/board/1815' },
+    { name: '연예게시판', path: '/board/1816' },
   ];
 
   return (

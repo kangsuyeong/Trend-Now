@@ -19,23 +19,21 @@ import { HotBoardInfoResponse, PostListResponse } from '@/shared/types';
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
   boardId: number;
-  /**@param {string} keyword 인기 검색어 키워드 */
-  keyword: string;
 }
 
-export default function HotBoard({ boardId, keyword }: HotBoardProps) {
+export default function HotBoard({ boardId }: HotBoardProps) {
   const router = useRouter();
   const path = usePathname();
 
   const [page, setPage] = useState<number>(1);
 
   const { data: posts } = useQuery({
-    queryKey: ['hotBoardPosts', keyword, boardId, page],
+    queryKey: ['hotBoardPosts', boardId, page],
     queryFn: () => axiosPosts<PostListResponse>(boardId, page, 20),
   });
 
   const { data: boardInfo } = useQuery({
-    queryKey: ['hotBoardInfo', keyword, boardId],
+    queryKey: ['hotBoardInfo', boardId],
     queryFn: () => axiosHotBoardInfo<HotBoardInfoResponse>(boardId),
     refetchOnMount: true,
   });
@@ -60,7 +58,7 @@ export default function HotBoard({ boardId, keyword }: HotBoardProps) {
                   unoptimized
                   className="aspect-square object-cover"
                 />
-                <span className="text-3xl font-bold text-gray-800">{keyword}</span>
+                <span className="text-3xl font-bold text-gray-800">{boardInfo.boardName}</span>
               </span>
             </span>
             <span className="flex flex-col items-end gap-y-2">
@@ -102,12 +100,7 @@ export default function HotBoard({ boardId, keyword }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        <BoardList
-          posts={posts.postsListDto}
-          totalCount={posts.totalCount}
-          page={1}
-          basePath={`/hotBoard/${keyword}`}
-        />
+        <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
         <Pagination
           currentPage={page}
           maxPage={posts.totalPageCount || 1}

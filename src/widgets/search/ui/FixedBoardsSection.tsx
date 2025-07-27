@@ -65,7 +65,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
   }[currentTab];
 
   return (
-    <div className="flex flex-col gap-5">
+    <section aria-label="고정 게시판 게시글 목록" className="flex flex-col gap-5">
       <SearchSectionTitle title="고정 게시판" count={totalCount} />
       <SearchTypeTabs tabs={tabs} currentTab={currentTab} onTabChange={setCurrentTab} />
       {postData.postList.length === 0 ? (
@@ -75,13 +75,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
         />
       ) : (
         <>
-          <BoardList
-            posts={postData.postList}
-            totalCount={postData.totalCount}
-            page={page}
-            basePath={`/${currentTab}`}
-            showNumber={false}
-          />
+          <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
           <Pagination
             currentPage={page}
             maxPage={postData.totalPageCount}
@@ -90,7 +84,7 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
           />
         </>
       )}
-    </div>
+    </section>
   );
 };
 

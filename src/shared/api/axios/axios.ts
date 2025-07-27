@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Zustand 스토어에서 현재 accessToken 가져오기
-    const token = useUserStore.getState().jwt;
+    const token = useUserStore.getState().accessToken;
     // accessToken이 존재할 경우, 요청 헤더에 Authorization 추가
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -86,11 +86,11 @@ export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
 export const axiosDeleteUser = async <T>(): Promise<T> =>
   (await axiosInstance.delete('/api/v1/member/me')).data;
 
-export const axiosMyScraps = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/scrap')).data;
+export const axiosMyScraps = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/scrap', { params: { page, size } })).data;
 
-export const axiosMyPosts = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/posts')).data;
+export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
 //#endregion
 
 //#region 게시판
@@ -135,8 +135,6 @@ export const axiosDeletePost = async <T>(boardId: number, postId: number): Promi
   return await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
 };
 
-// [2025-06-11 이동규] 댓글 작성 추후 추가
-
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
@@ -146,6 +144,54 @@ export const axiosLike = async <T>(
   postId: number
 ): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+//#endregion
+
+//#region 댓글
+// 댓글 조회
+export const axiosGetComments = async <T>(
+  boardId: number,
+  postId: number,
+  accessToken: string | null,
+  page?: number,
+  size?: number
+): Promise<T> =>
+  (
+    await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+      params: { page: page, size: size },
+      headers: { jwt: `Bearer ${accessToken}` },
+    })
+  ).data;
+
+// 댓글 저장
+export const axiosWriteComment = async <T>(
+  boardId: number,
+  postId: number,
+  content: string
+): Promise<T> =>
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
+    .data;
+
+// 댓글 삭제
+export const axiosDeleteComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number
+): Promise<T> =>
+  (await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
+    .data;
+
+// 댓글 삭제
+export const axiosEditComment = async <T>(
+  boardId: number,
+  postId: number,
+  commentId: number,
+  updateContent: string
+): Promise<T> =>
+  (
+    await axiosInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      updateContent,
+    })
+  ).data;
 //#endregion
 
 //#region 검색

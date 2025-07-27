@@ -1,22 +1,14 @@
-'use client';
-
 import { BookmarkButton, PostKebabButton } from '@/features/post';
-import { BOARD_MAP } from '@/shared/constants';
 import { PostDetail } from '@/shared/types';
 import { UserProfile28 } from '@/shared/ui';
 import dayjs from 'dayjs';
-import { usePathname } from 'next/navigation';
 
 export default function Header({ post }: { post: PostDetail }) {
-  const pathname = usePathname(); //  현재 URL 경로를 문자열로 가져옴
-  const boardType = pathname.split('/')[1] as keyof typeof BOARD_MAP; // 예: "/free/post/6" → "free"
-  const boardName = BOARD_MAP[boardType].name;
-
   return (
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
         <span className="flex flex-col gap-y-3">
-          <span className="text-lg font-semiBold text-gray-500">{boardName}게시판</span>
+          <span className="text-lg font-semiBold text-gray-500">임시 게시판</span>
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">

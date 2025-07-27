@@ -1,18 +1,19 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { Delete, Write } from './icons';
 import { Dropdownmenu, Kebab32 } from '@/shared/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosDeletePost } from '@/shared/api';
-import { BOARD_MAP } from '@/shared/constants';
-import type { BoardType } from '@/shared/types';
 
 export default function PostKebabButton() {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { board, postId } = useParams();
-  const boardId = BOARD_MAP[board as BoardType].id;
+  const pathname = usePathname();
+  const boardId = useParams().boardId!;
+  const postId = useParams().postId!;
+
+  const boardPrefix = pathname.split('/')[1];
 
   const { mutate: deletePost } = useMutation({
     mutationFn: ({ boardId, postId }: { boardId: number; postId: number }) =>
@@ -22,7 +23,7 @@ export default function PostKebabButton() {
       queryClient.invalidateQueries({
         queryKey: ['posts', boardId, 1],
       });
-      router.push(`/${board}`);
+      router.push(`/${boardPrefix}/${boardId}`);
     },
     onError: () => {
       alert('삭제 실패');
@@ -31,12 +32,12 @@ export default function PostKebabButton() {
 
   // 편집 로직
   const handleEdit = () => {
-    router.push(`/${board}/post/${postId}/edit`);
+    router.push(`/${boardPrefix}/${boardId}/post/${postId}/edit`);
   };
 
   // 삭제 로직
   const handleDelete = () => {
-    deletePost({ boardId, postId: Number(postId as string) });
+    deletePost({ boardId: Number(boardId), postId: Number(postId) });
   };
   return (
     <Dropdownmenu

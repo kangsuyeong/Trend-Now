@@ -2,23 +2,23 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface UserState {
-  jwt: string | null;
+  accessToken: string | null;
   memberId: number | null;
-  login: (jwt: string, memberId: number) => void;
+  login: (accessToken: string, memberId: number) => void;
   logout: () => void;
 }
 
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      jwt: null,
+      accessToken: null,
       memberId: null,
-      login: (jwt, memberId) => set({ jwt, memberId: memberId }),
-      logout: () => set({ jwt: null, memberId: null }),
+      login: (accessToken, memberId) => set({ accessToken, memberId }),
+      logout: () => set({ accessToken: null, memberId: null }),
     }),
     {
       name: 'userInfo',
-      partialize: (state) => ({ jwt: state.jwt, nickname: state.memberId }),
+      partialize: (state) => ({ accessToken: state.accessToken, memberId: state.memberId }),
     }
   )
 );
