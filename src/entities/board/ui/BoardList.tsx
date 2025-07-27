@@ -1,27 +1,16 @@
 import { PostInfo } from '@/shared/types';
 import BoardRow from './BoardRow';
-import { BOARD_PAGE_SIZE } from '@/shared/constants';
 
 interface BoardListProps {
   /** 전체 게시글 정보 */
   posts: PostInfo[];
-  /** 전체 게시물 수 */
-  totalCount: number;
-  /** 현재 페이지 */
-  page: number;
   /** 링크 prefix 명시 */
   basePath: string;
   /** 번호 표시 여부 (기본값 true) */
   showNumber?: boolean;
 }
 
-export default function BoardList({
-  posts,
-  totalCount,
-  page,
-  basePath,
-  showNumber,
-}: BoardListProps) {
+export default function BoardList({ posts, basePath, showNumber }: BoardListProps) {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex justify-between gap-2 border-b border-gray-200 px-2 pb-3 text-center text-sm text-gray-500">
@@ -52,18 +41,9 @@ export default function BoardList({
           />
         ))} */}
 
-      {posts.map((post, index) => {
-        const postNumber = totalCount - (page - 1) * BOARD_PAGE_SIZE - index;
-        return (
-          <BoardRow
-            key={post.postId}
-            post={post}
-            postNumber={postNumber}
-            basePath={basePath}
-            showNumber={showNumber}
-          />
-        );
-      })}
+      {posts.map((post) => (
+        <BoardRow key={post.postId} post={post} basePath={basePath} showNumber={showNumber} />
+      ))}
     </div>
   );
 }
