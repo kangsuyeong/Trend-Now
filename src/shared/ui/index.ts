@@ -4,7 +4,8 @@ import { DropdownChip, DropdownChipItem } from './buttons/DropdownChip';
 import Pagination from './pagination/Pagination';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
-import Dropdownmenu from './buttons/Dropdownmenu';
+import DropdownMenu from './buttons/DropdownMenu';
+import DropdownMenuItem from './buttons/DropdownMenuItem';
 
 /** Dividers */
 import DateDivider from './divider/DateDivider';
@@ -57,7 +58,8 @@ export {
   Pagination,
   PrimaryButton,
   SecondaryButton,
-  Dropdownmenu,
+  DropdownMenu,
+  DropdownMenuItem,
   DateDivider,
   InformationOutlined16,
   Comment18,

@@ -2,7 +2,7 @@
 
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { Delete, Write } from './icons';
-import { Dropdownmenu, Kebab32 } from '@/shared/ui';
+import { DropdownMenu, DropdownMenuItem, Kebab32 } from '@/shared/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosDeletePost } from '@/shared/api';
 
@@ -40,32 +40,21 @@ export default function PostKebabButton() {
     deletePost({ boardId: Number(boardId), postId: Number(postId) });
   };
   return (
-    <Dropdownmenu
+    <DropdownMenu
       trigger={
         <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200">
           <Kebab32 className="text-gray-500" />
         </span>
       }
-      items={[
-        {
-          content: (
-            <>
-              <Write />
-              <span>게시글 수정</span>
-            </>
-          ),
-          onClick: handleEdit,
-        },
-        {
-          content: (
-            <>
-              <Delete />
-              <span className="text-negative">게시글 삭제</span>
-            </>
-          ),
-          onClick: handleDelete,
-        },
-      ]}
-    />
+    >
+      <DropdownMenuItem onClick={handleEdit}>
+        <Write />
+        게시물 수정
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={handleDelete} className="text-negative">
+        <Delete />
+        게시물 삭제
+      </DropdownMenuItem>
+    </DropdownMenu>
   );
 }
