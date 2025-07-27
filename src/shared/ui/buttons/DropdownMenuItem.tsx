@@ -12,12 +12,7 @@ interface DropdownMenuItemProps {
   className?: string;
 }
 
-export default function DropdownMenuItem({
-  children,
-
-  onClick,
-  className,
-}: DropdownMenuItemProps) {
+export default function DropdownMenuItem({ children, onClick, className }: DropdownMenuItemProps) {
   return (
     <li>
       <button
