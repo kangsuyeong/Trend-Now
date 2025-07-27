@@ -11,7 +11,7 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      accessToken: '',
+      accessToken: null,
       memberId: null,
       login: (accessToken, memberId) => set({ accessToken, memberId }),
       logout: () => set({ accessToken: null, memberId: null }),
