@@ -4,16 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Hamburger24, UserProfile28, UserProfile32 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
 import { useQuery } from '@tanstack/react-query';
-import { UserProfile } from '../types';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
-import { UserProfile } from '@/entities';
 import { axiosUserProfile } from '@/shared/api';
 import Link from 'next/link';
+import { UserProfile } from '@/shared/types';
 
 export default function User() {
   const router = useRouter();
-  const pathname = usePathname();
 
   const { logout } = useUserStore();
 
