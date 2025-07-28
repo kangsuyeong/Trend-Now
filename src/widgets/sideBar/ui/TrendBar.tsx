@@ -17,7 +17,6 @@ export default function TrendBar() {
 
     eventSource.addEventListener('signalKeywordList', (e) => {
       const data: SignalKeyword = JSON.parse(e.data);
-      console.log('TrendBar', data);
       setTop10(data.top10WithDiff);
     });
 
