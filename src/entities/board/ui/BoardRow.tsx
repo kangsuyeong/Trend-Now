@@ -21,8 +21,6 @@ interface BoardRowProps {
   post: PostInfo;
   /** 게시글 종류 */
   type?: 'noti' | 'issue' | 'normal';
-  /** 전체 게시글 기준 번호 */
-  postNumber: number;
   /** 링크 prefix 명시 */
   basePath: string;
   /** 번호 표시 여부 (기본값 true) */
@@ -32,7 +30,6 @@ interface BoardRowProps {
 export default function BoardRow({
   post,
   type = 'normal',
-  postNumber,
   basePath,
   showNumber = true,
 }: BoardRowProps) {
@@ -47,7 +44,7 @@ export default function BoardRow({
       <div className="flex items-center gap-2">
         {/* 번호 */}
         {showNumber && (
-          <div className="w-12 text-center text-sm font-regular text-gray-500">{postNumber}</div>
+          <div className="w-12 text-center text-sm font-regular text-gray-500">{post.postId}</div>
         )}
         {getBadge()}
         <div className="flex items-center gap-x-1.5">
