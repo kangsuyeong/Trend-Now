@@ -16,7 +16,7 @@ interface CommentsProps {
 }
 
 export default function Comments({ postId, boardId }: CommentsProps) {
-  const { accessToken, memberId } = useUserStore();
+  const { accessToken } = useUserStore();
 
   const { data, refetch } = useQuery({
     queryKey: ['comments', boardId, postId, accessToken],
@@ -43,7 +43,7 @@ export default function Comments({ postId, boardId }: CommentsProps) {
                   userName={item.writer}
                   date={item.createdAt}
                   content={item.content}
-                  showMenu={item.writerId === memberId}
+                  showMenu={item.myComments}
                   boardId={boardId}
                   postId={postId}
                   commentId={item.id}
