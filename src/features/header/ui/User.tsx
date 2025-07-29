@@ -6,9 +6,9 @@ import { LoginModal } from '@/features/login';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
-import { UserProfile } from '@/entities';
 import { axiosUserProfile } from '@/shared/api';
 import Link from 'next/link';
+import { UserProfile } from '@/shared/types';
 
 export default function User() {
   const router = useRouter();

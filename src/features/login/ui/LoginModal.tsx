@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { Close } from './icons';
+import { usePathname } from 'next/navigation';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -12,31 +13,28 @@ interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
 }
 
 export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
+  const pathname = usePathname();
+
   if (!open) return;
 
   const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   };
 
-  const googleLogin = async () => {
-    const res = await fetch('/api/google-auth-uri');
-    const url = await res.json();
+  const encodedUri = encodeURIComponent(
+    `http://localhost:3000/oauth/redirect?redirectPath=${pathname}`
+  );
 
-    window.location.href = url.url;
+  const googleLogin = async () => {
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/google?redirect_url=${encodedUri}`;
   };
 
   const kakaoLogin = async () => {
-    const res = await fetch('/api/kakao-auth-uri');
-    const url = await res.json();
-
-    window.location.href = url.url;
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/kakao?redirect_url=${encodedUri}`;
   };
 
   const naverLogin = async () => {
-    const res = await fetch('/api/naver-auth-uri');
-    const url = await res.json();
-
-    window.location.href = url.url;
+    window.location.href = `https://api.trendnow.me/oauth2/authorization/naver?redirect_url=${encodedUri}`;
   };
 
   return (
