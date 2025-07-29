@@ -1,10 +1,8 @@
 'use client';
 
-import { cn } from '@/shared/lib';
 import { RichTextEditorHandle } from '@/shared/types';
 import { InputFieldTitle, PrimaryButton } from '@/shared/ui';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import type { Delta } from 'quill';
 import type { RefObject } from 'react';
 
@@ -14,10 +12,6 @@ const RichTextEditor = dynamic(() => import('@/features/write/ui/RichTextEditor'
 });
 
 interface WriteProps {
-  /** 게시판 이름 */
-  boardName: string;
-  /** 실시간 인기 게시판 여부 */
-  isHotBoard?: boolean;
   /** 제목 입력 input 요소의 ref (추후 옵셔널 삭제)*/
   titleRef: RefObject<HTMLInputElement | null>;
   /** 에디터 인스턴스(ref)를 통한 getContents, setContents 접근 (추후 옵셔널 삭제)*/
@@ -28,30 +22,10 @@ interface WriteProps {
   initialDelta?: Delta;
 }
 
-export default function Write({
-  boardName,
-  isHotBoard = false,
-  titleRef,
-  editorRef,
-  initialDelta,
-  onSubmit,
-}: WriteProps) {
+export default function Write({ titleRef, editorRef, initialDelta, onSubmit }: WriteProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-y-4">
-        {/* 게시판 이름 */}
-        <div className="flex items-center border-b border-gray-200 pb-4">
-          <Image
-            src="/images/icons/icon_penceil_32X32.png"
-            width={32}
-            height={32}
-            alt="연필 아이콘"
-          />
-          <span className="text-2xl font-bold">
-            <span className={cn(isHotBoard ? 'text-brand-500' : 'text-gray-900')}>{boardName}</span>{' '}
-            <span className="text-gray-900">게시판</span>
-          </span>
-        </div>
         {/* 제목 / 내용 */}
         <div className="flex flex-col gap-y-6 rounded-3xl bg-gray-100 p-6">
           <div className="flex flex-col gap-y-4">
