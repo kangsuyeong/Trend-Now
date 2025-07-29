@@ -7,15 +7,13 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
 interface PostWriteProps {
-  /** 게시판 이름 */
-  boardName: string;
   /** 게시판 id */
   boardId: number;
   /** path */
   path: string;
 }
 
-const PostWrite = ({ boardName, boardId, path }: PostWriteProps) => {
+const PostWrite = ({ boardId, path }: PostWriteProps) => {
   const router = useRouter();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
@@ -30,14 +28,7 @@ const PostWrite = ({ boardName, boardId, path }: PostWriteProps) => {
     await axiosUploadPost(boardId, title, content, imageIds);
     router.push(`${path}`);
   };
-  return (
-    <Write
-      boardName={boardName}
-      titleRef={titleRef}
-      editorRef={editorRef}
-      onSubmit={handleSubmit}
-    />
-  );
+  return <Write titleRef={titleRef} editorRef={editorRef} onSubmit={handleSubmit} />;
 };
 
 export default PostWrite;

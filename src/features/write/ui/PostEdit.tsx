@@ -8,8 +8,6 @@ import { extractImageIdsFromDelta } from '../lib';
 import { useQuery } from '@tanstack/react-query';
 
 interface postEditeProps {
-  /** 게시판 이름 */
-  boardName: string;
   /** 게시판 id */
   boardId: number;
   /** 게시물 id */
@@ -18,7 +16,7 @@ interface postEditeProps {
   path: string;
 }
 
-const PostEdit = ({ boardName, boardId, postId, path }: postEditeProps) => {
+const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
   const router = useRouter();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
@@ -63,7 +61,6 @@ const PostEdit = ({ boardName, boardId, postId, path }: postEditeProps) => {
 
   return (
     <Write
-      boardName={boardName}
       titleRef={titleRef}
       editorRef={editorRef}
       onSubmit={handleSubmit}

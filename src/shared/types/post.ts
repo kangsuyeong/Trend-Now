@@ -26,6 +26,7 @@ export interface PostDetailResponse {
 }
 
 export interface PostDetail {
+  boardName: string;
   title: string;
   writer: string;
   content: string;

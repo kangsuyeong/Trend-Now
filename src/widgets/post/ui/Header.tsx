@@ -1,23 +1,27 @@
 import { BookmarkButton, PostKebabButton } from '@/features/post';
+import { cn } from '@/shared/lib';
 import { PostDetail } from '@/shared/types';
 import { UserProfile28 } from '@/shared/ui';
 import dayjs from 'dayjs';
 
 interface HeaderProps {
-  /**@param {number} postId 게시글 아이디 */
-  postId: number;
-  /**@param {number} postId 게시판 아이디 */
-  boardId: number;
-  /**@param {PostDetail} post 게시글 정보 */
+  /** 게시글 상세 정보 */
   post: PostDetail;
+
+  /** 인기 게시판 여부 (선택) */
+  isHotBoard?: boolean;
 }
 
-export default function Header({ postId, boardId, post }: HeaderProps) {
+export default function Header({ post, isHotBoard }: HeaderProps) {
   return (
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
         <span className="flex flex-col gap-y-3">
-          <span className="text-lg font-semiBold text-gray-500">임시 게시판</span>
+          <span
+            className={cn('text-lg font-semiBold', isHotBoard ? 'text-brand-500' : 'text-gray-500')}
+          >
+            {post.boardName}
+          </span>
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
