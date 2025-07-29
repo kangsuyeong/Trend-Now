@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { mypageTabs } from '../const';
 import { useQueries } from '@tanstack/react-query';
-import { useUserStore } from '@/shared/store';
 import { axiosMyPosts, axiosMyScraps } from '@/shared/api';
 import { PostsResponse } from '@/entities';
 
@@ -17,13 +16,12 @@ const tabQueries = {
 
 const MyPageTabs = () => {
   const pathname = usePathname().split('/');
-  const { memberId } = useUserStore();
 
   const queryKeys = Object.keys(tabQueries);
 
   const results = useQueries({
     queries: queryKeys.map((key) => ({
-      queryKey: [key, memberId],
+      queryKey: [key],
       queryFn: tabQueries[key as keyof typeof tabQueries],
     })),
   });

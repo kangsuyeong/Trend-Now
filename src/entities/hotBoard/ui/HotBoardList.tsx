@@ -1,16 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import HotBoardListRow from './HotBoardListRow';
 import MedalRow from './MedalRow';
-import HotBoardListRow from './CurrentHotRow';
-import { useQuery } from '@tanstack/react-query';
-import { axiosHotBoardList } from '@/shared/api';
-import { HotBoardResponse } from '@/shared/types';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { axiosDisconnectSSE, axiosHotBoardList, SSE } from '@/shared/api';
+import { BoardTimeUp, HotBoardResponse } from '@/shared/types';
 
 export default function HotBoardList() {
+  const queryClient = useQueryClient();
+
+  const queryKey = ['hotBoardList'];
+
   const { data } = useQuery({
-    queryKey: ['hotBoardList'],
+    queryKey: queryKey,
     queryFn: () => axiosHotBoardList<HotBoardResponse>(),
     refetchOnMount: true,
   });
+
+  useEffect(() => {
+    const sseInstance = SSE.getInstance();
+
+    const { eventSource, clientId } = sseInstance.getEventSource();
+
+    eventSource.addEventListener('realtimeBoardTimeUp', (e) => {
+      const data: BoardTimeUp = JSON.parse(e.data);
+      console.log('HotBoardList', data);
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    });
+
+    return () => {
+      console.log('SSE connection closed');
+      eventSource?.close();
+      (async () => await axiosDisconnectSSE(clientId))();
+    };
+  }, []);
 
   if (!data) return null;
 

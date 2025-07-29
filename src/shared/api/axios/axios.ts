@@ -41,7 +41,7 @@ export const axiosConnectSSE = async <T>(clientId: string): Promise<T> =>
   (await axiosInstance.get('/api/v1/subscribe', { params: { clientId } })).data;
 
 export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
-  (await axiosInstance.post('/api/v1/subscribe', { clientId })).data;
+  (await axiosInstance.post('/api/v1/unsubscribe', { clientId })).data;
 
 export const axiosHotBoardInfo = async <T>(boardId: number): Promise<T> =>
   (await axiosInstance.get('/api/v1/boards/realtime', { params: { boardId } })).data;

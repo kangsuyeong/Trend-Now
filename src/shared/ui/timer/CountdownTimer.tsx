@@ -41,6 +41,10 @@ const CountdownTimer = ({
     return `${min}:${sec}`;
   };
 
+  useEffect(() => {
+    setTimeLeft(initialSeconds);
+  }, [initialSeconds]);
+
   // 컴포넌트 마운트 시 1초마다 timeLeft 감소, 0이 되면 타이머 종료
   useEffect(() => {
     if (timeLeft <= 0) return;

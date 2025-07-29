@@ -1,6 +1,6 @@
 'use client';
 
-import { UserProfile } from '@/entities';
+import { UserProfile } from '@/shared/types';
 import { axiosUserProfile } from '@/shared/api';
 import { SecondaryButton, Settings20, UserProfile64 } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
