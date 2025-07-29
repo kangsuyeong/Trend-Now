@@ -1,7 +1,7 @@
 import { Delete, Write } from '@/features/post/ui/icons';
 import { axiosDeleteComment } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
-import { Dropdownmenu, Kebab32 } from '@/shared/ui';
+import { DropdownMenu, DropdownMenuItem, Kebab32 } from '@/shared/ui';
 
 interface CommentKebabButtonProps {
   /**@param {number} boardId 게시판 아이디 */
@@ -44,32 +44,21 @@ export default function CommentKebabButton({
   };
 
   return (
-    <Dropdownmenu
+    <DropdownMenu
       trigger={
         <span className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-gray-200">
           <Kebab32 />
         </span>
       }
-      items={[
-        {
-          content: (
-            <>
-              <Write />
-              <span>댓글 수정</span>
-            </>
-          ),
-          onClick: onEditClick,
-        },
-        {
-          content: (
-            <>
-              <Delete />
-              <span className="text-negative">댓글 삭제</span>
-            </>
-          ),
-          onClick: handleDeleteComment,
-        },
-      ]}
-    />
+    >
+      <DropdownMenuItem onClick={onEditClick}>
+        <Write />
+        댓글 수정
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={handleDeleteComment} className="text-negative">
+        <Delete />
+        댓글 삭제
+      </DropdownMenuItem>
+    </DropdownMenu>
   );
 }

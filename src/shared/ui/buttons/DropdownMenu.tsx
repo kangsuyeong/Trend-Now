@@ -1,12 +1,19 @@
 'use client';
+import { cn } from '@/shared/lib';
 import { useEffect, useRef, useState } from 'react';
 
-interface DropdownmenuProps {
-  trigger: React.ReactNode; // 드롭다운을 여는 버튼
-  items: DropdownMenuItemProps[]; // 드롭다운 메뉴 항목 목록
+interface DropdownMenuProps {
+  /** 드롭다운을 여는 트리거 요소 */
+  trigger: React.ReactNode;
+
+  /** 드롭다운 내부에 표시될 콘텐츠 (메뉴 항목 등) */
+  children: React.ReactNode;
+
+  /** 드롭다운 wrapper에 적용할 클래스명 */
+  className?: string;
 }
 
-const Dropdownmenu = ({ trigger, items }: DropdownmenuProps) => {
+const DropdownMenu = ({ trigger, className, children }: DropdownMenuProps) => {
   const [dropMenuOpen, setDropMenuOpen] = useState<boolean>(false); // 메뉴 열림 상태
 
   const buttonRef = useRef<HTMLButtonElement>(null); // 트리거 버튼 ref
@@ -45,34 +52,16 @@ const Dropdownmenu = ({ trigger, items }: DropdownmenuProps) => {
       {dropMenuOpen && (
         <ul
           ref={menuRef}
-          className="absolute right-0 z-10 mt-2 flex w-[10rem] flex-col gap-y-1 rounded-xl bg-white p-3 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]"
+          className={cn(
+            'absolute right-0 z-10 mt-2 flex w-[10rem] flex-col gap-y-1 rounded-xl bg-white p-3 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]',
+            className
+          )}
         >
-          {items.map((item, idx) => (
-            <DropdownMenuItem key={idx} {...item} />
-          ))}
+          {children}
         </ul>
       )}
     </div>
   );
 };
 
-export default Dropdownmenu;
-
-interface DropdownMenuItemProps {
-  content: React.ReactNode;
-  // 추후 옵셔널 제거
-  onClick?: () => void;
-}
-
-const DropdownMenuItem = ({ content, onClick }: DropdownMenuItemProps) => {
-  return (
-    <li>
-      <button
-        className="flex h-11 w-full cursor-pointer items-center gap-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100"
-        onClick={onClick}
-      >
-        {content}
-      </button>
-    </li>
-  );
-};
+export default DropdownMenu;
