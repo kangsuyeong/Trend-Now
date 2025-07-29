@@ -3,8 +3,8 @@ import { persist } from 'zustand/middleware';
 
 interface UserState {
   accessToken: string | null;
-  memberId: number | null;
-  login: (accessToken: string, memberId: number) => void;
+  isAuthenticated: boolean;
+  login: (accessToken: string) => void;
   logout: () => void;
 }
 
@@ -12,13 +12,16 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       accessToken: null,
-      memberId: null,
-      login: (accessToken, memberId) => set({ accessToken, memberId }),
-      logout: () => set({ accessToken: null, memberId: null }),
+      isAuthenticated: false,
+      login: (accessToken) => set({ accessToken, isAuthenticated: true }),
+      logout: () => set({ accessToken: null, isAuthenticated: false }),
     }),
     {
       name: 'userInfo',
-      partialize: (state) => ({ accessToken: state.accessToken, memberId: state.memberId }),
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
   )
 );
