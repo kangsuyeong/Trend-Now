@@ -36,9 +36,15 @@ export interface PostDetail {
   modifiable: boolean;
   createdAt: string;
   updatedAt: string;
+  scraped: boolean;
 }
 
 export interface ImageInfo {
   id: number;
   imageUrl: string;
+}
+
+export interface PostScrapResponse {
+  message: string;
+  scrapAction: 'SCRAPPED' | 'UNSCRAPPED';
 }

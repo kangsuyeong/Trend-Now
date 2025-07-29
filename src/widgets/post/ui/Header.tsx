@@ -10,9 +10,15 @@ interface HeaderProps {
 
   /** 인기 게시판 여부 (선택) */
   isHotBoard?: boolean;
+
+  /** 게시판 ID */
+  boardId: number;
+
+  /** 게시글 ID */
+  postId: number;
 }
 
-export default function Header({ post, isHotBoard }: HeaderProps) {
+export default function Header({ post, isHotBoard, boardId, postId }: HeaderProps) {
   return (
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
@@ -25,7 +31,7 @@ export default function Header({ post, isHotBoard }: HeaderProps) {
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
-          <BookmarkButton />
+          <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
           <PostKebabButton />
         </span>
       </div>

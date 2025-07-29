@@ -28,7 +28,7 @@ export default function Post({ postId, boardId, isHotBoard = false }: PostProps)
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
-        <Header post={post} isHotBoard={isHotBoard} />
+        <Header post={post} isHotBoard={isHotBoard} boardId={boardId} postId={postId} />
         <Content post={post} />
         <Comments boardId={boardId} postId={postId} />
       </div>
