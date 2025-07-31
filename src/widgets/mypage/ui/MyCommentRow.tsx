@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import React from 'react';
 
 interface MyCommentRowProps {
+  /**@param {number} boardId 게시판 ID */
+  boardId: number;
+  /**@param {number} postId 게시글 ID */
+  postId: number;
   /**@param {string} title 게시글 제목 */
   title: string;
   /**@param {string} comment 댓글 */
@@ -10,12 +15,14 @@ interface MyCommentRowProps {
   created: string;
 }
 
-const MyCommentRow = ({ title, created, comment }: MyCommentRowProps) => {
+const MyCommentRow = ({ boardId, postId, title, created, comment }: MyCommentRowProps) => {
   return (
     <div className="flex w-full items-center justify-between border-b border-gray-200 px-2 py-4">
       <div className="flex flex-col gap-1">
         <div className="text-xs font-medium text-brand-500">{title}</div>
-        <div className="text-md font-semibold text-gray-800 hover:underline">{comment}</div>
+        <div className="cursor-pointer text-md font-semibold text-gray-800 hover:underline">
+          <Link href={`/board/${boardId}/post/${postId}`}>{comment}</Link>
+        </div>
       </div>
       <div className="w-12 text-center text-sm font-regular text-gray-500">
         {dayjs(created).format('MM.DD')}
