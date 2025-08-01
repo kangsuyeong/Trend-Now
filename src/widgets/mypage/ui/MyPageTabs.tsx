@@ -30,6 +30,12 @@ const MyPageTabs = () => {
     select: (data) => data.postListDto.length,
   });
 
+  const lengths = {
+    posts: postsLength || 0,
+    comments: commentsData || 0,
+    scraps: scrapsData || 0,
+  };
+
   return (
     <ul className="flex gap-5 px-4">
       {Object.entries(mypageTabs).map(([key, tab]) => (
@@ -44,7 +50,8 @@ const MyPageTabs = () => {
             <span>{tab.label}</span>
             {key !== 'settings' && (
               <span className={cn(currentTab === key ? 'text-brand-500' : 'text-gray-400')}>
-                {key === 'posts' ? postsLength : key === 'comments' ? commentsData : scrapsData}
+                {/* {key === 'posts' ? postsLength : key === 'comments' ? commentsData : scrapsData} */}
+                {lengths[key as keyof typeof lengths]}
               </span>
             )}
           </Link>
