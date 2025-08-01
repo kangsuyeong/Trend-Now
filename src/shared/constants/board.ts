@@ -7,3 +7,5 @@ export const BOARD_MAP = {
   entertain: { id: 1815, name: '연예', path: '/entertain' },
   politics: { id: 1816, name: '정치', path: '/politics' },
 } as const;
+
+export const BOARD_IDS = [1814, 1815, 1816];
