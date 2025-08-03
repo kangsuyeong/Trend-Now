@@ -14,7 +14,9 @@ const Appbar = () => {
         <Suspense>
           <SearchBar />
         </Suspense>
-        <User />
+        <div className="flex w-[12.5rem] justify-end">
+          <User />
+        </div>
       </div>
     </header>
   );

@@ -1,7 +1,8 @@
 'use client';
 
+import { HotBoardList } from '@/entities/hotBoard';
 import { DateDivider } from '@/shared/ui';
-import { HotBoardList, SortChip, SortChipItem } from '@/widgets/hotBoards';
+import { SortChip, SortChipItem } from '@/widgets/hotBoards';
 import Image from 'next/image';
 
 export default function Home() {

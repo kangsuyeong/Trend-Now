@@ -1,6 +1,5 @@
 'use client';
 import { axiosGetAutocomplete } from '@/shared/api';
-import { useUserStore } from '@/shared/store';
 import { AutoComplete } from '@/shared/types';
 import { Search24 } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
@@ -11,7 +10,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 const SearchBar = () => {
   const router = useRouter();
-  const { jwt } = useUserStore();
   const [keyword, setKeyword] = useState('');
   const [debouncedKeyword, setDebouncedKeyword] = useState(''); // 디바운스 키워드
   const [isOpen, setIsOpen] = useState(false);
@@ -66,9 +64,9 @@ const SearchBar = () => {
 
   // 자동완성 API 호출
   const { data: suggestions } = useQuery({
-    queryKey: ['autoComplete', debouncedKeyword, jwt],
-    queryFn: () => axiosGetAutocomplete<AutoComplete[]>(jwt!, debouncedKeyword),
-    enabled: !!jwt && !!debouncedKeyword.trim(),
+    queryKey: ['autoComplete', debouncedKeyword],
+    queryFn: () => axiosGetAutocomplete<AutoComplete[]>(debouncedKeyword),
+    enabled: !!debouncedKeyword.trim(),
   });
 
   // 엔터 눌렀을때 실행되는 함수
@@ -80,7 +78,7 @@ const SearchBar = () => {
 
   const onSubmit = () => {
     if (!keyword || keyword === queryKeyword) return; // 현재 value와 쿼리스트링이 같으면 실행 X
-    router.push(`/search/hotBoards?keyword=${keyword}`);
+    router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (
@@ -104,7 +102,7 @@ const SearchBar = () => {
           {suggestions.map((s) => (
             <li key={s.boardId} className="rounded-lg hover:bg-gray-100">
               <Link
-                href={`/search/hotBoards?keyword=${s.boardName}`}
+                href={`/search?keyword=${encodeURIComponent(s.boardName)}`}
                 className="block h-full w-full px-3 py-2 text-md"
               >
                 {highlightMatch(s.boardName, keyword)}

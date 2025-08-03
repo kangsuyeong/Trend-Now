@@ -22,9 +22,11 @@ export interface PostInfo {
 export interface PostDetailResponse {
   message: string;
   postInfoDto: PostDetail;
+  imageInfos: ImageInfo[];
 }
 
 export interface PostDetail {
+  boardName: string;
   title: string;
   writer: string;
   content: string;
@@ -34,9 +36,15 @@ export interface PostDetail {
   modifiable: boolean;
   createdAt: string;
   updatedAt: string;
+  scraped: boolean;
 }
 
 export interface ImageInfo {
   id: number;
   imageUrl: string;
+}
+
+export interface PostScrapResponse {
+  message: string;
+  scrapAction: 'SCRAPPED' | 'UNSCRAPPED';
 }

@@ -1,18 +1,44 @@
 'use client';
 
-import { DateDivider, Pencil24, PrimaryButton, SecondaryButton } from '@/shared/ui';
-import React from 'react';
+import {
+  CountdownTimer,
+  DateDivider,
+  Pagination,
+  Pencil24,
+  PrimaryButton,
+  SecondaryButton,
+} from '@/shared/ui';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { axiosHotBoardInfo, axiosPosts } from '@/shared/api';
+import { BoardList } from '@/entities/board';
+import { HotBoardInfoResponse, PostListResponse } from '@/shared/types';
 
 interface HotBoardProps {
-  /**@param {string} keyword 인기 검색어 키워드 */
-  keyword: string;
+  /**@param {number} boardId 게시판 Id */
+  boardId: number;
 }
 
-export default function HotBoard({ keyword }: HotBoardProps) {
+export default function HotBoard({ boardId }: HotBoardProps) {
   const router = useRouter();
   const path = usePathname();
+
+  const [page, setPage] = useState<number>(1);
+
+  const { data: posts } = useQuery({
+    queryKey: ['hotBoardPosts', boardId, page],
+    queryFn: () => axiosPosts<PostListResponse>(boardId, page, 20),
+  });
+
+  const { data: boardInfo } = useQuery({
+    queryKey: ['hotBoardInfo', boardId],
+    queryFn: () => axiosHotBoardInfo<HotBoardInfoResponse>(boardId),
+    refetchOnMount: true,
+  });
+
+  if (!posts || !boardInfo) return null;
 
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
@@ -32,7 +58,7 @@ export default function HotBoard({ keyword }: HotBoardProps) {
                   unoptimized
                   className="aspect-square object-cover"
                 />
-                <span className="text-3xl font-bold text-gray-800">{keyword}</span>
+                <span className="text-3xl font-bold text-gray-800">{boardInfo.boardName}</span>
               </span>
             </span>
             <span className="flex flex-col items-end gap-y-2">
@@ -41,7 +67,11 @@ export default function HotBoard({ keyword }: HotBoardProps) {
               </span>
               <span className="flex items-center gap-x-1">
                 <span className="h-10 w-10" />
-                <span className="text-3xl font-bold text-brand-500">08:40</span>
+                <CountdownTimer
+                  textSize="text-3xl"
+                  iconSize={40}
+                  initialSeconds={boardInfo.boardLiveTime}
+                />
               </span>
             </span>
           </div>
@@ -70,8 +100,13 @@ export default function HotBoard({ keyword }: HotBoardProps) {
             </span>
           </PrimaryButton>
         </div>
-        {/* <BoardList /> */}
-        {/* <Pagination currentPage={1} maxPage={20} count={5} /> */}
+        <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
+        <Pagination
+          currentPage={page}
+          maxPage={posts.totalPageCount || 1}
+          count={5}
+          setPage={setPage}
+        />
       </div>
     </div>
   );

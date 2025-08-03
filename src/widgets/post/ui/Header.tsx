@@ -1,26 +1,37 @@
-'use client';
-
 import { BookmarkButton, PostKebabButton } from '@/features/post';
-import { BOARD_MAP } from '@/shared/constants';
+import { cn } from '@/shared/lib';
 import { PostDetail } from '@/shared/types';
 import { UserProfile28 } from '@/shared/ui';
 import dayjs from 'dayjs';
-import { usePathname } from 'next/navigation';
 
-export default function Header({ post }: { post: PostDetail }) {
-  const pathname = usePathname(); //  현재 URL 경로를 문자열로 가져옴
-  const boardType = pathname.split('/')[1] as keyof typeof BOARD_MAP; // 예: "/free/post/6" → "free"
-  const boardName = BOARD_MAP[boardType].name;
+interface HeaderProps {
+  /** 게시글 상세 정보 */
+  post: PostDetail;
 
+  /** 인기 게시판 여부 (선택) */
+  isHotBoard?: boolean;
+
+  /** 게시판 ID */
+  boardId: number;
+
+  /** 게시글 ID */
+  postId: number;
+}
+
+export default function Header({ post, isHotBoard, boardId, postId }: HeaderProps) {
   return (
     <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
       <div className="flex justify-between">
         <span className="flex flex-col gap-y-3">
-          <span className="text-lg font-semiBold text-gray-500">{boardName}게시판</span>
+          <span
+            className={cn('text-lg font-semiBold', isHotBoard ? 'text-brand-500' : 'text-gray-500')}
+          >
+            {post.boardName}
+          </span>
           <span className="text-2xl font-bold text-gray-800">{post.title}</span>
         </span>
         <span className="flex gap-x-2">
-          <BookmarkButton />
+          <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
           <PostKebabButton />
         </span>
       </div>

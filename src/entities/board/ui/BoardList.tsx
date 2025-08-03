@@ -1,23 +1,30 @@
 import { PostInfo } from '@/shared/types';
 import BoardRow from './BoardRow';
-import { BOARD_PAGE_SIZE } from '@/shared/constants';
 
 interface BoardListProps {
+  /** 전체 게시글 정보 */
   posts: PostInfo[];
-  totalCount: number; // 전체 게시물 수
-  page: number; // 현재 페이지
+  /** 링크 prefix 명시 */
+  basePath: string;
+  /** 번호 표시 여부 (기본값 true) */
+  showNumber?: boolean;
 }
 
-export default function BoardList({ posts, totalCount, page }: BoardListProps) {
+export default function BoardList({ posts, basePath, showNumber }: BoardListProps) {
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="flex gap-x-2 border-b border-gray-200 px-2 pb-3 *:text-sm *:font-regular *:text-gray-500">
-        <span className="w-12 text-center">번호</span>
-        <span className="flex-1 text-left">게시글 제목</span>
-        <span className="w-[6.25rem] text-center">닉네임</span>
-        <span className="w-12 text-center">조회수</span>
-        <span className="w-12 text-center">추천</span>
-        <span className="w-12 text-center">일자</span>
+      <div className="flex justify-between gap-2 border-b border-gray-200 px-2 pb-3 text-center text-sm text-gray-500">
+        <div className="flex gap-2">
+          {showNumber && <div className="w-12">번호</div>}
+          <div className="text-left">게시글 제목</div>
+        </div>
+
+        <div className="flex gap-2">
+          <div className="w-[6.25rem]">닉네임</div>
+          <div className="w-12">조회수</div>
+          <div className="w-12">추천</div>
+          <div className="w-12">일자</div>
+        </div>
       </div>
       {/* 공지사항 부분 주석처리 */}
       {/* {new Array(2).fill(0).map((_, idx) => (
@@ -34,10 +41,9 @@ export default function BoardList({ posts, totalCount, page }: BoardListProps) {
           />
         ))} */}
 
-      {posts.map((post, index) => {
-        const postNumber = totalCount - (page - 1) * BOARD_PAGE_SIZE - index;
-        return <BoardRow key={post.postId} post={post} postNumber={postNumber} type="normal" />;
-      })}
+      {posts.map((post) => (
+        <BoardRow key={post.postId} post={post} basePath={basePath} showNumber={showNumber} />
+      ))}
     </div>
   );
 }
