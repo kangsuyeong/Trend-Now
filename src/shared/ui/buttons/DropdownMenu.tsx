@@ -1,6 +1,13 @@
 'use client';
 import { cn } from '@/shared/lib';
 import { useEffect, useRef, useState } from 'react';
+import { createContext } from 'react';
+
+// DropdownMenu와 자식 컴포넌트(DropdownMenuItem 등) 간에 드롭다운 닫기(closeMenu) 함수를 전달하기 위한 Context
+interface DropdownMenuContextType {
+  closeMenu: () => void;
+}
+export const DropdownMenuContext = createContext<DropdownMenuContextType | null>(null);
 
 interface DropdownMenuProps {
   /** 드롭다운을 여는 트리거 요소 */
@@ -24,6 +31,9 @@ const DropdownMenu = ({ trigger, className, children }: DropdownMenuProps) => {
     setDropMenuOpen((prev) => !prev);
   };
 
+  // 드롭다운 메뉴를 닫는 함수
+  const closeMenu = () => setDropMenuOpen(false);
+
   // 외부 클릭 시 메뉴 닫기
   useEffect(() => {
     const handleDropMenuClose = (e: MouseEvent) => {
@@ -43,24 +53,26 @@ const DropdownMenu = ({ trigger, className, children }: DropdownMenuProps) => {
   }, [dropMenuOpen]);
 
   return (
-    <div className="relative select-none">
-      {/* 메뉴를 여는 트리거 버튼 */}
-      <button ref={buttonRef} onClick={handleDropMenuToggle} className="cursor-pointer">
-        {trigger}
-      </button>
-      {/* 드롭다운 메뉴 리스트 */}
-      {dropMenuOpen && (
-        <ul
-          ref={menuRef}
-          className={cn(
-            'absolute right-0 z-10 mt-2 flex w-[10rem] flex-col gap-y-1 rounded-xl bg-white p-3 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]',
-            className
-          )}
-        >
-          {children}
-        </ul>
-      )}
-    </div>
+    <DropdownMenuContext.Provider value={{ closeMenu }}>
+      <div className="relative select-none">
+        {/* 메뉴를 여는 트리거 버튼 */}
+        <button ref={buttonRef} onClick={handleDropMenuToggle} className="cursor-pointer">
+          {trigger}
+        </button>
+        {/* 드롭다운 메뉴 리스트 */}
+        {dropMenuOpen && (
+          <ul
+            ref={menuRef}
+            className={cn(
+              'absolute right-0 z-10 mt-2 flex w-[10rem] flex-col gap-y-1 rounded-xl bg-white p-3 shadow-[0px_2px_10px_0px_rgba(0,_0,_0,_0.08)]',
+              className
+            )}
+          >
+            {children}
+          </ul>
+        )}
+      </div>
+    </DropdownMenuContext.Provider>
   );
 };
 
