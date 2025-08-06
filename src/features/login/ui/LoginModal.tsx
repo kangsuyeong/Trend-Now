@@ -23,7 +23,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   };
 
   const encodedUri = encodeURIComponent(
-    `http://localhost:3000/oauth/redirect?redirectPath=${pathname}`
+    `${process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL}?redirectPath=${pathname}`
   );
 
   const googleLogin = async () => {
