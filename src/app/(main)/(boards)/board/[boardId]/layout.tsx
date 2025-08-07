@@ -9,7 +9,7 @@ export default async function Layout({
   children: ReactNode;
 }) {
   const { boardId } = await params;
-  const validBoardIds = ['1814', '1815', '1816'];
+  const validBoardIds = ['11', '12', '13'];
 
   if (!validBoardIds.includes(boardId)) {
     notFound();
