@@ -29,11 +29,13 @@ export interface PostDetail {
   boardName: string;
   title: string;
   writer: string;
+  writerId: number;
   content: string;
   viewCount: number;
   likeCount: number;
   commentCount: number;
   modifiable: boolean;
+  myPost: boolean;
   createdAt: string;
   updatedAt: string;
   scraped: boolean;
