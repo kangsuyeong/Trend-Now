@@ -9,7 +9,6 @@ import {
   SecondaryButton,
 } from '@/shared/ui';
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosPosts } from '@/shared/api';
@@ -48,18 +47,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
           <div className="flex items-end justify-between">
             <span className="flex flex-col gap-y-3">
               <span className="text-base font-semiBold text-brand-500">현재 실시간 검색어 1위</span>
-              <span className="flex gap-x-3">
-                <Image
-                  src="/images/gold.gif"
-                  alt="gold"
-                  width={40}
-                  height={40}
-                  priority
-                  unoptimized
-                  className="aspect-square object-cover"
-                />
-                <span className="text-3xl font-bold text-gray-800">{boardInfo.boardName}</span>
-              </span>
+              <span className="text-3xl font-bold text-gray-800">{boardInfo.boardName}</span>
             </span>
             <span className="flex flex-col items-end gap-y-2">
               <span className="text-sm font-regular text-gray-500">
