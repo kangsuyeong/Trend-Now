@@ -1,4 +1,6 @@
 import { cn } from '@/shared/lib';
+import { DropdownMenuContext } from './DropdownMenu';
+import { useContext } from 'react';
 
 interface DropdownMenuItemProps {
   /** 메뉴 항목에 표시될 내용 */
@@ -13,6 +15,13 @@ interface DropdownMenuItemProps {
 }
 
 export default function DropdownMenuItem({ children, onClick, className }: DropdownMenuItemProps) {
+  const { closeMenu } = useContext(DropdownMenuContext)!;
+
+  const handleClick = () => {
+    onClick?.(); // 메뉴 아이템 고유 동작
+    closeMenu(); // 드롭다운 메뉴 닫기
+  };
+
   return (
     <li>
       <button
@@ -20,7 +29,7 @@ export default function DropdownMenuItem({ children, onClick, className }: Dropd
           'flex h-11 w-full cursor-pointer items-center gap-1.5 rounded-xl p-2 text-md font-medium text-gray-800 hover:bg-gray-100',
           className
         )}
-        onClick={onClick}
+        onClick={handleClick}
       >
         {children}
       </button>

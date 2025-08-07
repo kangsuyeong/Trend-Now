@@ -35,6 +35,7 @@ export default function RootLayout({
     >
       <body className="relative font-pretendard antialiased">
         <QueryProvider>{children}</QueryProvider>
+        <div id="modal-root" />
       </body>
     </html>
   );

@@ -51,6 +51,9 @@ import EmptyState from './emptystate/EmptyState';
 /** Skeletons */
 import { Skeleton } from './skeleton/Skeleton';
 
+/** Modal */
+import Modal from './modal/Modal';
+
 export {
   BadgeButton,
   DropdownChip,
@@ -93,4 +96,5 @@ export {
   CountdownTimer,
   EmptyState,
   Skeleton,
+  Modal,
 };

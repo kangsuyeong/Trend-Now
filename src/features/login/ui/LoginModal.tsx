@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { Close } from './icons';
 import { usePathname } from 'next/navigation';
+import { Modal } from '@/shared/ui';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -12,7 +13,7 @@ interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   onClose: () => void;
 }
 
-export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
+export default function LoginModal({ open, onClose }: LoginModalProps) {
   const pathname = usePathname();
 
   if (!open) return;
@@ -22,7 +23,7 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
   };
 
   const encodedUri = encodeURIComponent(
-    `http://localhost:3000/oauth/redirect?redirectPath=${pathname}`
+    `${process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL}?redirectPath=${pathname}`
   );
 
   const googleLogin = async () => {
@@ -38,11 +39,7 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
   };
 
   return (
-    <div
-      ref={ref}
-      className="absolute left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-black/[28%]"
-      onClick={onClose}
-    >
+    <Modal onClose={onClose}>
       <span
         onClick={handleModalClick}
         className="relative flex h-fit w-fit flex-col gap-y-8 rounded-[2rem] bg-white px-8 py-10"
@@ -101,6 +98,6 @@ export default function LoginModal({ open, onClose, ref }: LoginModalProps) {
           </div>
         </div>
       </span>
-    </div>
+    </Modal>
   );
 }
