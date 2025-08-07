@@ -7,3 +7,5 @@ export const BOARD_MAP = {
   entertain: { id: 13, name: '연예' },
   politics: { id: 12, name: '정치' },
 } as const;
+
+export const BOARD_IDS = [1814, 1815, 1816];

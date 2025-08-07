@@ -1,7 +1,7 @@
 'use client';
 
-import { PostsResponse } from '@/entities';
 import { axiosMyScraps } from '@/shared/api';
+import { MyPostsResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { MyScrapRow } from '@/widgets/mypage';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ const MyScraps = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['myscraps', page],
-    queryFn: () => axiosMyScraps<PostsResponse>(page, 20),
+    queryFn: () => axiosMyScraps<MyPostsResponse>(page, 20),
   });
 
   if (isLoading) {
