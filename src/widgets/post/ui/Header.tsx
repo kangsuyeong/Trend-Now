@@ -32,7 +32,7 @@ export default function Header({ post, isHotBoard, boardId, postId }: HeaderProp
         </span>
         <span className="flex gap-x-2">
           <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
-          <PostKebabButton />
+          {post.myPost && <PostKebabButton />}
         </span>
       </div>
       <div className="flex justify-between">

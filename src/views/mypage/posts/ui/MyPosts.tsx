@@ -1,7 +1,7 @@
 'use client';
 
-import { PostsResponse } from '@/entities';
 import { axiosMyPosts } from '@/shared/api';
+import { MyPostsResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { MyPostRow } from '@/widgets/mypage';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ const MyPosts = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['myposts', page],
-    queryFn: () => axiosMyPosts<PostsResponse>(page, 20),
+    queryFn: () => axiosMyPosts<MyPostsResponse>(page, 20),
   });
 
   if (isLoading) {

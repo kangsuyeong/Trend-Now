@@ -8,3 +8,4 @@ export * from './hotBoard';
 export * from './sse';
 export * from './realtime';
 export * from './user';
+export * from './mypage';
