@@ -14,12 +14,10 @@ export default function BoardWriteButton({ boardId }: BoardWriteButtonProps) {
   const { isAuthenticated } = useUserStore();
 
   const handleWriteClick = () => {
-    if (isAuthenticated) {
-      router.push(`/board/${boardId}/write`);
-    } else {
-      alert('로그인 후 작성하실 수 있습니다.');
-    }
+    router.push(`/board/${boardId}/write`);
   };
+
+  if (!isAuthenticated) return null;
 
   return (
     <PrimaryButton variant="primary" size="m" className="pl-4" onClick={handleWriteClick}>
