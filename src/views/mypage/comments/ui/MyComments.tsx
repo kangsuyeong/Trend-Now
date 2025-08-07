@@ -1,7 +1,7 @@
 'use client';
 
-import { PostsResponse } from '@/entities';
-import { axiosMyPosts } from '@/shared/api';
+import { axiosMyComments } from '@/shared/api';
+import { MyCommentsResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { MyCommentRow } from '@/widgets/mypage';
 import { useQuery } from '@tanstack/react-query';
@@ -11,15 +11,15 @@ const MyComments = () => {
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myposts', page],
-    queryFn: () => axiosMyPosts<PostsResponse>(page, 20),
+    queryKey: ['mycomments', page],
+    queryFn: () => axiosMyComments<MyCommentsResponse>(page, 20),
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!data || data.postListDto.length === 0) {
+  if (!data || data.commentsInfoListDto.length === 0) {
     return (
       <div className="flex h-[25rem] items-center justify-center rounded-[1.25rem] bg-gray-100">
         <span className="text-sm font-medium text-gray-500">작성한 댓글이 없습니다.</span>
@@ -35,12 +35,14 @@ const MyComments = () => {
           <div>게시글 제목/작성한 댓글</div>
           <div className="w-12 text-center">일자</div>
         </div>
-        {new Array(20).fill(0).map((_, idx) => (
+        {data.commentsInfoListDto.map((item) => (
           <MyCommentRow
-            key={idx}
-            title="게시판 제목"
-            comment="댓글 내용적어요"
-            created="2025-06-25"
+            key={item.commentId}
+            boardId={item.boardId}
+            postId={item.postId}
+            title={item.postTitle}
+            comment={item.content}
+            created={item.createdAt}
           />
         ))}
       </div>

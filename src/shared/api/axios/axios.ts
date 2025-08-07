@@ -91,6 +91,9 @@ export const axiosMyScraps = async <T>(page?: number, size?: number): Promise<T>
 
 export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> =>
   (await axiosInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
+
+export const axiosMyComments = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/comments', { params: { page, size } })).data;
 //#endregion
 
 //#region 게시판
