@@ -2,29 +2,26 @@
 
 import React from 'react';
 import { Pencil24, PrimaryButton } from '@/shared/ui';
-import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
+import Link from 'next/link';
 
 interface BoardWriteButtonProps {
   boardId: number;
 }
 
 export default function BoardWriteButton({ boardId }: BoardWriteButtonProps) {
-  const router = useRouter();
   const { isAuthenticated } = useUserStore();
-
-  const handleWriteClick = () => {
-    router.push(`/board/${boardId}/write`);
-  };
 
   if (!isAuthenticated) return null;
 
   return (
-    <PrimaryButton variant="primary" size="m" className="pl-4" onClick={handleWriteClick}>
-      <span className="flex items-center gap-x-1.5">
-        <Pencil24 />
-        글쓰기
-      </span>
-    </PrimaryButton>
+    <Link href={`/board/${boardId}/write`}>
+      <PrimaryButton variant="primary" size="m" className="pl-4">
+        <span className="flex items-center gap-x-1.5">
+          <Pencil24 />
+          글쓰기
+        </span>
+      </PrimaryButton>
+    </Link>
   );
 }
