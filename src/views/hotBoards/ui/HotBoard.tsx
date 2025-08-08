@@ -11,9 +11,9 @@ import {
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { axiosHotBoardInfo, axiosPosts } from '@/shared/api';
+import { axiosHotBoardInfo, axiosHotBoardList, axiosPosts } from '@/shared/api';
 import { BoardList } from '@/entities/board';
-import { HotBoardInfoResponse, PostListResponse } from '@/shared/types';
+import { HotBoardInfoResponse, HotBoardResponse, PostListResponse } from '@/shared/types';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -37,6 +37,12 @@ export default function HotBoard({ boardId }: HotBoardProps) {
     refetchOnMount: true,
   });
 
+  const { data: hotBoardList } = useQuery({
+    queryKey: ['hotBoardList'],
+    queryFn: () => axiosHotBoardList<HotBoardResponse>(),
+    select: (data) => data.boardInfoDtos.findIndex((item) => item.boardId === boardId),
+  });
+
   if (!posts || !boardInfo) return null;
 
   return (
@@ -46,7 +52,11 @@ export default function HotBoard({ boardId }: HotBoardProps) {
           <DateDivider date={new Date()} background="black" />
           <div className="flex items-end justify-between">
             <span className="flex flex-col gap-y-3">
-              <span className="text-base font-semiBold text-brand-500">현재 실시간 검색어 1위</span>
+              {hotBoardList !== undefined && hotBoardList > -1 && (
+                <span className="text-base font-semiBold text-brand-500">
+                  현재 실시간 검색어 {hotBoardList + 1}위
+                </span>
+              )}
               <span className="text-3xl font-bold text-gray-800">{boardInfo.boardName}</span>
             </span>
             <span className="flex flex-col items-end gap-y-2">
