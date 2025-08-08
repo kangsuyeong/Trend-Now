@@ -6,16 +6,16 @@ import { useUserStore } from '@/shared/store';
 import Link from 'next/link';
 
 interface BoardWriteButtonProps {
-  boardId: number;
+  href: string;
 }
 
-export default function BoardWriteButton({ boardId }: BoardWriteButtonProps) {
+export default function BoardWriteButton({ href }: BoardWriteButtonProps) {
   const { isAuthenticated } = useUserStore();
 
   if (!isAuthenticated) return null;
 
   return (
-    <Link href={`/board/${boardId}/write`}>
+    <Link href={href}>
       <PrimaryButton variant="primary" size="m" className="pl-4">
         <span className="flex items-center gap-x-1.5">
           <Pencil24 />

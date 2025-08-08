@@ -84,7 +84,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
               2025년 4월 1일
             </SecondaryButton>
           </span>
-          <BoardWriteButton boardId={boardId} />
+          <BoardWriteButton href={`/hotboard/${boardId}/write`} />
         </div>
         <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
         <Pagination
