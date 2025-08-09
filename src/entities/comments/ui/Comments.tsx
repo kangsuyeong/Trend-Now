@@ -16,7 +16,7 @@ interface CommentsProps {
 }
 
 export default function Comments({ postId, boardId }: CommentsProps) {
-  const { accessToken } = useUserStore();
+  const { accessToken, isAuthenticated } = useUserStore();
 
   const { data, refetch } = useQuery({
     queryKey: ['comments', boardId, postId, accessToken],
@@ -52,7 +52,7 @@ export default function Comments({ postId, boardId }: CommentsProps) {
               ))}
           </div>
         </div>
-        <WriteComment boardId={boardId} postId={postId} refetch={refetch} />
+        {isAuthenticated && <WriteComment boardId={boardId} postId={postId} refetch={refetch} />}
       </div>
     </div>
   );
