@@ -1,6 +1,6 @@
 import { BoardName } from '@/entities/board';
-import { DateDivider, Pencil24, PrimaryButton } from '@/shared/ui';
-import Link from 'next/link';
+import { BoardWriteButton } from '@/features/board';
+import { DateDivider } from '@/shared/ui';
 
 interface BoardHeaderProps {
   boardId: number;
@@ -16,14 +16,7 @@ const BoardHeader = ({ boardId }: BoardHeaderProps) => {
         </div>
         <div className="flex items-end justify-between">
           <BoardName boardId={boardId} className="text-3xl font-bold text-gray-800" />
-          <Link href={`/board/${boardId}/write`}>
-            <PrimaryButton variant="primary" size="m" className="pl-4">
-              <span className="flex items-center gap-x-1.5">
-                <Pencil24 />
-                글쓰기
-              </span>
-            </PrimaryButton>
-          </Link>
+          <BoardWriteButton href={`/board/${boardId}/write`} />
         </div>
       </div>
     </div>

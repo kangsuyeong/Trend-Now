@@ -4,7 +4,6 @@ import {
   CountdownTimer,
   DateDivider,
   Pagination,
-  Pencil24,
   PrimaryButton,
   SecondaryButton,
 } from '@/shared/ui';
@@ -14,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosHotBoardList, axiosPosts } from '@/shared/api';
 import { BoardList } from '@/entities/board';
 import { HotBoardInfoResponse, HotBoardResponse, PostListResponse } from '@/shared/types';
+import { BoardWriteButton } from '@/features/board';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -21,9 +21,6 @@ interface HotBoardProps {
 }
 
 export default function HotBoard({ boardId }: HotBoardProps) {
-  const router = useRouter();
-  const path = usePathname();
-
   const [page, setPage] = useState<number>(1);
 
   const { data: posts } = useQuery({
@@ -86,17 +83,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
               2025년 4월 1일
             </SecondaryButton>
           </span>
-          <PrimaryButton
-            variant="black"
-            size="m"
-            className="pl-4"
-            onClick={() => router.push(path + '/write')}
-          >
-            <span className="flex items-center gap-x-1">
-              <Pencil24 />
-              글쓰기
-            </span>
-          </PrimaryButton>
+          <BoardWriteButton href={`/hotboard/${boardId}/write`} />
         </div>
         <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
         <Pagination
