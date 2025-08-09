@@ -8,7 +8,6 @@ import {
   SecondaryButton,
 } from '@/shared/ui';
 import React, { useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosHotBoardList, axiosPosts } from '@/shared/api';
 import { BoardList } from '@/entities/board';
