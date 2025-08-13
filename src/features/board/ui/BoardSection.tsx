@@ -6,7 +6,6 @@ import { PostListResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
 
 interface BoardSectionProps {
   boardId: number;
