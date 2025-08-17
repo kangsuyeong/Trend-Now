@@ -8,9 +8,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
       <AppBar />
-      {children}
+      <main className="flex-1">{children}</main>
       <div className="pt-[6.25rem]">
         <Footer />
       </div>
