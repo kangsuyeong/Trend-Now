@@ -25,6 +25,25 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    // 응답 에러 처리
+    const originalRequest = error.config; // 실패한 요청 정보 저장
+
+    // AT 토큰 만료 시
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // 재시도 방지
+      useUserStore.getState().logout();
+      useUserStore.persist.clearStorage();
+
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;
 
 //#region 실시간
