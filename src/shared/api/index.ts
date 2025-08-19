@@ -1,4 +1,5 @@
 import axiosInstance, {
+  axiosCheckWriteCooldown,
   axiosDeleteComment,
   axiosEditComment,
   axiosGetComments,
@@ -67,5 +68,6 @@ export {
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
   axiosDeletePost,
+  axiosCheckWriteCooldown,
   SSE,
 };

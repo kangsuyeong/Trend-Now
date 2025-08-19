@@ -16,7 +16,7 @@ const BoardHeader = ({ boardId }: BoardHeaderProps) => {
         </div>
         <div className="flex items-end justify-between">
           <BoardName boardId={boardId} className="text-3xl font-bold text-gray-800" />
-          <BoardWriteButton href={`/board/${boardId}/write`} />
+          <BoardWriteButton href={`/board/${boardId}/write`} boardId={boardId} />
         </div>
       </div>
     </div>
