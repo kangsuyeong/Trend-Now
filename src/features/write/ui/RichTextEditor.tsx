@@ -124,7 +124,7 @@ const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
       }
     }, [initialDelta]);
 
-    return <div ref={editorRef} style={{ minHeight: '300px' }} className="border border-red-500" />;
+    return <div ref={editorRef} style={{ minHeight: '300px' }} />;
   }
 );
 
