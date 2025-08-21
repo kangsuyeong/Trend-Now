@@ -5,6 +5,7 @@ import { cn } from '@/shared/lib';
 import GrayTimer from '../icons/timer/GrayTimer';
 import OrangeTimer from '../icons/timer/OrangeTimer';
 import BlueTimer from '../icons/timer/BlueTimer';
+import { useQueryClient } from '@tanstack/react-query';
 
 const timerVariants = cva('font-bold', {
   variants: {
@@ -32,6 +33,8 @@ const CountdownTimer = ({
   iconSize = 28,
   textSize = 'text-lg',
 }: CountdownTimerProps) => {
+  const queryClient = useQueryClient();
+
   const [timeLeft, setTimeLeft] = useState(initialSeconds);
 
   // 초 단위를 "MM:SS" 형식 문자열로 변환
@@ -52,7 +55,7 @@ const CountdownTimer = ({
     const timerId = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          clearInterval(timerId);
+          queryClient.invalidateQueries({ queryKey: ['hotBoardList'] });
           return 0;
         }
         return prev - 1;

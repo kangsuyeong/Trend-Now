@@ -20,14 +20,12 @@ const BoardSection = ({ boardId }: BoardSectionProps) => {
     placeholderData: keepPreviousData,
   });
 
-  if (!data) return null;
-
   return (
     <div className="flex flex-col gap-8">
-      <BoardList posts={data.postsListDto} basePath={`/board/${boardId}`} showNumber />
+      <BoardList posts={data!.postsListDto} basePath={`/board/${boardId}`} showNumber />
       <Pagination
         currentPage={page}
-        maxPage={data.totalPageCount}
+        maxPage={data!.totalPageCount}
         count={5}
         getHref={(p) => `/board/${boardId}?page=${p}`}
       />

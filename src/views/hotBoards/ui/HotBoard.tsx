@@ -66,7 +66,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <BoardWriteButton href={`/hotboard/${boardId}/write`} />
+          <BoardWriteButton href={`/hotboard/${boardId}/write`} boardId={boardId} />
         </div>
         <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
         <Pagination
