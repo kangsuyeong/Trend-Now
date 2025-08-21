@@ -15,6 +15,7 @@
 
 .ql-editor {
   padding: 20px !important;
+  overflow-y: hidden !important; /* 세로 스크롤바 제거 */
 }
 
 .ql-editor::before {
