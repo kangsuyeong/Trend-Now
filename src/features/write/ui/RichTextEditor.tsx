@@ -90,28 +90,6 @@ const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
       // };
     }, [imageHandler]);
 
-    // Quill 에디터의 높이를 내용에 따라 자동으로 조절
-    useEffect(() => {
-      if (!quillRef.current) return;
-
-      const editor = quillRef.current;
-      const editorEl = editor.root;
-
-      const resize = () => {
-        editorEl.style.height = 'auto'; // 👈 먼저 초기화
-        const contentHeight = editorEl.scrollHeight; // 실제 내용 높이
-        const finalHeight = Math.max(contentHeight, 300); // 내용 높이와 300 중에 더 큰 값을 선택
-        editorEl.style.height = `${finalHeight}px`;
-      };
-
-      resize(); // 초기 실행
-      editor.on('text-change', resize); // 글 입력마다 실행
-
-      return () => {
-        editor.off('text-change', resize); // cleanup
-      };
-    }, []);
-
     // 부모 컴포넌트가 getContents 함수를 사용할 수 있도록 연결한다
     useImperativeHandle(ref, () => ({
       getContents: () => quillRef.current?.getContents() ?? new Delta(),
