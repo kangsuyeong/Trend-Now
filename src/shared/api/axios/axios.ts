@@ -147,6 +147,9 @@ export const axiosLike = async <T>(
   postId: number
 ): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+
+export const axiosCheckWriteCooldown = async <T>(boardId: number): Promise<T> =>
+  (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;
 //#endregion
 
 //#region 댓글
