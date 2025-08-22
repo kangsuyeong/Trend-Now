@@ -1,12 +1,12 @@
 'use client';
 
 import { CountdownTimer, DateDivider, Pagination } from '@/shared/ui';
-import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosHotBoardList, axiosPosts } from '@/shared/api';
 import { BoardList } from '@/entities/board';
 import { HotBoardInfoResponse, HotBoardResponse, PostListResponse } from '@/shared/types';
 import { BoardWriteButton } from '@/features/board';
+import { useSearchParams } from 'next/navigation';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -14,7 +14,8 @@ interface HotBoardProps {
 }
 
 export default function HotBoard({ boardId }: HotBoardProps) {
-  const [page, setPage] = useState<number>(1);
+  const searchParams = useSearchParams();
+  const page = Math.max(1, Number(searchParams.get('page') ?? '1') || 1);
 
   const { data: posts } = useQuery({
     queryKey: ['hotBoardPosts', boardId, page],
@@ -72,7 +73,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
           currentPage={page}
           maxPage={posts.totalPageCount || 1}
           count={5}
-          setPage={setPage}
+          getHref={(p) => `/hotboard/${boardId}?page=${p}`}
         />
       </div>
     </div>
