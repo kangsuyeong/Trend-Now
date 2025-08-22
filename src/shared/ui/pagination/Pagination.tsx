@@ -1,18 +1,19 @@
 'use client';
 
 import { cn } from '@/shared/lib/';
-import { cva, VariantProps } from 'class-variance-authority';
-import { forwardRef } from 'react';
+import { cva } from 'class-variance-authority';
+import { forwardRef, ReactNode } from 'react';
 import PageLeftDoubleChevron from '../icons/pagination/PageLeftDoubleChevron';
 import PageLeftChevron from '../icons/pagination/PageLeftChevron';
 import PageRightChevron from '../icons/pagination/PageRightChevron';
 import PageRightDoubleChevron from '../icons/pagination/PageRightDoubleChevron';
+import Link from 'next/link';
 
 interface PaginationProps {
   /**@param {number} currentPage 현재 화면에 보여줄 페이지 */
   currentPage: number;
   /**@param {function} setPage 상위 컴포넌트에서 페이지를 설정하는 함수 */
-  setPage: (page: number) => void;
+  setPage?: (page: number) => void;
   /**@param {number} maxPage 전체 페이지 개수 */
   maxPage: number;
   /**
@@ -20,13 +21,14 @@ interface PaginationProps {
    * @example << < 1 2 3 4 5 > >> 의 경우 → count == 5
    */
   count: number;
+  getHref?: (page: number) => string;
 }
 
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-2378&t=cbvmKV4XEswTU85f-4
  */
 const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
-  ({ currentPage, setPage, maxPage, count, ...props }, ref) => {
+  ({ currentPage, setPage, maxPage, count, getHref, ...props }, ref) => {
     // 현재 페이지가 속한 페이지 그룹 (예: 6페이지면 2번째 그룹)
     const currentPageGroup = Math.ceil(currentPage / count);
 
@@ -36,53 +38,69 @@ const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
     // 실제로 렌더링할 페이지 수 (마지막 그룹일 경우 count보다 작을 수 있음)
     const visiblePageCount = Math.min(maxPage - startPage + 1, count);
 
-    // << 버튼 클릭 시, 이전 페이지 그룹으로 이동
-    const handleFirstGroup = () => {
-      const prevPageGroup = Math.floor((currentPage - 1) / count);
-      setPage(prevPageGroup > 0 ? prevPageGroup * count : 1);
-    };
+    // 전체 페이지 그룹 수
+    const lastGroup = Math.ceil(maxPage / count);
 
-    // < 버튼 클릭 시, 이전 페이지로 이동
-    const handlePrev = () => {
-      if (currentPage > 1) setPage(currentPage - 1);
-    };
+    // << 버튼 클릭 시 이동할 첫 페이지 번호
+    // 이전 그룹이 있으면 해당 그룹의 첫 페이지, 없으면 1페이지
+    const prevGroupTarget =
+      Math.floor((currentPage - 1) / count) > 0 ? Math.floor((currentPage - 1) / count) * count : 1;
 
-    // > 버튼 클릭 시, 다음 페이지로 이동
-    const handleNext = () => {
-      if (currentPage < maxPage) setPage(currentPage + 1);
-    };
+    // < 버튼 클릭 시 이동할 페이지 번호 (최소 1페이지)
+    const prevTarget = currentPage > 1 ? currentPage - 1 : 1;
 
-    // >> 버튼 클릭 시, 다음 페이지 그룹으로 이동
-    const handleLastGroup = () => {
-      const lastGroup = Math.ceil(maxPage / count);
-      if (currentPageGroup < lastGroup) {
-        setPage(currentPageGroup * count + 1);
-      } else {
-        setPage(maxPage);
-      }
-    };
+    // > 버튼 클릭 시 이동할 페이지 번호 (최대 maxPage)
+    const nextTarget = currentPage < maxPage ? currentPage + 1 : maxPage;
+
+    // >> 버튼 클릭 시 이동할 페이지 번호
+    // 다음 그룹이 있으면 다음 그룹 첫 페이지, 없으면 마지막 페이지
+    const lastGroupTarget = currentPageGroup < lastGroup ? currentPageGroup * count + 1 : maxPage;
 
     return (
       <div ref={ref} className="flex flex-row justify-center gap-x-2" {...props}>
-        <span className="cursor-pointer" onClick={handleFirstGroup}>
+        <PageButton
+          className="cursor-pointer"
+          href={getHref?.(prevGroupTarget)}
+          onClick={() => setPage?.(prevGroupTarget)}
+        >
           <PageLeftDoubleChevron />
-        </span>
-        <span className="cursor-pointer" onClick={handlePrev}>
+        </PageButton>
+        <PageButton
+          className="cursor-pointer"
+          href={getHref?.(prevTarget)}
+          onClick={() => setPage?.(prevTarget)}
+        >
           <PageLeftChevron />
-        </span>
+        </PageButton>
         {Array.from({ length: visiblePageCount }, (_, idx) => {
           const page = startPage + idx;
           const variant = page === currentPage ? 'current' : 'default';
           return (
-            <PageButton key={page} page={page} variant={variant} onClick={() => setPage(page)} />
+            <PageButton
+              key={page}
+              variant={variant}
+              href={getHref?.(page)}
+              onClick={() => setPage?.(page)}
+            >
+              {page}
+            </PageButton>
           );
         })}
-        <span className="cursor-pointer" onClick={handleNext}>
+
+        <PageButton
+          className="cursor-pointer"
+          href={getHref?.(nextTarget)}
+          onClick={() => setPage?.(nextTarget)}
+        >
           <PageRightChevron />
-        </span>
-        <span className="cursor-pointer" onClick={handleLastGroup}>
+        </PageButton>
+        <PageButton
+          className="cursor-pointer"
+          href={getHref?.(lastGroupTarget)}
+          onClick={() => setPage?.(lastGroupTarget)}
+        >
           <PageRightDoubleChevron />
-        </span>
+        </PageButton>
       </div>
     );
   }
@@ -103,22 +121,29 @@ const pageButtonVariants = cva(
   }
 );
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof pageButtonVariants> {
-  /**@param {number} page 해당 버튼의 페이지 값 */
-  page: number;
-  /**@param {string} variant 버튼 스타일(현재 페이지 및 그 외) */
-  variant: 'current' | 'default';
+interface ButtonProps {
+  /** 버튼 스타일(현재 페이지 및 그 외) */
+  variant?: 'current' | 'default';
+  onClick?: () => void;
+  className?: string;
+  children: ReactNode;
+  href?: string;
 }
 
 /**
  * @see https://www.figma.com/design/2ks26SvLcpmEHmzSETR8ky/Trend-Now_Design-File?node-id=6-2378&t=cbvmKV4XEswTU85f-4
  */
-const PageButton = ({ page, variant, className, ...props }: ButtonProps) => {
+const PageButton = ({ variant, className, onClick, href, children }: ButtonProps) => {
+  if (href) {
+    return (
+      <Link href={href} className={cn(variant && pageButtonVariants({ variant }), className)}>
+        {children}
+      </Link>
+    );
+  }
   return (
-    <button className={cn(pageButtonVariants({ variant }), className)} {...props}>
-      {page}
+    <button className={cn(variant && pageButtonVariants({ variant }), className)} onClick={onClick}>
+      {children}
     </button>
   );
 };
