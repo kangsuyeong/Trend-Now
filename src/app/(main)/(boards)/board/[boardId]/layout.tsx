@@ -1,3 +1,4 @@
+import { BOARD_MAP } from '@/shared/constants';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
@@ -9,9 +10,9 @@ export default async function Layout({
   children: ReactNode;
 }) {
   const { boardId } = await params;
-  const validBoardIds = ['1814', '1815', '1816'];
+  const validBoardIds: number[] = Object.values(BOARD_MAP).map((board) => board.id);
 
-  if (!validBoardIds.includes(boardId)) {
+  if (!validBoardIds.includes(Number(boardId))) {
     notFound();
   }
 

@@ -22,7 +22,7 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
   const originalImageIdsRef = useRef<number[]>([]); // 수정 전 에디터에 포함된 이미지 ID 목록 저장용
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['postDetail', boardId, postId],
     queryFn: () => axiosPost<PostDetailResponse>(boardId, postId),
   });
@@ -46,6 +46,16 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
     router.push(`${path}`);
   };
 
+  // 권한 체크 → 본인 글 아니면 alert + 리디렉트
+  useEffect(() => {
+    if (isLoading || !post) return; // 로딩 중 or 데이터 없음 → 무시
+
+    if (!post.myPost) {
+      alert('본인 게시물만 수정할 수 있습니다.');
+      router.push(`${path}/post/${postId}`);
+    }
+  }, [isLoading, post, path, router]);
+
   // post 데이터가 로드되면 제목 input과 이미지 ID 초기값 설정
   useEffect(() => {
     // 제목 초기값 설정
@@ -58,6 +68,8 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
       originalImageIdsRef.current = images.map((img) => img.id);
     }
   }, [post, images]);
+
+  if (isLoading || !post?.myPost) return null; // 권한 확인 전까지는 아무것도 렌더링 안함
 
   return (
     <Write

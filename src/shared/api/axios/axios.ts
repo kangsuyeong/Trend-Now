@@ -25,6 +25,25 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    // 응답 에러 처리
+    const originalRequest = error.config; // 실패한 요청 정보 저장
+
+    // AT 토큰 만료 시
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // 재시도 방지
+      useUserStore.getState().logout();
+      useUserStore.persist.clearStorage();
+
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;
 
 //#region 실시간
@@ -91,6 +110,9 @@ export const axiosMyScraps = async <T>(page?: number, size?: number): Promise<T>
 
 export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> =>
   (await axiosInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
+
+export const axiosMyComments = async <T>(page?: number, size?: number): Promise<T> =>
+  (await axiosInstance.get('/api/v1/member/comments', { params: { page, size } })).data;
 //#endregion
 
 //#region 게시판
@@ -144,6 +166,9 @@ export const axiosLike = async <T>(
   postId: number
 ): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+
+export const axiosCheckWriteCooldown = async <T>(boardId: number): Promise<T> =>
+  (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;
 //#endregion
 
 //#region 댓글

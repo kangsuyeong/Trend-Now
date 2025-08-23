@@ -1,7 +1,9 @@
 import axiosInstance, {
+  axiosCheckWriteCooldown,
   axiosDeleteComment,
   axiosEditComment,
   axiosGetComments,
+  axiosMyComments,
   axiosWriteComment,
 } from './axios/axios';
 import {
@@ -47,6 +49,7 @@ export {
   axiosLike,
   axiosMyPosts,
   axiosMyScraps,
+  axiosMyComments,
   axiosPost,
   axiosPosts,
   axiosRealtimeTop10,
@@ -65,5 +68,6 @@ export {
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
   axiosDeletePost,
+  axiosCheckWriteCooldown,
   SSE,
 };
