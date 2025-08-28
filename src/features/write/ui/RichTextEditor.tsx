@@ -102,7 +102,7 @@ const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorProps>(
       }
     }, [initialDelta]);
 
-    return <div ref={editorRef} style={{ minHeight: '300px' }} />;
+    return <div ref={editorRef} />;
   }
 );
 
