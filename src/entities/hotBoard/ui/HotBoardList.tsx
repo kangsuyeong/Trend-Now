@@ -53,8 +53,8 @@ export default function HotBoardList() {
               boardId={item.boardId}
               rank={idx + 1}
               keyword={item.boardName}
-              count={125}
-              views={2324}
+              count={item.postCount}
+              views={item.viewCount}
               timer={item.boardLiveTime}
             />
           ) : (
@@ -63,8 +63,8 @@ export default function HotBoardList() {
               boardId={item.boardId}
               rank={idx + 1}
               keyword={item.boardName}
-              count={125}
-              views={2324}
+              count={item.postCount}
+              views={item.viewCount}
               timer={item.boardLiveTime}
             />
           )
