@@ -1,5 +1,5 @@
 'use client';
-import { BoardList } from '@/entities/board';
+import { BoardList, BoardTable } from '@/entities/board';
 import { SearchSectionTitle, SearchTypeTabs } from '@/entities/search';
 import { axiosSearchFixedBoardPosts } from '@/shared/api/axios/axios';
 import { BOARD_MAP } from '@/shared/constants';
@@ -75,7 +75,10 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
         />
       ) : (
         <>
-          <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
+          <BoardTable showNumber={false}>
+            <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
+          </BoardTable>
+
           <Pagination
             currentPage={page}
             maxPage={postData.totalPageCount}

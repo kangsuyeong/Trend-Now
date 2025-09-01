@@ -1,12 +1,10 @@
 'use client';
 
-import { CountdownTimer, DateDivider, Pagination } from '@/shared/ui';
+import { CountdownTimer, DateDivider } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
-import { axiosHotBoardInfo, axiosHotBoardList, axiosPosts } from '@/shared/api';
-import { BoardList } from '@/entities/board';
-import { HotBoardInfoResponse, HotBoardResponse, PostListResponse } from '@/shared/types';
-import { BoardWriteButton } from '@/features/board';
-import { useSearchParams } from 'next/navigation';
+import { axiosHotBoardInfo, axiosHotBoardList } from '@/shared/api';
+import { HotBoardInfoResponse, HotBoardResponse } from '@/shared/types';
+import { BoardSection, BoardWriteButton } from '@/features/board';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -14,14 +12,6 @@ interface HotBoardProps {
 }
 
 export default function HotBoard({ boardId }: HotBoardProps) {
-  const searchParams = useSearchParams();
-  const page = Math.max(1, Number(searchParams.get('page') ?? '1') || 1);
-
-  const { data: posts } = useQuery({
-    queryKey: ['hotBoardPosts', boardId, page],
-    queryFn: () => axiosPosts<PostListResponse>(boardId, page, 20),
-  });
-
   const { data: boardInfo } = useQuery({
     queryKey: ['hotBoardInfo', boardId],
     queryFn: () => axiosHotBoardInfo<HotBoardInfoResponse>(boardId),
@@ -34,7 +24,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
     select: (data) => data.boardInfoDtos.findIndex((item) => item.boardId === boardId),
   });
 
-  if (!posts || !boardInfo) return null;
+  if (!boardInfo) return null;
 
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
@@ -68,13 +58,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
         <div className="flex items-center justify-end">
           <BoardWriteButton href={`/hotboard/${boardId}/write`} boardId={boardId} />
         </div>
-        <BoardList posts={posts.postsListDto} basePath={`/hotboard/${boardId}`} />
-        <Pagination
-          currentPage={page}
-          maxPage={posts.totalPageCount || 1}
-          count={5}
-          getHref={(p) => `/hotboard/${boardId}?page=${p}`}
-        />
+        <BoardSection boardId={boardId} basePath={`/hotboard`} />
       </div>
     </div>
   );
