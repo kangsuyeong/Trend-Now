@@ -5,6 +5,7 @@ function makeQueryClient() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        // staleTime: 60 * 1000,
       },
     },
   });

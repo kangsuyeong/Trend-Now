@@ -24,7 +24,7 @@ export default function Home() {
           🔥 지금 떠오른 이슈들, 사라지기 전에 확인하세요.
         </span>
         <span className="z-10 w-fit select-none font-himpun text-[3.5rem]/[120%] font-regular text-brand-500">
-          04 : 11 : 42
+          Trendnow
         </span>
       </div>
       <div className="flex flex-col gap-y-6">
