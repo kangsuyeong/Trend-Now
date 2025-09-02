@@ -4,8 +4,8 @@ import { axiosPost, axiosUpdatePost } from '@/shared/api';
 import { PostDetailResponse, RichTextEditorHandle } from '@/shared/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { extractImageIdsFromDelta } from '../lib';
 import { useQuery } from '@tanstack/react-query';
+import processDelta from '../lib/processDelta';
 
 interface postEditeProps {
   /** 게시판 id */
@@ -32,17 +32,32 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
   const handleSubmit = async () => {
     const title = titleRef.current?.value.trim();
     const delta = editorRef.current?.getContents();
-    if (!title || !delta) {
-      return alert('제목 또는 내용을 입력해주세요');
-    }
-    const content = JSON.stringify(delta);
-    // 현재 Delta에서 추출한 이미지 ID 목록
-    const newImageIdList = extractImageIdsFromDelta(delta);
-    const deleteImageIdList = originalImageIdsRef.current.filter(
-      (id) => !newImageIdList.includes(id)
-    );
+    const uploadsByTempId = editorRef.current?.getUploadsByTempId();
 
-    await axiosUpdatePost(boardId, postId, title, content, newImageIdList, deleteImageIdList);
+    if (!title || !delta) {
+      alert('제목 또는 내용을 입력해주세요');
+      return;
+    }
+
+    // 모든 이미지가 다 업로드 되었는지 확인
+    const isAllUploaded = Object.values(uploadsByTempId!).every((item) => item.status === 'ok');
+
+    if (!isAllUploaded) {
+      alert('이미지를 업로드 중입니다. 잠시만 기다려주세요.');
+      return;
+    }
+
+    const { newDelta, imageIds } = processDelta(delta!, uploadsByTempId!);
+    const deleteImageIdList = originalImageIdsRef.current.filter((id) => !imageIds.includes(id));
+
+    await axiosUpdatePost(
+      boardId,
+      postId,
+      title,
+      JSON.stringify(newDelta),
+      imageIds,
+      deleteImageIdList
+    );
     router.push(`${path}`);
   };
 

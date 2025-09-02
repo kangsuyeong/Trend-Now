@@ -1,5 +1,5 @@
 'use client';
-import { extractImageIdsFromDelta } from '../lib';
+import processDelta from '../lib/processDelta';
 import Write from './Write';
 import { axiosUploadPost } from '@/shared/api';
 import { RichTextEditorHandle } from '@/shared/types';
@@ -19,13 +19,25 @@ const PostWrite = ({ boardId, path }: PostWriteProps) => {
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
 
   const handleSubmit = async () => {
-    const title = titleRef.current?.value;
+    const title = titleRef.current?.value.trim();
     const delta = editorRef.current?.getContents();
-    const content = JSON.stringify(delta);
-    const imageIds = extractImageIdsFromDelta(delta!);
-    if (!title || !content) return alert('제목 또는 내용을 입력해주세요');
+    const uploadsByTempId = editorRef.current?.getUploadsByTempId();
 
-    await axiosUploadPost(boardId, title, content, imageIds);
+    if (!title || !delta) {
+      alert('제목 또는 내용을 입력해주세요');
+      return;
+    }
+
+    // 모든 이미지가 다 업로드 되었는지 확인
+    const isAllUploaded = Object.values(uploadsByTempId!).every((item) => item.status === 'ok');
+
+    if (!isAllUploaded) {
+      alert('이미지를 업로드 중입니다. 잠시만 기다려주세요.');
+      return;
+    }
+
+    const { newDelta, imageIds } = processDelta(delta!, uploadsByTempId!);
+    await axiosUploadPost(boardId, title, JSON.stringify(newDelta), imageIds);
     router.push(`${path}`);
   };
   return <Write titleRef={titleRef} editorRef={editorRef} onSubmit={handleSubmit} />;
