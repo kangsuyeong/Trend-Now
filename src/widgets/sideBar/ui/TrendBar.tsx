@@ -27,7 +27,7 @@ export default function TrendBar() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
+    <div className="sticky top-[104px] flex h-fit flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
       <div className="flex flex-col gap-y-6">
         <span className="w-fit rounded-xl bg-gray-800 px-3 py-1.5 text-base font-medium text-white">
           {`${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`}
