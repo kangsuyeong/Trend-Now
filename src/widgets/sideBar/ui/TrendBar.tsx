@@ -27,7 +27,7 @@ export default function TrendBar() {
   }, []);
 
   return (
-    <div className="sticky top-[104px] flex h-fit flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
+    <div className="sticky top-[104px] flex h-fit w-full flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
       <div className="flex flex-col gap-y-6">
         <span className="w-fit rounded-xl bg-gray-800 px-3 py-1.5 text-base font-medium text-white">
           {`${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`}
@@ -68,13 +68,9 @@ export default function TrendBar() {
 const Top10Row = memo(function Row({ rank, keyword, rankChangeType, previousRank }: Top10) {
   return (
     <div className="flex cursor-pointer justify-between rounded-xl py-2 pr-3 hover:bg-white/[16%] hover:pl-3">
-      <div className="flex gap-x-3">
-        <span className="flex h-7 w-7 items-center justify-center text-xl font-semiBold text-white">
-          {rank}
-        </span>
-        <span className="flex items-center justify-center text-lg font-semiBold text-white">
-          {keyword}
-        </span>
+      <div className="flex min-w-0 items-center gap-x-3">
+        <span className="h-7 w-7 text-center text-xl font-semiBold text-white">{rank}</span>
+        <span className="flex-1 truncate text-lg font-semiBold text-white">{keyword}</span>
       </div>
       {previousRank ? (
         rankChangeType === RankChangeType.UP ? (
