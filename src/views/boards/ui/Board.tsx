@@ -10,7 +10,7 @@ export default function Board({ boardId }: BoardProps) {
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
         <BoardHeader boardId={boardId} />
-        <BoardSection boardId={boardId} />
+        <BoardSection boardId={boardId} basePath={`/board`} />
       </div>
     </div>
   );
