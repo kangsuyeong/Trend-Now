@@ -21,7 +21,7 @@ interface MyPostRowProps {
 }
 
 const MyPostRow = ({ boardId, postId, title, views, likes, created, comments }: MyPostRowProps) => {
-  const boardPath = BOARD_IDS.includes(boardId)
+  const boardPath = new Set([BOARD_IDS.FREE, BOARD_IDS.POLITICS, BOARD_IDS.ENTERTAIN]).has(boardId)
     ? `/board/${boardId}/post/${postId}`
     : `/hotboard/${boardId}/post/${postId}`;
 

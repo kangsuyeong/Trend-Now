@@ -4,8 +4,12 @@ export const BOARD_PAGE_SIZE = 5;
 // 게시판 타입별 ID, 이름, path 매핑
 export const BOARD_MAP = {
   free: { id: 11, name: '자유' },
-  entertain: { id: 13, name: '연예' },
   politics: { id: 12, name: '정치' },
+  entertain: { id: 13, name: '연예' },
 } as const;
 
-export const BOARD_IDS = [1814, 1815, 1816];
+export enum BOARD_IDS {
+  FREE = BOARD_MAP.free.id,
+  POLITICS = BOARD_MAP.politics.id,
+  ENTERTAIN = BOARD_MAP.entertain.id,
+}

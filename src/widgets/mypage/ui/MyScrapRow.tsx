@@ -1,4 +1,5 @@
 import { ScrapToggleButton } from '@/features/scrap';
+import { BOARD_IDS } from '@/shared/constants';
 import { UserProfile20 } from '@/shared/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -36,8 +37,12 @@ const MyScrapRow = ({
   created,
   comments,
 }: MyScrapRowProps) => {
+  const boardPath = new Set([BOARD_IDS.FREE, BOARD_IDS.POLITICS, BOARD_IDS.ENTERTAIN]).has(boardId)
+    ? `/board/${boardId}/post/${postId}`
+    : `/hotboard/${boardId}/post/${postId}`;
+
   return (
-    <Link href={`/board/${boardId}/post/${postId}`}>
+    <Link href={boardPath}>
       <div className="flex w-full justify-between border-b border-gray-200 px-2 py-4">
         <div className="flex items-center gap-4">
           <ScrapToggleButton size={'s'} />
