@@ -17,7 +17,7 @@ interface MyCommentRowProps {
 }
 
 const MyCommentRow = ({ boardId, postId, title, created, comment }: MyCommentRowProps) => {
-  const boardPath = new Set([BOARD_IDS.FREE, BOARD_IDS.POLITICS, BOARD_IDS.ENTERTAIN]).has(boardId)
+  const boardPath = [BOARD_IDS.FREE, BOARD_IDS.POLITICS, BOARD_IDS.ENTERTAIN].includes(boardId)
     ? `/board/${boardId}/post/${postId}`
     : `/hotboard/${boardId}/post/${postId}`;
 
