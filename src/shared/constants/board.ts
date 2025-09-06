@@ -7,9 +7,3 @@ export const BOARD_MAP = {
   politics: { id: 12, name: '정치' },
   entertain: { id: 13, name: '연예' },
 } as const;
-
-export enum BOARD_IDS {
-  FREE = BOARD_MAP.free.id,
-  POLITICS = BOARD_MAP.politics.id,
-  ENTERTAIN = BOARD_MAP.entertain.id,
-}

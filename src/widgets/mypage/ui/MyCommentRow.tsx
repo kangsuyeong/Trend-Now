@@ -1,4 +1,4 @@
-import { BOARD_IDS } from '@/shared/constants';
+import { BOARD_MAP } from '@/shared/constants';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import React from 'react';
@@ -17,7 +17,9 @@ interface MyCommentRowProps {
 }
 
 const MyCommentRow = ({ boardId, postId, title, created, comment }: MyCommentRowProps) => {
-  const boardPath = [BOARD_IDS.FREE, BOARD_IDS.POLITICS, BOARD_IDS.ENTERTAIN].includes(boardId)
+  const boardPath = [BOARD_MAP.free, BOARD_MAP.politics, BOARD_MAP.entertain].find(
+    (board) => board.id === boardId
+  )
     ? `/board/${boardId}/post/${postId}`
     : `/hotboard/${boardId}/post/${postId}`;
 

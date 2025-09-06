@@ -1,3 +1,3 @@
-import { BOARD_PAGE_SIZE, BOARD_MAP, BOARD_IDS } from './board';
+import { BOARD_PAGE_SIZE, BOARD_MAP } from './board';
 
-export { BOARD_PAGE_SIZE, BOARD_MAP, BOARD_IDS };
+export { BOARD_PAGE_SIZE, BOARD_MAP };
