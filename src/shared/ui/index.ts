@@ -33,6 +33,7 @@ import UserProfile20 from './icons/20/UserProfile20';
 import UserProfile64 from './icons/64/UserProfile64';
 import ChevronRight24 from './icons/24/ChevronRight24';
 import Trendnow from './icons/Trendnow';
+import TrendnowWhite from './icons/32/TrendnowWhite';
 
 /** Text Fields */
 import { Dropdown, DropdownItem } from './text-field/Dropdown';
@@ -83,6 +84,7 @@ export {
   PageRightChevron,
   PageRightDoubleChevron,
   Trendnow,
+  TrendnowWhite,
   UserProfile64,
   Settings20,
   ChevronRight24,
