@@ -7,7 +7,7 @@ export interface CommentResponse {
 export interface CommentList {
   createdAt: string;
   updatedAt: string;
-  id: number;
+  commentId: number;
   content: string;
   modifiable: boolean;
   writer: string;
