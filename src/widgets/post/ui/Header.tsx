@@ -55,7 +55,7 @@ export default function Header({ post, isHotBoard, boardId, postId }: HeaderProp
           </span>
           <span className="flex items-center gap-x-1.5 before:ml-2 before:inline-block before:h-3 before:w-[1px] before:bg-gray-200">
             <span>작성일</span>
-            <span>{dayjs(post.updatedAt).format('YYYY.MM.DD')}</span>
+            <span>{dayjs(post.createdAt).format('YYYY.MM.DD')}</span>
           </span>
         </span>
       </div>
