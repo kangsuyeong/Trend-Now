@@ -53,6 +53,7 @@ import { Skeleton } from './skeleton/Skeleton';
 
 /** Modal */
 import Modal from './modal/Modal';
+import PostDeleteModal from './modal/PostDeleteModal';
 
 export {
   BadgeButton,
@@ -97,4 +98,5 @@ export {
   EmptyState,
   Skeleton,
   Modal,
+  PostDeleteModal,
 };
