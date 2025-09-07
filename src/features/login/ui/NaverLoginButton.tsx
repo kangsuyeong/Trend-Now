@@ -7,7 +7,7 @@ interface NaverLoginButtonProps {
 }
 
 export default function NaverLoginButton({ redirectPath }: NaverLoginButtonProps) {
-  const naverLogin = async () => {
+  const naverLogin = () => {
     window.location.href = `https://api.trendnow.me/oauth2/authorization/naver?redirect_url=${redirectPath}`;
   };
 

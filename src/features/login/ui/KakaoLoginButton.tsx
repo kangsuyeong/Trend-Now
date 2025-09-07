@@ -7,7 +7,7 @@ interface KakaoLoginButtonProps {
 }
 
 export default function KakaoLoginButton({ redirectPath }: KakaoLoginButtonProps) {
-  const kakaoLogin = async () => {
+  const kakaoLogin = () => {
     window.location.href = `https://api.trendnow.me/oauth2/authorization/kakao?redirect_url=${redirectPath}`;
   };
 
