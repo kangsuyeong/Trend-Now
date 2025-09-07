@@ -23,10 +23,7 @@ export default function RequireLoginModal({ open, onClose }: LoginModalProps) {
 
   return (
     <Modal onClose={onClose}>
-      <span
-        onClick={(e) => e.stopPropagation()}
-        className="relative flex h-fit w-[540px] flex-col gap-y-8 rounded-[2rem] bg-white px-8 py-10"
-      >
+      <span className="relative flex h-fit w-[540px] flex-col gap-y-8 rounded-[2rem] bg-white px-8 py-10">
         <span onClick={onClose} className="absolute right-6 top-6 cursor-pointer">
           <Close />
         </span>

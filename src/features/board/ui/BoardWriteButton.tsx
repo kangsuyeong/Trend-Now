@@ -20,16 +20,17 @@ export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProp
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleWriteButton = async () => {
-    if (isAuthenticated) {
-      const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
-
-      if (result.canWritePost) {
-        router.push(href);
-      } else {
-        alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
-      }
-    } else {
+    if (!isAuthenticated) {
       setIsLoginModalOpen(true);
+      return;
+    }
+
+    const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
+
+    if (result.canWritePost) {
+      router.push(href);
+    } else {
+      alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
     }
   };
 

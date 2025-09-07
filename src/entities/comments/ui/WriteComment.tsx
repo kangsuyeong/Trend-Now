@@ -37,18 +37,18 @@ export default function WriteComment({ boardId, postId, refetch }: WriteCommentP
     },
   });
 
-  const handleSaveComment = async () => {
-    if (isAuthenticated) {
-      if (commentText.length === 0) {
-        alert('댓글을 입력해주세요.');
-
-        return;
-      }
-
-      mutate();
-    } else {
+  const handleSaveComment = () => {
+    if (!isAuthenticated) {
       setIsLoginModalOpen(true);
+      return;
     }
+
+    if (!commentText.trim()) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+
+    mutate();
   };
 
   return (

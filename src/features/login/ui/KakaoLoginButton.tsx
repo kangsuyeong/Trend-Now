@@ -12,7 +12,7 @@ export default function KakaoLoginButton({ redirectPath }: KakaoLoginButtonProps
   };
 
   return (
-    <div
+    <button
       className="flex cursor-pointer items-center justify-between rounded-full bg-kakao px-3 py-2"
       onClick={kakaoLogin}
     >
@@ -25,7 +25,6 @@ export default function KakaoLoginButton({ redirectPath }: KakaoLoginButtonProps
       <span className="w-full text-center text-md font-medium text-gray-800">
         카카오 3초 로그인/회원가입
       </span>
-      <span />
-    </div>
+    </button>
   );
 }

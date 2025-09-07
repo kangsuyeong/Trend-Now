@@ -12,7 +12,7 @@ export default function NaverLoginButton({ redirectPath }: NaverLoginButtonProps
   };
 
   return (
-    <div
+    <button
       className="flex cursor-pointer items-center justify-between rounded-full bg-naver px-3 py-2"
       onClick={naverLogin}
     >
@@ -22,8 +22,9 @@ export default function NaverLoginButton({ redirectPath }: NaverLoginButtonProps
         width={40}
         height={40}
       />
-      <span className="text-md font-medium text-white">네이버 3초 로그인/회원가입</span>
-      <span />
-    </div>
+      <span className="w-full text-center text-md font-medium text-white">
+        네이버 3초 로그인/회원가입
+      </span>
+    </button>
   );
 }
