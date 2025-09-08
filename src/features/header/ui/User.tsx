@@ -7,7 +7,6 @@ import {
   Hamburger24,
   PrimaryButton,
   UserProfile28,
-  UserProfile32,
 } from '@/shared/ui/';
 import { LoginModal } from '@/features/login';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -15,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/shared/store';
 import { axiosUserProfile } from '@/shared/api';
 import { UserProfile } from '@/shared/types';
+import Link from 'next/link';
 
 export default function User() {
   const queryClient = useQueryClient();
@@ -55,10 +55,13 @@ export default function User() {
   }
   return (
     <div className="flex gap-2">
-      <div className="flex h-10 select-none items-center justify-center gap-x-2.5 text-nowrap rounded-full bg-gray-100 py-2.5 pl-2.5 pr-3.5 text-base font-medium">
+      <Link
+        href={'/mypage'}
+        className="flex h-10 select-none items-center gap-x-2.5 text-nowrap rounded-full bg-gray-100 py-2.5 pl-2.5 pr-3.5 text-base font-medium"
+      >
         <UserProfile28 />
         {data?.nickname}
-      </div>
+      </Link>
 
       <DropdownMenu
         trigger={
@@ -66,14 +69,19 @@ export default function User() {
             <Hamburger24 />
           </span>
         }
-        className="w-[12.5rem]"
+        className="w-[12.5rem] p-4"
       >
-        <div className="flex h-14 w-full select-none items-center gap-x-3 text-nowrap rounded-2xl bg-gray-100 py-3 pl-3 pr-4 text-base font-medium">
-          <UserProfile32 />
-          {data?.nickname}
-        </div>
-        <DropdownMenuItem onClick={() => router.push('/mypage')} className="text-base">
-          마이페이지
+        <DropdownMenuItem onClick={() => router.push('/mypage/posts')} className="text-base">
+          내가 작성한 게시글
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/mypage/comments')} className="text-base">
+          내가 작성한 댓글
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/mypage/scraps')} className="text-base">
+          스크랩한 게시글
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/mypage/settings')} className="text-base">
+          설정
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
