@@ -46,7 +46,7 @@ export default function Comments({ postId, boardId }: CommentsProps) {
                   showMenu={item.myComments}
                   boardId={boardId}
                   postId={postId}
-                  commentId={item.id}
+                  commentId={item.commentId}
                   refetch={refetch}
                 />
               ))}
