@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Pencil24, PrimaryButton } from '@/shared/ui';
 import { useUserStore } from '@/shared/store';
 import { axiosCheckWriteCooldown } from '@/shared/api';
 import { WriteCooldownResponse } from '@/shared/types';
 import { useRouter } from 'next/navigation';
+import { RequireLoginModal } from '@/features/login';
 
 interface BoardWriteButtonProps {
   href: string;
@@ -16,7 +17,14 @@ export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProp
   const router = useRouter();
   const { isAuthenticated } = useUserStore();
 
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   const handleWriteButton = async () => {
+    if (!isAuthenticated) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
     const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
 
     if (result.canWritePost) {
@@ -26,14 +34,15 @@ export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProp
     }
   };
 
-  if (!isAuthenticated) return null;
-
   return (
-    <PrimaryButton variant="primary" size="m" className="pl-4" onClick={handleWriteButton}>
-      <span className="flex items-center gap-x-1.5">
-        <Pencil24 />
-        글쓰기
-      </span>
-    </PrimaryButton>
+    <>
+      <PrimaryButton variant="primary" size="m" className="pl-4" onClick={handleWriteButton}>
+        <span className="flex items-center gap-x-1.5">
+          <Pencil24 />
+          글쓰기
+        </span>
+      </PrimaryButton>
+      <RequireLoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+    </>
   );
 }
