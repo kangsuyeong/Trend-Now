@@ -15,15 +15,6 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true,
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {

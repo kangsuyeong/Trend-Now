@@ -13,7 +13,7 @@ const MySettings = () => {
     mutationKey: ['deleteUser'],
     mutationFn: axiosDeleteUser,
     onSuccess: () => {
-      router.push('/home');
+      router.push('/');
     },
     onError: () => {
       alert('회원 탈퇴 과정에 오류가 있었습니다. 다시 시도해주세요.');
