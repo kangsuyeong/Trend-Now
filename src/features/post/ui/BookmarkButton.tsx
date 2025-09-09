@@ -1,5 +1,7 @@
+import { RequireLoginModal } from '@/features/login';
 import { axiosScrapPost } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
+import { useUserStore } from '@/shared/store';
 import { PostScrapResponse } from '@/shared/types';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -14,7 +16,10 @@ interface BookmarkButtonProps {
 }
 
 export default function BookmarkButton({ postId, boardId, scraped }: BookmarkButtonProps) {
+  const { isAuthenticated } = useUserStore();
+
   const [isScraped, setIsScraped] = useState<boolean>(scraped);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { mutate } = useMutation({
     mutationFn: () => axiosScrapPost<PostScrapResponse>(boardId, postId),
@@ -32,15 +37,26 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
     },
   });
 
+  const handleScrap = () => {
+    if (isAuthenticated) {
+      mutate();
+    } else {
+      setIsLoginModalOpen(true);
+    }
+  };
+
   return (
-    <input
-      type="checkbox"
-      checked={isScraped}
-      onChange={(e) => {
-        e.preventDefault();
-        mutate();
-      }}
-      className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
-    />
+    <>
+      <input
+        type="checkbox"
+        checked={isScraped}
+        onChange={(e) => {
+          e.preventDefault();
+          handleScrap();
+        }}
+        className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
+      />
+      <RequireLoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+    </>
   );
 }
