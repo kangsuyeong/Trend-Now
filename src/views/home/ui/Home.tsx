@@ -1,5 +1,3 @@
-'use client';
-
 import { HotBoardList } from '@/entities/hotBoard';
 import { DateDivider } from '@/shared/ui';
 import { SortChip, SortChipItem } from '@/widgets/hotBoards';
