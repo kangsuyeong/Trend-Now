@@ -80,7 +80,11 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
       ) : (
         <>
           <BoardTable showNumber={false}>
-            <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
+            <BoardList
+              posts={postData.postList}
+              basePath={`/board/${BOARD_MAP[currentTab].id}`}
+              showNumber={false}
+            />
           </BoardTable>
 
           <Pagination
