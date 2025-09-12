@@ -7,6 +7,7 @@ import { useUserStore } from '@/shared/store';
 import { axiosGetComments } from '@/shared/api';
 import { CommentResponse } from '@/shared/types';
 import WriteComment from './WriteComment';
+import CommentsEmpty from './CommentsEmpty';
 
 interface CommentsProps {
   /**@param {number} postId 게시글 아이디 */
@@ -34,11 +35,12 @@ export default function Comments({ postId, boardId }: CommentsProps) {
             <span className="text-xl font-bold text-brand-500">{data?.length}</span>
           </span>
         </span>
-
         <div className="flex flex-col gap-2">
-          <div className="flex flex-col">
-            {data &&
-              data.map((item, idx) => (
+          {!data || data.length === 0 ? (
+            <CommentsEmpty />
+          ) : (
+            <div className="flex flex-col">
+              {data.map((item, idx) => (
                 <Fragment key={idx}>
                   <Comment
                     key={idx}
@@ -54,8 +56,8 @@ export default function Comments({ postId, boardId }: CommentsProps) {
                   <hr className="my-5 border-gray-200" />
                 </Fragment>
               ))}
-          </div>
-
+            </div>
+          )}
           <WriteComment boardId={boardId} postId={postId} refetch={refetch} />
         </div>
       </div>
