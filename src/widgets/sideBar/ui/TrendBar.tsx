@@ -5,9 +5,10 @@ import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
 import { axiosRealtimeTop10, SSE } from '@/shared/api';
 import { Top10, RankChangeType, RealtimeTop10Response, SignalKeyword } from '@/shared/types';
+import dayjs from 'dayjs';
 
 export default function TrendBar() {
-  const [top10, setTop10] = useState<Top10[]>();
+  const [top10, setTop10] = useState<SignalKeyword>();
   const today = new Date(Date.now());
 
   useEffect(() => {
@@ -17,21 +18,20 @@ export default function TrendBar() {
 
     eventSource.addEventListener('signalKeywordList', (e) => {
       const data: SignalKeyword = JSON.parse(e.data);
-      setTop10(data.top10WithDiff);
+      setTop10({ now: Number(data.now), top10WithDiff: data.top10WithDiff });
     });
   }, []);
 
   useEffect(() => {
     (async () =>
-      await axiosRealtimeTop10<RealtimeTop10Response>().then((res) => setTop10(res.top10)))();
+      await axiosRealtimeTop10<RealtimeTop10Response>().then((res) =>
+        setTop10({ now: Number(res.now), top10WithDiff: res.top10 })
+      ))();
   }, []);
 
   return (
-    <div className="sticky top-[104px] flex h-fit w-full flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
+    <div className="sticky top-[104px] flex h-fit w-full flex-col gap-y-5 rounded-3xl bg-brand-500 p-5">
       <div className="flex flex-col gap-y-6">
-        <span className="w-fit rounded-xl bg-gray-800 px-3 py-1.5 text-base font-medium text-white">
-          {`${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`}
-        </span>
         <span className="flex w-fit flex-col gap-y-1.5">
           <span className="text-lg font-semiBold text-brand-100">
             가장 뜨거운 실시간 인기 검색어
@@ -49,17 +49,22 @@ export default function TrendBar() {
           </span>
         </span>
       </div>
-      <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-3">
-        {top10 &&
-          top10.map((item) => (
-            <Top10Row
-              key={item.keyword}
-              rank={item.rank}
-              keyword={item.keyword}
-              rankChangeType={item.rankChangeType}
-              previousRank={item.previousRank}
-            />
-          ))}
+      <div className="flex flex-col gap-y-3">
+        <div className="flex h-10 items-center rounded-xl bg-black/[0.16] px-3 py-2 text-md font-medium text-white">
+          {dayjs(today).format('YYYY.MM.DD HH:mm 기준')}
+        </div>
+        <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-3">
+          {top10 &&
+            top10.top10WithDiff?.map((item) => (
+              <Top10Row
+                key={item.keyword}
+                rank={item.rank}
+                keyword={item.keyword}
+                rankChangeType={item.rankChangeType}
+                previousRank={item.previousRank}
+              />
+            ))}
+        </div>
       </div>
     </div>
   );

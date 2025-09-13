@@ -1,7 +1,10 @@
-'use server';
+import { Home } from '@/views/home';
+import { Suspense } from 'react';
 
-import { redirect } from 'next/navigation';
-
-export default async function Page() {
-  redirect('/home');
+export default function Page() {
+  return (
+    <Suspense>
+      <Home />
+    </Suspense>
+  );
 }
