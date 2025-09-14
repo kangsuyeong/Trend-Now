@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_REST_API_URL,
+  baseURL: isDev ? '' : process.env.NEXT_PUBLIC_REST_API_URL,
   withCredentials: true,
   timeout: 10000,
 });
