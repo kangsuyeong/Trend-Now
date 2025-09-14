@@ -20,12 +20,14 @@ export interface PostInfo {
 }
 
 export interface PostDetailResponse {
-  message: string;
-  postInfoDto: PostDetail;
-  imageInfos: ImageInfo[];
+  data: {
+    postInfoDto: PostDetail;
+    imageInfos: ImageInfo[];
+  };
 }
 
 export interface PostDetail {
+  postId: number;
   boardName: string;
   title: string;
   writer: string;
