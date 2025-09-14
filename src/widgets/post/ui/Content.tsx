@@ -2,7 +2,6 @@
 
 import { PostDetail } from '@/shared/types';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-import DOMPurify from 'dompurify';
 
 export default function Content({ post }: { post: PostDetail }) {
   // 임시 로직  Delta → HTML
@@ -25,7 +24,5 @@ export default function Content({ post }: { post: PostDetail }) {
     html = post.content;
   }
 
-  // XSS 방지 처리
-  html = DOMPurify.sanitize(html);
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
