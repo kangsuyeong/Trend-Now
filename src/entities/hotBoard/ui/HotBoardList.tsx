@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import HotBoardListRow from './HotBoardListRow';
 import MedalRow from './MedalRow';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { axiosDisconnectSSE, axiosHotBoardList, SSE } from '@/shared/api';
+import { axiosHotBoardList, SSE } from '@/shared/api';
 import { BoardTimeUp, HotBoardResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { useSearchParams } from 'next/navigation';
@@ -26,19 +26,13 @@ export default function HotBoardList() {
   useEffect(() => {
     const sseInstance = SSE.getInstance();
 
-    const { eventSource, clientId } = sseInstance.getEventSource();
+    const { eventSource } = sseInstance.getEventSource();
 
     eventSource.addEventListener('realtimeBoardTimeUp', (e) => {
       const data: BoardTimeUp = JSON.parse(e.data);
       console.log('HotBoardList', data);
       queryClient.invalidateQueries({ queryKey: queryKey });
     });
-
-    return () => {
-      console.log('SSE connection closed');
-      eventSource?.close();
-      (async () => await axiosDisconnectSSE(clientId))();
-    };
   }, []);
 
   if (!data) return null;
