@@ -5,7 +5,7 @@ import HotBoardListRow from './HotBoardListRow';
 import MedalRow from './MedalRow';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosHotBoardList, SSE } from '@/shared/api';
-import { BoardTimeUp, HotBoardResponse } from '@/shared/types';
+import { HotBoardResponse } from '@/shared/types';
 import { Pagination } from '@/shared/ui';
 import { useSearchParams } from 'next/navigation';
 
@@ -28,9 +28,7 @@ export default function HotBoardList() {
 
     const { eventSource } = sseInstance.getEventSource();
 
-    eventSource.addEventListener('realtimeBoardTimeUp', (e) => {
-      const data: BoardTimeUp = JSON.parse(e.data);
-      console.log('HotBoardList', data);
+    eventSource.addEventListener('realtimeBoardTimeUp', () => {
       queryClient.invalidateQueries({ queryKey: queryKey });
     });
   }, []);
