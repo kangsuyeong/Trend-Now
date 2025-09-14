@@ -7,6 +7,7 @@ import { Modal } from '@/shared/ui';
 import GoogleLoginButton from './GoogleLoginButton';
 import KakaoLoginButton from './KakaoLoginButton';
 import NaverLoginButton from './NaverLoginButton';
+import TestLoginButton from './TestLoginButton';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -16,6 +17,9 @@ interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
 }
 
 export default function LoginModal({ open, onClose }: LoginModalProps) {
+  // 개발 서버인지 유무 판단
+  const isDev = process.env.NODE_ENV === 'development';
+
   const pathname = usePathname();
 
   if (!open) return;
@@ -43,6 +47,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           <GoogleLoginButton redirectPath={encodedUri} />
           <KakaoLoginButton redirectPath={encodedUri} />
           <NaverLoginButton redirectPath={encodedUri} />
+          {isDev && <TestLoginButton onClose={onClose} />}
         </div>
       </span>
     </Modal>
