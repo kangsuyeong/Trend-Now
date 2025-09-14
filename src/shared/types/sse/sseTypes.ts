@@ -2,10 +2,11 @@ import { RankChangeType } from './sseEnums';
 import { ErrorEvent } from 'eventsource';
 
 export interface Top10 {
+  boardId: number;
   rank: number;
   keyword: string;
   rankChangeType: RankChangeType;
-  previousRank?: number;
+  diffRank?: number;
 }
 
 export interface SignalKeyword {

@@ -4,8 +4,9 @@ import Image from 'next/image';
 import React, { memo, useEffect, useState } from 'react';
 import { Bar, Down, Up } from './icons';
 import { axiosRealtimeTop10, SSE } from '@/shared/api';
-import { Top10, RankChangeType, RealtimeTop10Response, SignalKeyword } from '@/shared/types';
+import { Top10, RankChangeType, SignalKeyword } from '@/shared/types';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<SignalKeyword>();
@@ -18,15 +19,12 @@ export default function TrendBar() {
 
     eventSource.addEventListener('signalKeywordList', (e) => {
       const data: SignalKeyword = JSON.parse(e.data);
-      setTop10({ now: Number(data.now), top10WithDiff: data.top10WithDiff });
+      setTop10(data);
     });
   }, []);
 
   useEffect(() => {
-    (async () =>
-      await axiosRealtimeTop10<RealtimeTop10Response>().then((res) =>
-        setTop10({ now: Number(res.now), top10WithDiff: res.top10 })
-      ))();
+    (async () => await axiosRealtimeTop10<SignalKeyword>().then((res) => setTop10(res)))();
   }, []);
 
   return (
@@ -58,10 +56,11 @@ export default function TrendBar() {
             top10.top10WithDiff?.map((item) => (
               <Top10Row
                 key={item.keyword}
+                boardId={item.boardId}
                 rank={item.rank}
                 keyword={item.keyword}
                 rankChangeType={item.rankChangeType}
-                previousRank={item.previousRank}
+                diffRank={item.diffRank}
               />
             ))}
         </div>
@@ -70,39 +69,37 @@ export default function TrendBar() {
   );
 }
 
-const Top10Row = memo(function Row({ rank, keyword, rankChangeType, previousRank }: Top10) {
+const Top10Row = memo(function Row({ boardId, rank, keyword, rankChangeType, diffRank }: Top10) {
   return (
-    <div className="flex cursor-pointer justify-between rounded-xl py-2 pr-3 hover:bg-white/[16%] hover:pl-3">
-      <div className="flex min-w-0 items-center gap-x-3">
-        <span className="h-7 w-7 text-center text-xl font-semiBold text-white">{rank}</span>
-        <span className="flex-1 truncate text-lg font-semiBold text-white">{keyword}</span>
-      </div>
-      {previousRank ? (
-        rankChangeType === RankChangeType.UP ? (
-          <div className="flex items-center gap-x-0.5">
-            <Up />
-            <span className="text-base font-medium text-white">
-              {Math.abs(previousRank - rank)}
-            </span>
-          </div>
-        ) : rankChangeType === RankChangeType.DOWN ? (
-          <div className="flex items-center gap-x-0.5">
-            <Down />
-            <span className="text-base font-medium text-[#1056AC]">
-              {Math.abs(previousRank - rank)}
-            </span>
-          </div>
+    <Link href={`/hotboard/${boardId}`}>
+      <div className="flex cursor-pointer justify-between rounded-xl py-2 pr-3 hover:bg-white/[16%] hover:pl-3">
+        <div className="flex min-w-0 items-center gap-x-3">
+          <span className="h-7 w-7 text-center text-xl font-semiBold text-white">{rank}</span>
+          <span className="flex-1 truncate text-lg font-semiBold text-white">{keyword}</span>
+        </div>
+        {diffRank ? (
+          rankChangeType === RankChangeType.UP ? (
+            <div className="flex items-center gap-x-0.5">
+              <Up />
+              <span className="text-base font-medium text-white">{diffRank}</span>
+            </div>
+          ) : rankChangeType === RankChangeType.DOWN ? (
+            <div className="flex items-center gap-x-0.5">
+              <Down />
+              <span className="text-base font-medium text-[#1056AC]">{diffRank}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-x-0.5">
+              <Bar />
+            </div>
+          )
         ) : (
           <div className="flex items-center gap-x-0.5">
-            <Bar />
+            <span className="text-base font-medium text-white">NEW</span>
           </div>
-        )
-      ) : (
-        <div className="flex items-center gap-x-0.5">
-          <span className="text-base font-medium text-white">NEW</span>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Link>
   );
 });
 
