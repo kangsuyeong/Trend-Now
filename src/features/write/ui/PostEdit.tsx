@@ -25,6 +25,7 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
   const { data, isLoading } = useQuery({
     queryKey: ['postDetail', boardId, postId],
     queryFn: () => axiosPost<PostDetailResponse>(boardId, postId),
+    select: (data) => data.data,
   });
   const post = data?.postInfoDto;
   const images = data?.imageInfos;
