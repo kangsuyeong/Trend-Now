@@ -33,7 +33,9 @@ export default function TrendBarRowType({ rankChangeType, diffRank }: TrendBarRo
     case RankChangeType.NEW:
       return (
         <>
-          <span className="text-base font-medium text-white">NEW</span>
+          <span className="flex h-6 items-center rounded-lg bg-white/[16%] px-2 text-2xs font-semiBold text-white">
+            NEW
+          </span>
         </>
       );
   }

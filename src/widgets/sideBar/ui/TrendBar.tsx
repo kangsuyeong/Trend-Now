@@ -27,10 +27,10 @@ export default function TrendBar() {
   }, []);
 
   return (
-    <div className="sticky top-[104px] flex h-fit w-full flex-col gap-y-5 rounded-3xl bg-brand-500 p-5">
-      <div className="flex flex-col gap-y-6">
-        <span className="flex w-fit flex-col gap-y-1.5">
-          <span className="text-lg font-semiBold text-brand-100">
+    <div className="sticky top-[104px] flex h-fit w-full flex-col rounded-3xl bg-brand-500">
+      <div className="flex flex-col gap-y-6 p-5">
+        <span className="flex w-fit flex-col gap-y-2">
+          <span className="text-base font-semiBold text-brand-100">
             가장 뜨거운 실시간 인기 검색어
           </span>
           <span className="flex w-fit items-center gap-x-1.5">
@@ -47,21 +47,25 @@ export default function TrendBar() {
         </span>
       </div>
       <div className="flex flex-col gap-y-3">
-        <div className="flex h-10 items-center rounded-xl bg-black/[0.16] px-3 py-2 text-md font-medium text-white">
-          {dayjs(today).format('YYYY.MM.DD HH:mm 기준')}
+        <div className="px-5">
+          <span className="flex h-10 items-center rounded-xl bg-black/[0.16] px-3 py-2 text-md font-medium text-white">
+            {dayjs(today).format('YYYY.MM.DD HH:mm 기준')}
+          </span>
         </div>
-        <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-3">
-          {top10 &&
-            top10.top10WithDiff?.map((item) => (
-              <TrendBarRow
-                key={item.keyword}
-                boardId={item.boardId}
-                rank={item.rank}
-                keyword={item.keyword}
-                rankChangeType={item.rankChangeType}
-                diffRank={item.diffRank}
-              />
-            ))}
+        <div className="px-5 pb-5">
+          <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-2">
+            {top10 &&
+              top10.top10WithDiff?.map((item) => (
+                <TrendBarRow
+                  key={item.keyword}
+                  boardId={item.boardId}
+                  rank={item.rank}
+                  keyword={item.keyword}
+                  rankChangeType={item.rankChangeType}
+                  diffRank={item.diffRank}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </div>
