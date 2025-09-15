@@ -6,7 +6,7 @@ export interface Top10 {
   rank: number;
   keyword: string;
   rankChangeType: RankChangeType;
-  diffRank?: number;
+  diffRank: number;
 }
 
 export interface SignalKeyword {

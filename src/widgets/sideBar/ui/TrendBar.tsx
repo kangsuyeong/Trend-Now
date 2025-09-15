@@ -1,12 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import React, { memo, useEffect, useState } from 'react';
-import { Bar, Down, Up } from './icons';
+import React, { useEffect, useState } from 'react';
 import { axiosRealtimeTop10, SSE } from '@/shared/api';
-import { Top10, RankChangeType, SignalKeyword } from '@/shared/types';
+import { SignalKeyword } from '@/shared/types';
 import dayjs from 'dayjs';
-import Link from 'next/link';
+import TrendBarRow from './TrendBarRow';
 
 export default function TrendBar() {
   const [top10, setTop10] = useState<SignalKeyword>();
@@ -54,7 +53,7 @@ export default function TrendBar() {
         <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-3">
           {top10 &&
             top10.top10WithDiff?.map((item) => (
-              <Top10Row
+              <TrendBarRow
                 key={item.keyword}
                 boardId={item.boardId}
                 rank={item.rank}
@@ -68,39 +67,3 @@ export default function TrendBar() {
     </div>
   );
 }
-
-const Top10Row = memo(function Row({ boardId, rank, keyword, rankChangeType, diffRank }: Top10) {
-  return (
-    <Link href={`/hotboard/${boardId}`}>
-      <div className="flex cursor-pointer justify-between rounded-xl py-2 pr-3 hover:bg-white/[16%] hover:pl-3">
-        <div className="flex min-w-0 items-center gap-x-3">
-          <span className="h-7 w-7 text-center text-xl font-semiBold text-white">{rank}</span>
-          <span className="flex-1 truncate text-lg font-semiBold text-white">{keyword}</span>
-        </div>
-        {diffRank ? (
-          rankChangeType === RankChangeType.UP ? (
-            <div className="flex items-center gap-x-0.5">
-              <Up />
-              <span className="text-base font-medium text-white">{diffRank}</span>
-            </div>
-          ) : rankChangeType === RankChangeType.DOWN ? (
-            <div className="flex items-center gap-x-0.5">
-              <Down />
-              <span className="text-base font-medium text-[#1056AC]">{diffRank}</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-x-0.5">
-              <Bar />
-            </div>
-          )
-        ) : (
-          <div className="flex items-center gap-x-0.5">
-            <span className="text-base font-medium text-white">NEW</span>
-          </div>
-        )}
-      </div>
-    </Link>
-  );
-});
-
-Top10Row.displayName = 'Top10Row';
