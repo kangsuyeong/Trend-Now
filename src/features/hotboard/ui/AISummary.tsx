@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import aiStar from './lottie/aistar.json';
 import CloseButton from './CloseButton';
 import { cn } from '@/shared/lib';
+import AISummarySkeleton from './AISummarySkeleton';
 
 interface AISummaryProps {
   /**@param {string} summaryText AI 요약 내용*/
@@ -15,6 +16,8 @@ export default function AISummary({ summaryText }: AISummaryProps) {
   const handleSummaryToggle = () => {
     setIsOpen(!isOpen);
   };
+
+  if (!summaryText) return <AISummarySkeleton />;
 
   return (
     <div className="flex flex-col rounded-[20px] bg-gray-200 px-5 py-4">
