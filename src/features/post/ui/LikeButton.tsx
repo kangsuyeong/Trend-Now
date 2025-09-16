@@ -17,7 +17,7 @@ export default function BookmarkButton({ postId, boardId, liked }: BookmarkButto
 
   // boardName 삭제
   const { mutate } = useMutation({
-    mutationFn: () => axiosLike('', boardId, postId),
+    mutationFn: () => axiosLike(boardId, postId),
     onSuccess: (res) => {
       if (res) {
         setIsLiked(true);

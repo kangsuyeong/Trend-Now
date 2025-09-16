@@ -162,12 +162,8 @@ export const axiosDeletePost = async <T>(boardId: number, postId: number): Promi
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
   (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
-export const axiosLike = async <T>(
-  boardName: string,
-  boardId: number,
-  postId: number
-): Promise<T> =>
-  (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+export const axiosLike = async <T>(boardId: number, postId: number): Promise<T> =>
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}`)).data;
 
 export const axiosCheckWriteCooldown = async <T>(boardId: number): Promise<T> =>
   (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;
