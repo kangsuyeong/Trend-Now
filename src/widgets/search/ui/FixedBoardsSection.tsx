@@ -1,5 +1,5 @@
 'use client';
-import { BoardList } from '@/entities/board';
+import { BoardList, BoardTable } from '@/entities/board';
 import { SearchSectionTitle, SearchTypeTabs } from '@/entities/search';
 import { axiosSearchFixedBoardPosts } from '@/shared/api/axios/axios';
 import { BOARD_MAP } from '@/shared/constants';
@@ -21,23 +21,22 @@ interface Tab {
 const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
   const [page, setPage] = useState(1);
   const [currentTab, setCurrentTab] = useState<BoardType>('free');
-
   const { data: freePosts } = useQuery({
-    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.free.id, 1],
+    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.free.id, page],
     queryFn: () =>
-      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.free.id),
+      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.free.id, page),
     select: (data) => data.searchResult,
   });
   const { data: entertainPosts } = useQuery({
-    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.entertain.id, 1],
+    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.entertain.id, page],
     queryFn: () =>
-      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.entertain.id),
+      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.entertain.id, page),
     select: (data) => data.searchResult,
   });
   const { data: politicsPosts } = useQuery({
-    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.politics.id, 1],
+    queryKey: ['searchFixedBoardPosts', keyword, BOARD_MAP.politics.id, page],
     queryFn: () =>
-      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.politics.id),
+      axiosSearchFixedBoardPosts<SearchFixedBoardsResponse>(keyword, BOARD_MAP.politics.id, page),
     select: (data) => data.searchResult,
   });
 
@@ -67,7 +66,12 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
   return (
     <section aria-label="고정 게시판 게시글 목록" className="flex flex-col gap-5">
       <SearchSectionTitle title="고정 게시판" count={totalCount} />
-      <SearchTypeTabs tabs={tabs} currentTab={currentTab} onTabChange={setCurrentTab} />
+      <SearchTypeTabs
+        tabs={tabs}
+        currentTab={currentTab}
+        onTabChange={setCurrentTab}
+        setPage={setPage}
+      />
       {postData.postList.length === 0 ? (
         <EmptyState
           message={`검색하신 키워드에 대한 게시글이 아직 없습니다. \n 지금 첫 번째 글을 작성해보세요.`}
@@ -75,7 +79,14 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
         />
       ) : (
         <>
-          <BoardList posts={postData.postList} basePath={`/${currentTab}`} showNumber={false} />
+          <BoardTable showNumber={false}>
+            <BoardList
+              posts={postData.postList}
+              basePath={`/board/${BOARD_MAP[currentTab].id}`}
+              showNumber={false}
+            />
+          </BoardTable>
+
           <Pagination
             currentPage={page}
             maxPage={postData.totalPageCount}

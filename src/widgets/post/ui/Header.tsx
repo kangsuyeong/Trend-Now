@@ -20,21 +20,24 @@ interface HeaderProps {
 
 export default function Header({ post, isHotBoard, boardId, postId }: HeaderProps) {
   return (
-    <div className="flex flex-col gap-y-8 border-b border-gray-200 pb-6">
+    <div className="flex flex-col gap-y-6 border-b border-gray-200 pb-5">
       <div className="flex justify-between">
-        <span className="flex flex-col gap-y-3">
-          <span
+        {/* 게시판 이름 & 제목 */}
+        <div className="flex flex-col gap-y-3 pr-10">
+          <div
             className={cn('text-lg font-semiBold', isHotBoard ? 'text-brand-500' : 'text-gray-500')}
           >
             {post.boardName}
-          </span>
-          <span className="text-2xl font-bold text-gray-800">{post.title}</span>
-        </span>
-        <span className="flex gap-x-2">
+          </div>
+          <div className="text-2xl font-bold text-gray-800">{post.title}</div>
+        </div>
+
+        <div className="flex gap-x-2">
           <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
           {post.myPost && <PostKebabButton />}
-        </span>
+        </div>
       </div>
+
       <div className="flex justify-between">
         <span className="flex items-center gap-x-2">
           <UserProfile28 />
@@ -55,7 +58,7 @@ export default function Header({ post, isHotBoard, boardId, postId }: HeaderProp
           </span>
           <span className="flex items-center gap-x-1.5 before:ml-2 before:inline-block before:h-3 before:w-[1px] before:bg-gray-200">
             <span>작성일</span>
-            <span>{dayjs(post.updatedAt).format('YYYY.MM.DD')}</span>
+            <span>{dayjs(post.createdAt).format('YYYY.MM.DD')}</span>
           </span>
         </span>
       </div>

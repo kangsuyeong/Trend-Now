@@ -10,7 +10,7 @@ export default function Layout({
   return (
     <div className="flex min-h-screen flex-col">
       <AppBar />
-      <main className="flex-1">{children}</main>
+      <main className="mt-20 flex-1">{children}</main>
       <div className="pt-[6.25rem]">
         <Footer />
       </div>

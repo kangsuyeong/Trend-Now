@@ -1,5 +1,5 @@
 'use client';
-import { BoardList } from '@/entities/board';
+import { BoardList, BoardTable } from '@/entities/board';
 import { axiosPosts } from '@/shared/api';
 import { BOARD_PAGE_SIZE } from '@/shared/constants';
 import { PostListResponse } from '@/shared/types';
@@ -9,9 +9,10 @@ import { useSearchParams } from 'next/navigation';
 
 interface BoardSectionProps {
   boardId: number;
+  basePath: string;
 }
 
-const BoardSection = ({ boardId }: BoardSectionProps) => {
+const BoardSection = ({ boardId, basePath }: BoardSectionProps) => {
   const searchParams = useSearchParams();
   const page = Math.max(1, Number(searchParams.get('page') ?? '1') || 1);
   const { data } = useQuery({
@@ -20,15 +21,24 @@ const BoardSection = ({ boardId }: BoardSectionProps) => {
     placeholderData: keepPreviousData,
   });
 
+  // CSR에서 필요 (전부다 SSR로 전환시 삭제)
+  if (!data) return null;
+
+  const posts = data!.postsListDto;
+
   return (
     <div className="flex flex-col gap-8">
-      <BoardList posts={data!.postsListDto} basePath={`/board/${boardId}`} showNumber />
-      <Pagination
-        currentPage={page}
-        maxPage={data!.totalPageCount}
-        count={5}
-        getHref={(p) => `/board/${boardId}?page=${p}`}
-      />
+      <BoardTable>
+        <BoardList posts={posts} basePath={`${basePath}/${boardId}`} showNumber />
+      </BoardTable>
+      {posts.length > 0 && (
+        <Pagination
+          currentPage={page}
+          maxPage={data!.totalPageCount}
+          count={5}
+          getHref={(p) => `${basePath}/${boardId}?page=${p}`}
+        />
+      )}
     </div>
   );
 };

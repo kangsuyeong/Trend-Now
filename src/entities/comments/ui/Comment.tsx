@@ -69,7 +69,7 @@ export default function Comment({
   };
 
   return (
-    <div className="flex flex-col gap-y-4 py-5">
+    <div className="flex flex-col">
       <div className="flex items-center justify-between">
         <span className="flex flex-1 flex-col gap-y-0.5">
           <span className="flex items-center gap-x-4">

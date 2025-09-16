@@ -15,13 +15,9 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  async redirects() {
+  async rewrites() {
     return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true,
-      },
+      { source: '/api/:path*', destination: `${process.env.NEXT_PUBLIC_REST_API_URL}/api/:path*` },
     ];
   },
   images: {

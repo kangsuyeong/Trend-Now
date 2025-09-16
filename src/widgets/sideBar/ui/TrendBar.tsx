@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import React, { memo, useEffect, useState } from 'react';
-import { Bar, Down, Up } from './icons';
+import React, { useEffect, useState } from 'react';
 import { axiosRealtimeTop10, SSE } from '@/shared/api';
-import { Top10, RankChangeType, RealtimeTop10Response, SignalKeyword } from '@/shared/types';
+import { SignalKeyword } from '@/shared/types';
+import dayjs from 'dayjs';
+import TrendBarRow from './TrendBarRow';
 
 export default function TrendBar() {
-  const [top10, setTop10] = useState<Top10[]>();
+  const [top10, setTop10] = useState<SignalKeyword>();
   const today = new Date(Date.now());
 
   useEffect(() => {
@@ -17,23 +18,19 @@ export default function TrendBar() {
 
     eventSource.addEventListener('signalKeywordList', (e) => {
       const data: SignalKeyword = JSON.parse(e.data);
-      setTop10(data.top10WithDiff);
+      setTop10(data);
     });
   }, []);
 
   useEffect(() => {
-    (async () =>
-      await axiosRealtimeTop10<RealtimeTop10Response>().then((res) => setTop10(res.top10)))();
+    (async () => await axiosRealtimeTop10<SignalKeyword>().then((res) => setTop10(res)))();
   }, []);
 
   return (
-    <div className="flex flex-col gap-y-7 rounded-3xl bg-brand-500 p-5">
-      <div className="flex flex-col gap-y-6">
-        <span className="w-fit rounded-xl bg-gray-800 px-3 py-1.5 text-base font-medium text-white">
-          {`${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`}
-        </span>
-        <span className="flex w-fit flex-col gap-y-1.5">
-          <span className="text-lg font-semiBold text-brand-100">
+    <div className="sticky top-[104px] flex h-fit w-full flex-col rounded-3xl bg-brand-500">
+      <div className="flex flex-col gap-y-6 p-5">
+        <span className="flex w-fit flex-col gap-y-2">
+          <span className="text-base font-semiBold text-brand-100">
             가장 뜨거운 실시간 인기 검색어
           </span>
           <span className="flex w-fit items-center gap-x-1.5">
@@ -49,60 +46,28 @@ export default function TrendBar() {
           </span>
         </span>
       </div>
-      <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-3">
-        {top10 &&
-          top10.map((item) => (
-            <Top10Row
-              key={item.keyword}
-              rank={item.rank}
-              keyword={item.keyword}
-              rankChangeType={item.rankChangeType}
-              previousRank={item.previousRank}
-            />
-          ))}
+      <div className="flex flex-col gap-y-3">
+        <div className="px-5">
+          <span className="flex h-10 items-center rounded-xl bg-black/[0.16] px-3 py-2 text-md font-medium text-white">
+            {dayjs(today).format('YYYY.MM.DD HH:mm 기준')}
+          </span>
+        </div>
+        <div className="px-5 pb-5">
+          <div className="flex flex-col gap-y-1 rounded-[1.25rem] bg-white/[8%] p-2">
+            {top10 &&
+              top10.top10WithDiff?.map((item) => (
+                <TrendBarRow
+                  key={item.keyword}
+                  boardId={item.boardId}
+                  rank={item.rank}
+                  keyword={item.keyword}
+                  rankChangeType={item.rankChangeType}
+                  diffRank={item.diffRank}
+                />
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-const Top10Row = memo(function Row({ rank, keyword, rankChangeType, previousRank }: Top10) {
-  return (
-    <div className="flex cursor-pointer justify-between rounded-xl py-2 pr-3 hover:bg-white/[16%] hover:pl-3">
-      <div className="flex gap-x-3">
-        <span className="flex h-7 w-7 items-center justify-center text-xl font-semiBold text-white">
-          {rank}
-        </span>
-        <span className="flex items-center justify-center text-lg font-semiBold text-white">
-          {keyword}
-        </span>
-      </div>
-      {previousRank ? (
-        rankChangeType === RankChangeType.UP ? (
-          <div className="flex items-center gap-x-0.5">
-            <Up />
-            <span className="text-base font-medium text-white">
-              {Math.abs(previousRank - rank)}
-            </span>
-          </div>
-        ) : rankChangeType === RankChangeType.DOWN ? (
-          <div className="flex items-center gap-x-0.5">
-            <Down />
-            <span className="text-base font-medium text-[#1056AC]">
-              {Math.abs(previousRank - rank)}
-            </span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-x-0.5">
-            <Bar />
-          </div>
-        )
-      ) : (
-        <div className="flex items-center gap-x-0.5">
-          <span className="text-base font-medium text-white">NEW</span>
-        </div>
-      )}
-    </div>
-  );
-});
-
-Top10Row.displayName = 'Top10Row';

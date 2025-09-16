@@ -1,6 +1,6 @@
 'use client';
 import { axiosPost } from '@/shared/api';
-import { PostDetailResponse } from '@/shared/types';
+import type { PostDetailResponse } from '@/shared/types';
 import { Comments } from '@/entities/comments';
 import { Content, Header } from '@/widgets/post';
 import { useQuery } from '@tanstack/react-query';
@@ -20,7 +20,7 @@ export default function Post({ postId, boardId, isHotBoard = false }: PostProps)
   const { data: post } = useQuery({
     queryKey: ['postDetail', boardId, postId],
     queryFn: () => axiosPost<PostDetailResponse>(boardId, postId),
-    select: (data) => data.postInfoDto,
+    select: (data) => data.data.postInfoDto,
   });
 
   if (!post) return null;
@@ -28,8 +28,8 @@ export default function Post({ postId, boardId, isHotBoard = false }: PostProps)
   return (
     <div className="flex border-r border-gray-200 bg-white pr-8">
       <div className="flex w-full flex-col gap-y-8">
-        <Header post={post} isHotBoard={isHotBoard} boardId={boardId} postId={postId} />
-        <Content post={post} />
+        <Header post={post!} isHotBoard={isHotBoard} boardId={boardId} postId={postId} />
+        <Content post={post!} />
         <Comments boardId={boardId} postId={postId} />
       </div>
     </div>

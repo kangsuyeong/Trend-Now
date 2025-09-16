@@ -6,9 +6,9 @@ import { Suspense } from 'react';
 
 const Appbar = () => {
   return (
-    <header className="flex h-20 w-full items-center justify-center border-b border-gray-200 px-8">
+    <header className="fixed z-20 flex h-20 w-full items-center justify-center border-b border-gray-200 bg-white px-8">
       <div className="flex w-[78rem] items-center justify-between">
-        <Link href={`/home`} className="cursor-pointer">
+        <Link href={`/`} className="w-[12.5rem] cursor-pointer">
           <Trendnow />
         </Link>
         <Suspense>
