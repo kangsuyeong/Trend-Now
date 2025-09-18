@@ -5,6 +5,7 @@ import { Close } from './icons';
 import GoogleLoginButton from './GoogleLoginButton';
 import KakaoLoginButton from './KakaoLoginButton';
 import NaverLoginButton from './NaverLoginButton';
+import Image from 'next/image';
 
 interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
@@ -27,8 +28,8 @@ export default function RequireLoginModal({ open, onClose }: LoginModalProps) {
         <span onClick={onClose} className="absolute right-6 top-6 cursor-pointer">
           <Close />
         </span>
-        <div className="flex w-full flex-col justify-center gap-y-8">
-          <span className="text-center font-himpun text-5xl text-gray-800">Trendnow</span>
+        <div className="flex w-full flex-col items-center justify-center gap-y-8">
+          <Image src="/images/loginAnimation.gif" alt="로그인 이미지" height={160} width={256} />
           <span className="flex flex-col gap-y-3">
             <span className="text-center text-xl font-bold text-gray-900">
               로그인이 필요한 서비스입니다.
