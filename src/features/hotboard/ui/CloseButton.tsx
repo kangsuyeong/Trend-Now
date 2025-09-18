@@ -18,8 +18,15 @@ export default function CloseButton({ open = true, onClick }: CloseButtonProps) 
         onClick={onClick}
       />
       <label
+        tabIndex={0}
         htmlFor="close"
         className="flex h-5 w-5 rotate-0 cursor-pointer items-center justify-center transition-transform peer-checked:-rotate-45"
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            onClick?.();
+          }
+        }}
       >
         <svg
           width="16"
