@@ -19,5 +19,7 @@ export interface HotBoardInfoResponse {
   boardId: number;
   boardName: string;
   boardLiveTime: number;
+  boardExpiredTime: number;
   score: number;
+  summary: string;
 }
