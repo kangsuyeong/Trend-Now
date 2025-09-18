@@ -30,9 +30,9 @@ export default function CloseButton({ open = true, onClick }: CloseButtonProps) 
         >
           <path
             d="M8.00065 1.33301L8.00065 14.6663M14.6673 7.99967L1.33398 7.99967"
-            stroke="black"
-            strokeOpacity="0.28"
-            strokeWidth="1.15"
+            stroke="white"
+            // strokeOpacity="0.28"
+            strokeWidth="1.3"
             strokeLinecap="round"
           />
         </svg>
