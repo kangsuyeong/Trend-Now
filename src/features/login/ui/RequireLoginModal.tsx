@@ -1,3 +1,4 @@
+'use client';
 import { Modal } from '@/shared/ui';
 import { usePathname } from 'next/navigation';
 import React from 'react';
