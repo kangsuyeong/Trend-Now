@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosHotBoardInfo, axiosHotBoardList } from '@/shared/api';
 import { HotBoardInfoResponse, HotBoardResponse } from '@/shared/types';
 import { BoardSection, BoardWriteButton } from '@/features/board';
+import { AISummary } from '@/features/hotboard';
 
 interface HotBoardProps {
   /**@param {number} boardId 게시판 Id */
@@ -55,6 +56,7 @@ export default function HotBoard({ boardId }: HotBoardProps) {
             </span>
           </div>
         </div>
+        <AISummary summaryText={boardInfo.summary} />
         <div className="flex items-center justify-end">
           <BoardWriteButton href={`/hotboard/${boardId}/write`} boardId={boardId} />
         </div>
