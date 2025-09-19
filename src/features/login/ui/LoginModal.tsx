@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Close } from './icons';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Modal } from '@/shared/ui';
 import GoogleLoginButton from './GoogleLoginButton';
 import KakaoLoginButton from './KakaoLoginButton';
@@ -13,14 +13,24 @@ interface LoginModalProps extends React.RefAttributes<HTMLDivElement> {
   /**@param {boolean} open 모달 여닫음 여부 */
   open: boolean;
   /**@param {() => void} onDimClick 모달 배경 클릭 시 함수 */
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function LoginModal({ open, onClose }: LoginModalProps) {
   // 개발 서버인지 유무 판단
   const isDev = process.env.NODE_ENV === 'development';
 
+  const router = useRouter();
   const pathname = usePathname();
+
+  // onClose를 넘겨줄 경우 state로 관리, onClose를 안넘겨줄경우 url로 관리
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      router.replace('/');
+    }
+  };
 
   if (!open) return;
 
@@ -29,9 +39,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   );
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={handleClose}>
       <span className="relative flex h-fit w-[540px] flex-col gap-y-8 rounded-[2rem] bg-white px-8 py-10">
-        <span onClick={onClose} className="absolute right-6 top-6 cursor-pointer">
+        <span onClick={handleClose} className="absolute right-6 top-6 cursor-pointer">
           <Close />
         </span>
         <div className="flex w-full flex-col justify-center gap-y-8 py-8">
@@ -47,7 +57,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           <GoogleLoginButton redirectPath={encodedUri} />
           <KakaoLoginButton redirectPath={encodedUri} />
           <NaverLoginButton redirectPath={encodedUri} />
-          {isDev && <TestLoginButton onClose={onClose} />}
+          {isDev && <TestLoginButton onClose={handleClose} />}
         </div>
       </span>
     </Modal>
