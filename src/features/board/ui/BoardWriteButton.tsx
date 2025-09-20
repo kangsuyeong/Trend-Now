@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Pencil24, PrimaryButton } from '@/shared/ui';
-import { useUserStore } from '@/shared/store';
 import { axiosCheckWriteCooldown } from '@/shared/api';
 import { WriteCooldownResponse } from '@/shared/types';
 import { useRouter } from 'next/navigation';
@@ -15,22 +14,21 @@ interface BoardWriteButtonProps {
 
 export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProps) {
   const router = useRouter();
-  const { isAuthenticated } = useUserStore();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleWriteButton = async () => {
-    if (!isAuthenticated) {
+    try {
+      const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
+
+      if (result.canWritePost) {
+        router.push(href);
+      } else {
+        alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
+      }
+    } catch {
       setIsLoginModalOpen(true);
       return;
-    }
-
-    const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
-
-    if (result.canWritePost) {
-      router.push(href);
-    } else {
-      alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
     }
   };
 
