@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Close } from './icons';
 import { usePathname } from 'next/navigation';
 import { Modal } from '@/shared/ui';
