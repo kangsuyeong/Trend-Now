@@ -15,11 +15,6 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  async rewrites() {
-    return [
-      { source: '/api/:path*', destination: `${process.env.NEXT_PUBLIC_REST_API_URL}/api/:path*` },
-    ];
-  },
   images: {
     remotePatterns: [
       {
