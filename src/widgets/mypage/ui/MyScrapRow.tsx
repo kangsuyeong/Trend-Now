@@ -44,29 +44,29 @@ const MyScrapRow = ({
     : `/hotboard/${boardId}/post/${postId}`;
 
   return (
-    <Link href={boardPath}>
-      <div className="flex w-full justify-between border-b border-gray-200 px-2 py-4">
-        <div className="flex items-center gap-4">
-          <ScrapToggleButton size={'s'} />
-          <div className="flex flex-col gap-1">
-            <div className="text-xs font-medium text-brand-500">{boardName}</div>
-            <div className="flex items-center gap-1.5">
+    <div className="flex w-full justify-between border-b border-gray-200 px-2 py-4">
+      <div className="flex items-center gap-4">
+        <ScrapToggleButton size={'s'} boardId={boardId} postId={postId} />
+        <div className="flex flex-col gap-1">
+          <div className="text-xs font-medium text-brand-500">{boardName}</div>
+          <div className="flex items-center gap-1.5">
+            <Link href={boardPath}>
               <div className="text-md font-semibold text-gray-800 hover:underline">{title}</div>
-              <div className="text-xs text-gray-500">[{comments}]</div>
-            </div>
+            </Link>
+            <div className="text-xs text-gray-500">[{comments}]</div>
           </div>
-        </div>
-        <div className="flex items-center gap-2 text-center text-sm font-regular text-gray-500">
-          <div className="flex w-[6.25rem] items-center justify-center gap-x-1.5">
-            <UserProfile20 />
-            <div>{nickname}</div>
-          </div>
-          <div className="w-12">{views.toLocaleString()}</div>
-          <div className="w-12">{likes.toLocaleString()}</div>
-          <div className="w-12">{dayjs(created).format('MM.DD')}</div>
         </div>
       </div>
-    </Link>
+      <div className="flex items-center gap-2 text-center text-sm font-regular text-gray-500">
+        <div className="flex w-[6.25rem] items-center justify-center gap-x-1.5">
+          <UserProfile20 />
+          <div>{nickname}</div>
+        </div>
+        <div className="w-12">{views.toLocaleString()}</div>
+        <div className="w-12">{likes.toLocaleString()}</div>
+        <div className="w-12">{dayjs(created).format('MM.DD')}</div>
+      </div>
+    </div>
   );
 };
 
