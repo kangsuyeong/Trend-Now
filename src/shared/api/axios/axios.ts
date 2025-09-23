@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REST_API_URL,
@@ -96,8 +96,20 @@ export const axiosNaverAccessToken = async <T>(code: string, state: string): Pro
 //#endregion
 
 //#region 회원 정보
-export const axiosUserProfile = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/me')).data;
+export const axiosUserProfile = async <T>(cookie?: string): Promise<T> => {
+  // 요청에 사용할 설정 객체
+  const config: AxiosRequestConfig = {};
+
+  // cookie 인자가 전달된 경우 (서버 환경)에만 헤더를 추가
+  if (cookie) {
+    config.headers = {
+      Cookie: cookie,
+    };
+  }
+
+  const response = await axiosInstance.get('/api/v1/member/me', config);
+  return response.data;
+};
 
 export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
   (await axiosInstance.patch('/api/v1/member/login/naver', JSON.stringify({ nickname }))).data;

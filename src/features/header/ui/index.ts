@@ -1,3 +1,3 @@
-import User from './User';
+import UserServerComponent from './UserServerComponent';
 
-export { User };
+export { UserServerComponent };
