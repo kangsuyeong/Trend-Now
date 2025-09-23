@@ -4,6 +4,7 @@ import { InternalServerError } from '@/shared/error/error';
 import { useUserStore } from '@/shared/store';
 import { PostScrapResponse } from '@/shared/types';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 
 interface BookmarkButtonProps {
@@ -30,19 +31,18 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
         setIsScraped(false);
       }
     },
-    onError: () => {
-      throw new InternalServerError(
-        '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
-      );
+    onError: (e) => {
+      if (!(e instanceof AxiosError))
+        throw new InternalServerError(
+          '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
+        );
+
+      console.log(e);
     },
   });
 
   const handleScrap = () => {
-    if (isAuthenticated) {
-      mutate();
-    } else {
-      setIsLoginModalOpen(true);
-    }
+    mutate();
   };
 
   return (
