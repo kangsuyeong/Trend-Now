@@ -147,7 +147,7 @@ export const axiosUploadPost = async <T>(
   content: string,
   imageIds: number[]
 ): Promise<T> =>
-  await axiosInstance.post(`/api/v1/boards/${boardId}/posts`, { title, content, imageIds });
+  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts`, { title, content, imageIds })).data;
 
 export const axiosUpdatePost = async <T>(
   boardId: number,

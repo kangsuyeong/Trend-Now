@@ -2,7 +2,7 @@
 import processDelta from '../lib/processDelta';
 import Write from './Write';
 import { axiosUploadPost } from '@/shared/api';
-import { RichTextEditorHandle } from '@/shared/types';
+import { PostDetailResponse, RichTextEditorHandle } from '@/shared/types';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
@@ -10,10 +10,10 @@ interface PostWriteProps {
   /** 게시판 id */
   boardId: number;
   /** path */
-  path: string;
+  basePath: string;
 }
 
-const PostWrite = ({ boardId, path }: PostWriteProps) => {
+const PostWrite = ({ boardId, basePath }: PostWriteProps) => {
   const router = useRouter();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
@@ -37,8 +37,14 @@ const PostWrite = ({ boardId, path }: PostWriteProps) => {
     }
 
     const { newDelta, imageIds } = processDelta(delta!, uploadsByTempId!);
-    await axiosUploadPost(boardId, title, JSON.stringify(newDelta), imageIds);
-    router.push(`${path}`);
+    const response = await axiosUploadPost<PostDetailResponse>(
+      boardId,
+      title,
+      JSON.stringify(newDelta),
+      imageIds
+    );
+    const posdId = response.data.postInfoDto.postId;
+    router.push(`${basePath}/${boardId}/post/${posdId}`);
   };
   return <Write titleRef={titleRef} editorRef={editorRef} onSubmit={handleSubmit} />;
 };
