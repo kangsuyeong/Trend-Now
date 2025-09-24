@@ -1,13 +1,25 @@
 import { RequireLoginModal } from '@/features/login';
 import { axiosScrapPost } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
-import { useUserStore } from '@/shared/store';
 import { PostScrapResponse } from '@/shared/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { cva, VariantProps } from 'class-variance-authority';
 import React, { useState } from 'react';
 
-interface BookmarkButtonProps {
+const scrapButtonVariant = cva(
+  'flex cursor-pointer appearance-none checked:border-brand-500 items-center justify-center border border-gray-200 before:content-[url("/images/icons/icon_bookmark_24x24.svg")] checked:before:content-[url("/images/icons/icon_bookmark_active_24x24.svg")]',
+  {
+    variants: {
+      size: {
+        40: 'h-10 w-10 before:h-6 before:w-6 rounded-lg',
+        24: 'h-6 w-6 before:h-4.5 before:w-4.5 rounded-md',
+      },
+    },
+  }
+);
+
+interface BookmarkButtonProps extends VariantProps<typeof scrapButtonVariant> {
   /**@param {number} postId 게시글 아이디 */
   postId: number;
   /**@param {number} postId 게시판 아이디 */
@@ -16,8 +28,8 @@ interface BookmarkButtonProps {
   scraped: boolean;
 }
 
-export default function BookmarkButton({ postId, boardId, scraped }: BookmarkButtonProps) {
-  const { isAuthenticated } = useUserStore();
+export default function BookmarkButton({ postId, boardId, scraped, size }: BookmarkButtonProps) {
+  const queryClient = useQueryClient();
 
   const [isScraped, setIsScraped] = useState<boolean>(scraped);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -29,6 +41,7 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
         setIsScraped(true);
       } else {
         setIsScraped(false);
+        queryClient.invalidateQueries({ queryKey: ['myscraps'] });
       }
     },
     onError: (e) => {
@@ -37,13 +50,13 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
           '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
         );
 
-      console.log(e);
+      if (e.code === '401') {
+        setIsLoginModalOpen(true);
+      } else {
+        alert('예기치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      }
     },
   });
-
-  const handleScrap = () => {
-    mutate();
-  };
 
   return (
     <>
@@ -52,9 +65,9 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
         checked={isScraped}
         onChange={(e) => {
           e.preventDefault();
-          handleScrap();
+          mutate();
         }}
-        className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
+        className={scrapButtonVariant({ size })}
       />
       <RequireLoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
