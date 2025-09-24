@@ -1,4 +1,4 @@
-import { ScrapToggleButton } from '@/features/scrap';
+import ScrapCancelButton from '@/features/mypage/ui/ScrapCancelButton';
 import { BOARD_MAP } from '@/shared/constants';
 import { UserProfile20 } from '@/shared/ui';
 import dayjs from 'dayjs';
@@ -46,7 +46,7 @@ const MyScrapRow = ({
   return (
     <div className="flex w-full justify-between border-b border-gray-200 px-2 py-4">
       <div className="flex items-center gap-4">
-        <ScrapToggleButton size={'s'} boardId={boardId} postId={postId} />
+        <ScrapCancelButton size="s" boardId={boardId} postId={postId} />
         <div className="flex flex-col gap-1">
           <div className="text-xs font-medium text-brand-500">{boardName}</div>
           <div className="flex items-center gap-1.5">

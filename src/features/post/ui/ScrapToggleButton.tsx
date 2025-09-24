@@ -1,25 +1,14 @@
+'use client';
+
 import { RequireLoginModal } from '@/features/login';
 import { axiosScrapPost } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
 import { PostScrapResponse } from '@/shared/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { cva, VariantProps } from 'class-variance-authority';
 import React, { useState } from 'react';
 
-const scrapButtonVariant = cva(
-  'flex cursor-pointer appearance-none checked:border-brand-500 items-center justify-center border border-gray-200 before:content-[url("/images/icons/icon_bookmark_24x24.svg")] checked:before:content-[url("/images/icons/icon_bookmark_active_24x24.svg")]',
-  {
-    variants: {
-      size: {
-        40: 'h-10 w-10 before:h-6 before:w-6 rounded-lg',
-        24: 'h-6 w-6 before:h-4.5 before:w-4.5 rounded-md',
-      },
-    },
-  }
-);
-
-interface BookmarkButtonProps extends VariantProps<typeof scrapButtonVariant> {
+interface BookmarkButtonProps {
   /**@param {number} postId 게시글 아이디 */
   postId: number;
   /**@param {number} postId 게시판 아이디 */
@@ -28,9 +17,7 @@ interface BookmarkButtonProps extends VariantProps<typeof scrapButtonVariant> {
   scraped: boolean;
 }
 
-export default function BookmarkButton({ postId, boardId, scraped, size }: BookmarkButtonProps) {
-  const queryClient = useQueryClient();
-
+export default function ScrapToggleButton({ postId, boardId, scraped }: BookmarkButtonProps) {
   const [isScraped, setIsScraped] = useState<boolean>(scraped);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -41,7 +28,6 @@ export default function BookmarkButton({ postId, boardId, scraped, size }: Bookm
         setIsScraped(true);
       } else {
         setIsScraped(false);
-        queryClient.invalidateQueries({ queryKey: ['myscraps'] });
       }
     },
     onError: (e) => {
@@ -67,7 +53,7 @@ export default function BookmarkButton({ postId, boardId, scraped, size }: Bookm
           e.preventDefault();
           mutate();
         }}
-        className={scrapButtonVariant({ size })}
+        className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
       />
       <RequireLoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
