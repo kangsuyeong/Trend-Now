@@ -1,4 +1,4 @@
-import { BookmarkButton, PostKebabButton } from '@/features/post';
+import { ScrapToggleButton, PostKebabButton } from '@/features/post';
 import { cn } from '@/shared/lib';
 import { PostDetail } from '@/shared/types';
 import { UserProfile28 } from '@/shared/ui';
@@ -33,7 +33,7 @@ export default function Header({ post, isHotBoard, boardId, postId }: HeaderProp
         </div>
 
         <div className="flex gap-x-2">
-          <BookmarkButton postId={postId} boardId={boardId} scraped={post.scraped} />
+          <ScrapToggleButton postId={postId} boardId={boardId} scraped={post.scraped} />
           {post.myPost && <PostKebabButton />}
         </div>
       </div>
