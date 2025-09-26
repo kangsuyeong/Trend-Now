@@ -4,8 +4,10 @@ import { SearchSectionTitle, SearchTypeTabs } from '@/entities/search';
 import { axiosSearchFixedBoardPosts } from '@/shared/api/axios/axios';
 import { BOARD_MAP } from '@/shared/constants';
 import type { BoardType, SearchFixedBoardsResponse } from '@/shared/types';
-import { EmptyState, Pagination } from '@/shared/ui';
+import { EmptyState, Pagination, Pencil, SecondaryButton } from '@/shared/ui';
+
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface FixedBoardsSectionProps {
@@ -19,6 +21,7 @@ interface Tab {
 }
 
 const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [currentTab, setCurrentTab] = useState<BoardType>('free');
   const { data: freePosts } = useQuery({
@@ -73,10 +76,20 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
         setPage={setPage}
       />
       {postData.postList.length === 0 ? (
-        <EmptyState
-          message={`검색하신 키워드에 대한 게시글이 아직 없습니다. \n 지금 첫 번째 글을 작성해보세요.`}
-          className="h-80"
-        />
+        <EmptyState className="h-80 gap-4">
+          <EmptyState.Text>
+            {' 검색하신 키워드에 대한 게시글이 아직 없습니다. \n 지금 첫 번째 글을 작성해보세요.'}
+          </EmptyState.Text>
+          <SecondaryButton
+            variant="black"
+            size="s"
+            onClick={() => {
+              router.push(`/board/${BOARD_MAP[currentTab].id}`);
+            }}
+          >
+            <Pencil className="h-5 w-5 text-gray-700" />첫 번째 글 작성하기
+          </SecondaryButton>
+        </EmptyState>
       ) : (
         <>
           <BoardTable showNumber={false}>
@@ -86,7 +99,6 @@ const FixedBoardsSection = ({ keyword }: FixedBoardsSectionProps) => {
               showNumber={false}
             />
           </BoardTable>
-
           <Pagination
             currentPage={page}
             maxPage={postData.totalPageCount}
