@@ -25,7 +25,9 @@ const HotPostsSection = ({ keyword }: HotPostsSectionProps) => {
     <section aria-label="실시간 인기 게시글 목록" className="flex flex-col gap-y-5">
       <SearchSectionTitle title="실시간 인기 게시글" count={posts.realtimePostList.length} />
       {posts.realtimePostList.length === 0 ? (
-        <EmptyState message="검색하신 키워드에 대한 게시물이 아직 없습니다." className="h-80" />
+        <EmptyState className="h-80">
+          <EmptyState.Text>검색하신 키워드에 대한 게시물이 아직 없습니다.</EmptyState.Text>
+        </EmptyState>
       ) : (
         <>
           <HotPostsSearchList posts={posts.realtimePostList} />
