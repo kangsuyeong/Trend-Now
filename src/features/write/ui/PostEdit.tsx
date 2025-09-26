@@ -13,10 +13,10 @@ interface postEditeProps {
   /** 게시물 id */
   postId: number;
   /** path */
-  path: string;
+  basePath: string;
 }
 
-const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
+const PostEdit = ({ boardId, postId, basePath }: postEditeProps) => {
   const router = useRouter();
   const editorRef = useRef<RichTextEditorHandle>(null); // 에디터 내용(DOM)이나 메서드에 접근하기 위한 ref
   const titleRef = useRef<HTMLInputElement>(null); // 제목 저장하는 ref
@@ -59,7 +59,7 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
       imageIds,
       deleteImageIdList
     );
-    router.push(`${path}`);
+    router.push(`${basePath}/${boardId}/post/${postId}`);
   };
 
   // 권한 체크 → 본인 글 아니면 alert + 리디렉트
@@ -68,9 +68,9 @@ const PostEdit = ({ boardId, postId, path }: postEditeProps) => {
 
     if (!post.myPost) {
       alert('본인 게시물만 수정할 수 있습니다.');
-      router.push(`${path}/post/${postId}`);
+      router.push(`${basePath}/${boardId}/post/${postId}`);
     }
-  }, [isLoading, post, path, router]);
+  }, [isLoading, post, basePath, router]);
 
   // post 데이터가 로드되면 제목 input과 이미지 ID 초기값 설정
   useEffect(() => {

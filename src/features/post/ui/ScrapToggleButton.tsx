@@ -1,10 +1,12 @@
+'use client';
+
 import { RequireLoginModal } from '@/features/login';
 import { axiosScrapPost } from '@/shared/api';
 import { InternalServerError } from '@/shared/error/error';
-import { useUserStore } from '@/shared/store';
 import { PostScrapResponse } from '@/shared/types';
 import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { AxiosError } from 'axios';
+import React, { useEffect, useState } from 'react';
 
 interface BookmarkButtonProps {
   /**@param {number} postId 게시글 아이디 */
@@ -15,11 +17,13 @@ interface BookmarkButtonProps {
   scraped: boolean;
 }
 
-export default function BookmarkButton({ postId, boardId, scraped }: BookmarkButtonProps) {
-  const { isAuthenticated } = useUserStore();
-
+export default function ScrapToggleButton({ postId, boardId, scraped }: BookmarkButtonProps) {
   const [isScraped, setIsScraped] = useState<boolean>(scraped);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsScraped(scraped);
+  }, [scraped]);
 
   const { mutate } = useMutation({
     mutationFn: () => axiosScrapPost<PostScrapResponse>(boardId, postId),
@@ -30,29 +34,27 @@ export default function BookmarkButton({ postId, boardId, scraped }: BookmarkBut
         setIsScraped(false);
       }
     },
-    onError: () => {
-      throw new InternalServerError(
-        '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
-      );
+    onError: (e) => {
+      if (!(e instanceof AxiosError))
+        throw new InternalServerError(
+          '게시글을 북마크하는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
+        );
+
+      if (e.response?.status === 401) {
+        setIsLoginModalOpen(true);
+      } else {
+        alert('예기치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      }
     },
   });
-
-  const handleScrap = () => {
-    if (isAuthenticated) {
-      mutate();
-    } else {
-      setIsLoginModalOpen(true);
-    }
-  };
 
   return (
     <>
       <input
         type="checkbox"
         checked={isScraped}
-        onChange={(e) => {
-          e.preventDefault();
-          handleScrap();
+        onChange={() => {
+          mutate();
         }}
         className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_bookmark_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_bookmark_active_24x24.svg')]"
       />

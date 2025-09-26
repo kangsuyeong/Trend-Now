@@ -1,13 +1,11 @@
 import { BoardName } from '@/entities/board';
 import { PostWrite } from '@/features/write';
-// import { LoginGuard } from '@/shared/middleware';
 import Image from 'next/image';
 
 export default async function Page({ params }: { params: Promise<{ boardId: string }> }) {
   const { boardId } = await params;
-  const path = `/hotboard/${boardId}`;
+  const basePath = `/hotboard`;
   return (
-    // <LoginGuard redirectPath={path}>
     <div className="flex flex-col gap-4">
       <BoardName
         boardId={Number(boardId)}
@@ -22,8 +20,7 @@ export default async function Page({ params }: { params: Promise<{ boardId: stri
           />
         }
       />
-      <PostWrite boardId={Number(boardId)} path={path} />
+      <PostWrite boardId={Number(boardId)} basePath={basePath} />
     </div>
-    // </LoginGuard>
   );
 }

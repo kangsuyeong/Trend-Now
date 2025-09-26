@@ -9,7 +9,7 @@ export default async function Page({
 }) {
   const { boardId, postId } = await params;
 
-  const path = `/board/${boardId}`;
+  const basePath = `/board`;
   return (
     <div className="flex flex-col gap-4">
       <BoardName
@@ -24,7 +24,7 @@ export default async function Page({
           />
         }
       />
-      <PostEdit boardId={Number(boardId)} postId={Number(postId)} path={path} />
+      <PostEdit boardId={Number(boardId)} postId={Number(postId)} basePath={basePath} />
     </div>
   );
 }
