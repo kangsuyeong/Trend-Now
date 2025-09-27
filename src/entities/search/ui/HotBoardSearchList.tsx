@@ -8,7 +8,11 @@ interface HotBoardSearchListProps {
 
 const HotBoardSearchList = ({ boards }: HotBoardSearchListProps) => {
   if (boards.length === 0) {
-    return <EmptyState message="검색하신 키워드에 대한 게시판이 아직 없습니다." className="h-80" />;
+    return (
+      <EmptyState className="h-80">
+        <EmptyState.Text>검색하신 키워드에 대한 게시판이 아직 없습니다.</EmptyState.Text>
+      </EmptyState>
+    );
   }
 
   return (
