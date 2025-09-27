@@ -10,13 +10,14 @@ interface AISummaryProps {
 
 export default function AISummary({ summaryText }: AISummaryProps) {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-[20px]">
+    <div className="relative flex flex-col overflow-hidden rounded-[20px] bg-gray-900">
       <Image
         src="/images/aisummarybg.gif"
         alt="AI 요약"
         quality={100}
         fill
         className="select-none object-cover"
+        priority
       />
       {summaryText ? <AISummaryContent summaryText={summaryText} /> : <AISummarySkeleton />}
     </div>
