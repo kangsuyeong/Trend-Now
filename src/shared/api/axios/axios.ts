@@ -149,7 +149,7 @@ export const axiosPost = async <T>(
       Cookie: cookie,
     };
   }
-  const response = await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`);
+  const response = await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`, config);
   return response.data;
 };
 
