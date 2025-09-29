@@ -27,8 +27,6 @@ const MyScraps = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <div className="flex flex-col gap-6">
       {/* 게시물 */}
