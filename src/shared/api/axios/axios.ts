@@ -135,8 +135,23 @@ export const axiosPosts = async <T>(boardId: number, page?: number, size?: numbe
   return data;
 };
 
-export const axiosPost = async <T>(boardId: number, postId: number): Promise<T> =>
-  (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`)).data;
+export const axiosPost = async <T>(
+  boardId: number,
+  postId: number,
+  cookie?: string
+): Promise<T> => {
+  // 요청에 사용할 설정 객체
+  const config: AxiosRequestConfig = {};
+
+  // cookie 인자가 전달된 경우 (서버 환경)에만 헤더를 추가
+  if (cookie) {
+    config.headers = {
+      Cookie: cookie,
+    };
+  }
+  const response = await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`, config);
+  return response.data;
+};
 
 export const axiosUploadImages = async <T>(images: FormData): Promise<T> =>
   (await axiosInstance.post('/api/v1/images/upload', images)).data;
