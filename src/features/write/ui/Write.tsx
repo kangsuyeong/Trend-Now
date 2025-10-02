@@ -1,5 +1,6 @@
 'use client';
 
+import StaticEditor from './StaticEditor';
 import { RichTextEditorHandle } from '@/shared/types';
 import { InputFieldTitle, PrimaryButton } from '@/shared/ui';
 import dynamic from 'next/dynamic';
@@ -9,6 +10,7 @@ import type { RefObject } from 'react';
 // Quill이 SSR 중 로딩되지 않도록 방지
 const RichTextEditor = dynamic(() => import('@/features/write/ui/RichTextEditor'), {
   ssr: false,
+  loading: () => <StaticEditor />,
 });
 
 interface WriteProps {
