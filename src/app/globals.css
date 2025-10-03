@@ -5,12 +5,17 @@
 .ql-toolbar.ql-snow {
   border-top-left-radius: 12px !important;
   border-top-right-radius: 12px !important;
+  border: 1px solid #e4e8ed !important;
+  background-color: #f2f4f7 !important;
 }
 
 .ql-container.ql-snow {
   border-bottom-left-radius: 12px !important;
   border-bottom-right-radius: 12px !important;
   background-color: white !important;
+  border-left: 1px solid #e4e8ed !important;
+  border-right: 1px solid #e4e8ed !important;
+  border-bottom: 1px solid #e4e8ed !important;
 }
 
 .ql-editor {
