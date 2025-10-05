@@ -1,3 +1,26 @@
+import { NextResponse } from 'next/server';
+
+/** 쿠키 설정 */
+const cookieOptions = {
+  domain: '.trendnow.me',
+  path: '/',
+  sameSite: 'none' as const,
+  secure: true,
+};
+
+/** AT / RT를 삭제하는 로직 */
+export function deleteAuthCookies(response: NextResponse) {
+  response.cookies.delete({
+    name: 'access_token',
+    ...cookieOptions,
+  });
+  response.cookies.delete({
+    name: 'refresh_token',
+    ...cookieOptions,
+  });
+}
+
+/** AT 유효성을 검증하는 로직 */
 export function isValidToken({ accesstoken }: { accesstoken?: string }): {
   isAccessTokenValid: boolean;
 } {
@@ -19,7 +42,7 @@ export function isValidToken({ accesstoken }: { accesstoken?: string }): {
       // result.isAccessTokenValid = accessTokenPayload.exp > currentTime;
 
       // issued claim 기반으로 임시 구현 (30분)
-      result.isAccessTokenValid = accessTokenPayload.iat + 60 * 30 > currentTime;
+      result.isAccessTokenValid = accessTokenPayload.iat + 30 > currentTime;
     }
   } catch (error) {
     // 디코딩 과정에서 발생한 오류를 로그로 출력
