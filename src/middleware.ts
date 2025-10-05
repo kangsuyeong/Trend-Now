@@ -38,8 +38,6 @@ export async function middleware(request: NextRequest) {
     accesstoken: accesstoken?.value,
   });
 
-  console.log('AT 유효성', isAccessTokenValid);
-
   // AT가 유효하지 않을 경우 AT 재발급
   if (!isAccessTokenValid) {
     try {
