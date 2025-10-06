@@ -1,4 +1,4 @@
-import { handleAuth } from '@/shared/lib/auth';
+import { handleAuth } from '@/shared/lib';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 

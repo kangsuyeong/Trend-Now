@@ -10,7 +10,7 @@ const cookieOptions = {
 };
 
 /** AT / RT를 삭제하는 로직 */
-export function deleteAuthCookies(response: NextResponse) {
+function deleteAuthCookies(response: NextResponse) {
   response.cookies.delete({
     name: 'access_token',
     ...cookieOptions,
@@ -22,7 +22,7 @@ export function deleteAuthCookies(response: NextResponse) {
 }
 
 /** AT 유효성을 검증하는 로직 */
-export function isValidToken({ accesstoken }: { accesstoken?: string }): {
+function isValidToken({ accesstoken }: { accesstoken?: string }): {
   isAccessTokenValid: boolean;
 } {
   // 현재 시간을 초 단위로 가져오기 (Unix Timestamp 형식)
