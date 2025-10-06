@@ -98,7 +98,7 @@ export const axiosUserProfile = async <T>(cookie?: string): Promise<T> => {
 };
 
 export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
-  (await privateInstance.patch('/api/v1/member/login/naver', JSON.stringify({ nickname }))).data;
+  (await privateInstance.patch('/api/v1/member/nickname', JSON.stringify({ nickname }))).data;
 
 export const axiosDeleteUser = async <T>(): Promise<T> =>
   (await privateInstance.delete('/api/v1/member/me')).data;
@@ -222,7 +222,7 @@ export const axiosDeleteComment = async <T>(
   (await privateInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
     .data;
 
-// 댓글 삭제
+// 댓글 수정
 export const axiosEditComment = async <T>(
   boardId: number,
   postId: number,
