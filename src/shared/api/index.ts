@@ -1,4 +1,4 @@
-import axiosInstance, {
+import {
   axiosCheckWriteCooldown,
   axiosDeleteComment,
   axiosEditComment,
@@ -7,9 +7,6 @@ import axiosInstance, {
   axiosWriteComment,
 } from './axios/axios';
 import {
-  axiosGoogleAccessToken,
-  axiosKakaoAccessToken,
-  axiosNaverAccessToken,
   axiosConnectSSE,
   axiosDeleteUser,
   axiosDisconnectSSE,
@@ -32,15 +29,12 @@ import {
   axiosSearchRealtimeBoards,
   axiosSearchRealtimePosts,
   axiosDeletePost,
+  axiosLogout,
 } from './axios/axios';
 
 import { SSE } from './sse/sse';
 
 export {
-  axiosInstance,
-  axiosGoogleAccessToken,
-  axiosKakaoAccessToken,
-  axiosNaverAccessToken,
   axiosConnectSSE,
   axiosDeleteUser,
   axiosDisconnectSSE,
@@ -69,5 +63,6 @@ export {
   axiosSearchRealtimePosts,
   axiosDeletePost,
   axiosCheckWriteCooldown,
+  axiosLogout,
   SSE,
 };

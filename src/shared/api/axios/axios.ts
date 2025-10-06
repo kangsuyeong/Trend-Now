@@ -1,98 +1,84 @@
+import { logoutAction } from '@/features/logout';
 import axios, { AxiosRequestConfig } from 'axios';
 
-const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_REST_API_URL,
+const baseURL = process.env.NEXT_PUBLIC_REST_API_URL;
+
+// 쿠키를 보내지 않는 일반적인 요청을 위한 인스턴스
+export const publicInstance = axios.create({
+  baseURL: baseURL,
+  timeout: 10000,
+});
+
+// 쿠키를 포함해야 하는 인증 요청을 위한 인스턴스
+export const privateInstance = axios.create({
+  baseURL: baseURL,
   withCredentials: true,
   timeout: 10000,
 });
 
-// Axios 요청 인터셉터 설정
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     // Zustand 스토어에서 현재 accessToken 가져오기
-//     const token = useUserStore.getState().accessToken;
-//     // accessToken이 존재할 경우, 요청 헤더에 Authorization 추가
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
+privateInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    // 응답 에러 처리
+    const originalRequest = error.config; // 실패한 요청 정보 저장
+    // AT 토큰 만료 시
+    if (
+      typeof window !== 'undefined' &&
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true; // 재시도 방지
 
-//     // 수정된 config 반환 → 이 설정으로 실제 요청이 전송됨
-//     return config;
-//   },
-//   (error) => {
-//     // 요청을 보내기 전 에러가 발생한 경우 처리
-//     return Promise.reject(error); // 에러를 호출한 곳으로 전파
-//   }
-// );
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_REST_API_URL}/api/v1/member/access-token`,
+          null,
+          {
+            withCredentials: true,
+          }
+        );
+        return privateInstance(originalRequest); // 원래 요청 다시 시도
+      } catch (error) {
+        console.error('AT 토큰 재발급 실패:', error);
+        // 임시 쿠키 제거
+        await logoutAction();
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     // 응답 에러 처리
-//     const originalRequest = error.config; // 실패한 요청 정보 저장
+        // 로그아웃 API
+        // try {
+        //   await axios.post(`${process.env.NEXT_PUBLIC_REST_API_URL}/api/v1/member/logout`, null, {
+        //     withCredentials: true,
+        //   });
+        // } catch (error) {
+        //   console.error('로그아웃 API 호출 실패', error);
+        //   return Promise.reject(error);
+        // }
 
-//     // AT 토큰 만료 시
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true; // 재시도 방지
-//       useUserStore.getState().logout();
-//       useUserStore.persist.clearStorage();
+        return Promise.reject(error);
+      }
+    }
 
-//       return Promise.reject(error);
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-export default axiosInstance;
+    return Promise.reject(error);
+  }
+);
 
 //#region 실시간
 export const axiosRealtimeTop10 = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/news/realtime')).data;
+  (await publicInstance.get('/api/v1/news/realtime')).data;
 
 export const axiosTimeSync = async <T>(): Promise<T> =>
-  (await axiosInstance.get('/api/v1/timeSync')).data;
+  (await publicInstance.get('/api/v1/timeSync')).data;
 
 export const axiosHotBoardList = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/boards/list', { params: { page, size } })).data;
+  (await publicInstance.get('/api/v1/boards/list', { params: { page, size } })).data;
 
 export const axiosConnectSSE = async <T>(clientId: string): Promise<T> =>
-  (await axiosInstance.get('/api/v1/subscribe', { params: { clientId } })).data;
+  (await publicInstance.get('/api/v1/subscribe', { params: { clientId } })).data;
 
 export const axiosDisconnectSSE = async <T>(clientId: string): Promise<T> =>
-  (await axiosInstance.post('/api/v1/unsubscribe', { clientId })).data;
+  (await publicInstance.post('/api/v1/unsubscribe', { clientId })).data;
 
 export const axiosHotBoardInfo = async <T>(boardId: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/boards/realtime', { params: { boardId } })).data;
-//#endregion
-
-//#region 로그인
-export const axiosGoogleAccessToken = async <T>(code: string): Promise<T> =>
-  (
-    await axiosInstance.post('/api/v1/member/login/google', JSON.stringify({ code }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ).data;
-
-export const axiosKakaoAccessToken = async <T>(code: string): Promise<T> =>
-  (
-    await axiosInstance.post('/api/v1/member/login/kakao', JSON.stringify({ code }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ).data;
-
-export const axiosNaverAccessToken = async <T>(code: string, state: string): Promise<T> =>
-  (
-    await axiosInstance.post('/api/v1/member/login/naver', JSON.stringify({ code, state }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ).data;
+  (await publicInstance.get('/api/v1/boards/realtime', { params: { boardId } })).data;
 //#endregion
 
 //#region 회원 정보
@@ -107,29 +93,32 @@ export const axiosUserProfile = async <T>(cookie?: string): Promise<T> => {
     };
   }
 
-  const response = await axiosInstance.get('/api/v1/member/me', config);
+  const response = await privateInstance.get('/api/v1/member/me', config);
   return response.data;
 };
 
 export const axiosEditUsername = async <T>(nickname: string): Promise<T> =>
-  (await axiosInstance.patch('/api/v1/member/login/naver', JSON.stringify({ nickname }))).data;
+  (await privateInstance.patch('/api/v1/member/nickname', JSON.stringify({ nickname }))).data;
 
 export const axiosDeleteUser = async <T>(): Promise<T> =>
-  (await axiosInstance.delete('/api/v1/member/me')).data;
+  (await privateInstance.delete('/api/v1/member/me')).data;
 
 export const axiosMyScraps = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/scrap', { params: { page, size } })).data;
+  (await privateInstance.get('/api/v1/member/scrap', { params: { page, size } })).data;
 
 export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
+  (await privateInstance.get('/api/v1/member/posts', { params: { page, size } })).data;
 
 export const axiosMyComments = async <T>(page?: number, size?: number): Promise<T> =>
-  (await axiosInstance.get('/api/v1/member/comments', { params: { page, size } })).data;
+  (await privateInstance.get('/api/v1/member/comments', { params: { page, size } })).data;
+
+export const axiosLogout = async () => await privateInstance.post('/api/v1/member/logout');
+
 //#endregion
 
 //#region 게시판
 export const axiosPosts = async <T>(boardId: number, page?: number, size?: number): Promise<T> => {
-  const { data } = await axiosInstance.get(`/api/v1/boards/${boardId}/posts`, {
+  const { data } = await publicInstance.get(`/api/v1/boards/${boardId}/posts`, {
     params: { page: page, size: size },
   });
   return data;
@@ -149,12 +138,12 @@ export const axiosPost = async <T>(
       Cookie: cookie,
     };
   }
-  const response = await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`, config);
+  const response = await privateInstance.get(`/api/v1/boards/${boardId}/posts/${postId}`, config);
   return response.data;
 };
 
 export const axiosUploadImages = async <T>(images: FormData): Promise<T> =>
-  (await axiosInstance.post('/api/v1/images/upload', images)).data;
+  (await privateInstance.post('/api/v1/images/upload', images)).data;
 
 export const axiosUploadPost = async <T>(
   boardId: number,
@@ -162,7 +151,8 @@ export const axiosUploadPost = async <T>(
   content: string,
   imageIds: number[]
 ): Promise<T> =>
-  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts`, { title, content, imageIds })).data;
+  (await privateInstance.post(`/api/v1/boards/${boardId}/posts`, { title, content, imageIds }))
+    .data;
 
 export const axiosUpdatePost = async <T>(
   boardId: number,
@@ -172,7 +162,7 @@ export const axiosUpdatePost = async <T>(
   newImageIdList: number[],
   deleteImageIdList: number[]
 ): Promise<T> => {
-  return await axiosInstance.put(`/api/v1/boards/${boardId}/posts/${postId}`, {
+  return await privateInstance.put(`/api/v1/boards/${boardId}/posts/${postId}`, {
     title,
     content,
     newImageIdList,
@@ -181,21 +171,21 @@ export const axiosUpdatePost = async <T>(
 };
 
 export const axiosDeletePost = async <T>(boardId: number, postId: number): Promise<T> => {
-  return await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
+  return await privateInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}`);
 };
 
 export const axiosScrapPost = async <T>(boardId: number, postId: number): Promise<T> =>
-  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
+  (await privateInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
 export const axiosLike = async <T>(
   boardName: string,
   boardId: number,
   postId: number
 ): Promise<T> =>
-  (await axiosInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
+  (await privateInstance.post(`/api/v1/boards/${boardName}/${boardId}/posts/${postId}`)).data;
 
 export const axiosCheckWriteCooldown = async <T>(boardId: number): Promise<T> =>
-  (await axiosInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;
+  (await privateInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;
 //#endregion
 
 //#region 댓글
@@ -208,7 +198,7 @@ export const axiosGetComments = async <T>(
   size?: number
 ): Promise<T> =>
   (
-    await axiosInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
+    await privateInstance.get(`/api/v1/boards/${boardId}/posts/${postId}/comments`, {
       params: { page: page, size: size },
       headers: { jwt: `Bearer ${accessToken}` },
     })
@@ -220,7 +210,7 @@ export const axiosWriteComment = async <T>(
   postId: number,
   content: string
 ): Promise<T> =>
-  (await axiosInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
+  (await privateInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/comments`, { content }))
     .data;
 
 // 댓글 삭제
@@ -229,10 +219,10 @@ export const axiosDeleteComment = async <T>(
   postId: number,
   commentId: number
 ): Promise<T> =>
-  (await axiosInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
+  (await privateInstance.delete(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`))
     .data;
 
-// 댓글 삭제
+// 댓글 수정
 export const axiosEditComment = async <T>(
   boardId: number,
   postId: number,
@@ -240,7 +230,7 @@ export const axiosEditComment = async <T>(
   updateContent: string
 ): Promise<T> =>
   (
-    await axiosInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+    await privateInstance.patch(`/api/v1/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
       updateContent,
     })
   ).data;
@@ -249,7 +239,7 @@ export const axiosEditComment = async <T>(
 //#region 검색
 // 실시간 게시판 목록 검색
 export const axiosSearchRealtimeBoards = async <T>(keyword: string): Promise<T> => {
-  const { data } = await axiosInstance.get(`/api/v1/search/realtimeBoards`, {
+  const { data } = await publicInstance.get(`/api/v1/search/realtimeBoards`, {
     params: { keyword },
   });
 
@@ -262,7 +252,7 @@ export const axiosSearchRealtimePosts = async <T>(
   page: number = 1,
   size: number = 10
 ): Promise<T> => {
-  const { data } = await axiosInstance.get(`/api/v1/search/realtimePosts`, {
+  const { data } = await publicInstance.get(`/api/v1/search/realtimePosts`, {
     params: { keyword, page, size },
   });
 
@@ -276,7 +266,7 @@ export const axiosSearchFixedBoardPosts = async <T>(
   page: number = 1,
   size: number = 10
 ): Promise<T> => {
-  const { data } = await axiosInstance.get(`/api/v1/search/fixedPosts`, {
+  const { data } = await publicInstance.get(`/api/v1/search/fixedPosts`, {
     params: { keyword, boardId, page, size },
   });
 
@@ -285,7 +275,7 @@ export const axiosSearchFixedBoardPosts = async <T>(
 
 // 검색어 자동완성
 export const axiosGetAutocomplete = async <T>(keyword: string): Promise<T> => {
-  const { data } = await axiosInstance.get('/api/v1/search/auto-complete', {
+  const { data } = await publicInstance.get('/api/v1/search/auto-complete', {
     params: { keyword },
   });
 
