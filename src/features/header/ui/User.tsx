@@ -11,7 +11,7 @@ import {
 import { LoginModal } from '@/features/login';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { axiosLogout, axiosUserProfile } from '@/shared/api';
+import { axiosUserProfile } from '@/shared/api';
 import { UserProfile } from '@/shared/types';
 import Link from 'next/link';
 import { logoutAction } from '@/features/logout';

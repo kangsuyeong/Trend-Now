@@ -112,7 +112,7 @@ export const axiosMyPosts = async <T>(page?: number, size?: number): Promise<T> 
 export const axiosMyComments = async <T>(page?: number, size?: number): Promise<T> =>
   (await privateInstance.get('/api/v1/member/comments', { params: { page, size } })).data;
 
-export const axiosLogout = async <T>() => await privateInstance.post('/api/v1/member/logout');
+export const axiosLogout = async () => await privateInstance.post('/api/v1/member/logout');
 
 //#endregion
 
