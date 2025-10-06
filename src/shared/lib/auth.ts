@@ -1,13 +1,6 @@
+import { cookieOptions } from '@/shared/config';
 import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { NextRequest, NextResponse } from 'next/server';
-
-/** 쿠키 설정 */
-const cookieOptions = {
-  domain: '.trendnow.me',
-  path: '/',
-  sameSite: 'none' as const,
-  secure: true,
-};
 
 /** AT / RT를 삭제하는 로직 */
 function deleteAuthCookies(response: NextResponse) {
