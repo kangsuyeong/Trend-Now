@@ -16,7 +16,7 @@ export interface MyPosts {
   createdAt: string;
   updatedAt: string;
   boardId: number;
-  boardIdName: string;
+  boardName: string;
 }
 
 export interface MyCommentsResponse {
