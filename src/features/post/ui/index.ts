@@ -1,5 +1,5 @@
-import BookmarkButton from './BookmarkButton';
+import ScrapToggleButton from './ScrapToggleButton';
 import CommentKebabButton from './CommentKebabButton';
 import PostKebabButton from './PostKebabButton';
 
-export { BookmarkButton, CommentKebabButton, PostKebabButton };
+export { ScrapToggleButton, CommentKebabButton, PostKebabButton };

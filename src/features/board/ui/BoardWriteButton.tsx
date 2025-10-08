@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Pencil24, PrimaryButton } from '@/shared/ui';
-import { useUserStore } from '@/shared/store';
+import { Pencil, PrimaryButton } from '@/shared/ui';
 import { axiosCheckWriteCooldown } from '@/shared/api';
 import { WriteCooldownResponse } from '@/shared/types';
 import { useRouter } from 'next/navigation';
@@ -15,22 +14,21 @@ interface BoardWriteButtonProps {
 
 export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProps) {
   const router = useRouter();
-  const { isAuthenticated } = useUserStore();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleWriteButton = async () => {
-    if (!isAuthenticated) {
+    try {
+      const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
+
+      if (result.canWritePost) {
+        router.push(href);
+      } else {
+        alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
+      }
+    } catch {
       setIsLoginModalOpen(true);
       return;
-    }
-
-    const result = await axiosCheckWriteCooldown<WriteCooldownResponse>(boardId);
-
-    if (result.canWritePost) {
-      router.push(href);
-    } else {
-      alert(`${result.cooldownSeconds}초 후 게시글 작성이 가능합니다.`);
     }
   };
 
@@ -38,7 +36,7 @@ export default function BoardWriteButton({ href, boardId }: BoardWriteButtonProp
     <>
       <PrimaryButton variant="primary" size="m" className="pl-4" onClick={handleWriteButton}>
         <span className="flex items-center gap-x-1.5">
-          <Pencil24 />
+          <Pencil className="h-6 w-6 text-white" />
           글쓰기
         </span>
       </PrimaryButton>

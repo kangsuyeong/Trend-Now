@@ -11,16 +11,15 @@ import {
 import { LoginModal } from '@/features/login';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/shared/store';
 import { axiosUserProfile } from '@/shared/api';
 import { UserProfile } from '@/shared/types';
 import Link from 'next/link';
+import { logoutAction } from '@/features/logout';
 
 export default function User() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { logout, isAuthenticated, accessToken } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
@@ -31,14 +30,14 @@ export default function User() {
     setIsModalOpen(false);
   };
 
-  const { data } = useQuery<UserProfile>({
+  const { data: user, isError } = useQuery<UserProfile>({
     queryKey: ['userInfo'],
     queryFn: () => axiosUserProfile(),
-    enabled: !!accessToken,
+    retry: 0,
   });
 
   // 로그인 안되어있을때
-  if (!isAuthenticated) {
+  if (!user || isError) {
     return (
       <>
         <PrimaryButton
@@ -60,7 +59,7 @@ export default function User() {
         className="flex h-10 select-none items-center gap-x-2.5 text-nowrap rounded-full bg-gray-100 py-2.5 pl-2.5 pr-3.5 text-base font-medium"
       >
         <UserProfile28 />
-        {data?.nickname}
+        {user?.nickname}
       </Link>
 
       <DropdownMenu
@@ -88,16 +87,14 @@ export default function User() {
             const confirmSignout = confirm('정말 로그아웃 하실 건가요?');
 
             if (confirmSignout) {
-              logout();
+              // 임시 쿠키 제거
+              await logoutAction();
               // 진행 중 요청 취소
               await queryClient.cancelQueries();
-
               // 화면에 없는(비활성) 캐시 전부 삭제
               queryClient.removeQueries({ type: 'inactive' });
-
               // 화면에 보이는(활성) 쿼리는 "초기화 + 즉시 재패치"
               await queryClient.resetQueries({ type: 'active' });
-
               // 서버 렌더까지 새로고침
               router.refresh();
             }
