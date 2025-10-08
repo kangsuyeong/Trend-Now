@@ -178,7 +178,7 @@ export const axiosScrapPost = async <T>(boardId: number, postId: number): Promis
   (await privateInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/scrap`, null)).data;
 
 export const axiosLike = async <T>(boardId: number, postId: number): Promise<T> =>
-  (await privateInstance.post(`/api/v1/boards/${boardId}/posts/${postId}`)).data;
+  (await privateInstance.post(`/api/v1/boards/${boardId}/posts/${postId}/likes`)).data;
 
 export const axiosCheckWriteCooldown = async <T>(boardId: number): Promise<T> =>
   (await privateInstance.get(`/api/v1/boards/${boardId}/posts/cooldown`)).data;

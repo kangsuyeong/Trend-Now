@@ -52,3 +52,8 @@ export interface PostScrapResponse {
   message: string;
   scrapAction: 'SCRAPPED' | 'UNSCRAPPED';
 }
+
+export interface PostLikeResponse {
+  message: string;
+  postLikesAction: 'LIKED' | 'UNLIKED';
+}
