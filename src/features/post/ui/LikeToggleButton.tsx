@@ -54,7 +54,7 @@ export default function LikeToggleButton({ postId, boardId, liked }: LikeToggleB
         onChange={() => {
           mutate();
         }}
-        className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_heart_24x24.svg')] checked:border-brand-500 checked:before:content-[url('/images/icons/icon_heart_active_28x28.svg')]"
+        className="flex h-10 w-10 cursor-pointer appearance-none items-center justify-center rounded-lg border border-gray-200 before:h-6 before:w-6 before:content-[url('/images/icons/icon_heart_24x24.svg')] checked:border-brand-500 checked:before:h-7 checked:before:w-7 checked:before:content-[url('/images/icons/icon_heart_active_28x28.svg')]"
       />
       <RequireLoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
