@@ -1,30 +1,14 @@
 import { HotBoardList } from '@/entities/hotBoard';
 import { DateDivider } from '@/shared/ui';
-import { SortChip, SortChipItem } from '@/widgets/hotBoards';
-import Image from 'next/image';
+import { AdvCarousel, SortChip, SortChipItem } from '@/widgets/hotBoards';
+// import Image from 'next/image';
 
 export default function Home() {
-  // const ads = ['/images/ad1.png', '/images/ad1.png', '/images/ad1.png'];
+  const ads = ['/images/ads/ad1.png', '/images/ads/ad2.png'];
 
   return (
     <div className="flex flex-col gap-y-12 border-r border-gray-200 bg-white pr-8">
-      <div className="relative flex h-fit w-full flex-col items-center gap-y-3 px-8 pb-6 pt-8">
-        <Image
-          src="/images/banner.gif"
-          alt="배너 이미지"
-          fill
-          sizes="100%"
-          priority
-          unoptimized
-          className="rounded-[1.25rem] object-cover"
-        />
-        <span className="z-10 w-fit select-none text-base font-semiBold text-white">
-          🔥 지금 떠오른 이슈들, 사라지기 전에 확인하세요.
-        </span>
-        <span className="z-10 w-fit select-none font-himpun text-[3.5rem]/[120%] font-regular text-brand-500">
-          Trendnow
-        </span>
-      </div>
+      <AdvCarousel images={ads} />
       <div className="flex flex-col gap-y-6">
         <div className="flex flex-col gap-y-6">
           <DateDivider date={new Date()} background="black" />
@@ -42,9 +26,6 @@ export default function Home() {
         </div>
         <HotBoardList />
       </div>
-      {/* <div>
-        <AdvCarousel images={ads} />
-      </div> */}
     </div>
   );
 }
