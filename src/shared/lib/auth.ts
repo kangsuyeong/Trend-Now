@@ -32,11 +32,8 @@ function isValidToken({ accesstoken }: { accesstoken?: string }): {
       // JWT의 payload 부분(base64) 디코딩
       const accessTokenPayload = JSON.parse(atob(accesstoken.split('.')[1]));
 
-      // 현재 백엔드에서 exp 수정중
-      // result.isAccessTokenValid = accessTokenPayload.exp > currentTime;
-
-      // issued claim 기반으로 임시 구현 (30분)
-      result.isAccessTokenValid = accessTokenPayload.iat + 30 > currentTime;
+      // 현재 시간과 만료 시간을 비교하여 유효성 판단
+      result.isAccessTokenValid = accessTokenPayload.exp > currentTime;
     }
   } catch (error) {
     // 디코딩 과정에서 발생한 오류를 로그로 출력
@@ -55,7 +52,7 @@ function isValidToken({ accesstoken }: { accesstoken?: string }): {
 export async function handleAuth(
   request: NextRequest,
   onFailure: (request: NextRequest) => NextResponse
-): Promise<NextResponse> {
+) {
   const { cookies } = request;
 
   // 요청에서 'accesstoken' 쿠키를 가져옴
