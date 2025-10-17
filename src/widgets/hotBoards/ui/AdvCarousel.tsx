@@ -14,7 +14,7 @@ interface AdvCarouselProps {
 export default function AdvCarousel({ images }: AdvCarouselProps) {
   return (
     <Swiper
-      className="h-40 w-full"
+      className="h-40 w-full rounded-[1.25rem]"
       autoplay={{ delay: 4000 }}
       loop
       pagination={{
@@ -32,7 +32,7 @@ export default function AdvCarousel({ images }: AdvCarouselProps) {
             sizes="100%"
             priority
             unoptimized
-            className="rounded-[1.25rem] object-cover"
+            className="object-cover"
           />
         </SwiperSlide>
       ))}
