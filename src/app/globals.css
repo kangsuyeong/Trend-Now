@@ -28,3 +28,19 @@
   left: 20px !important;
   font-style: normal !important;
 }
+
+.swiper-pagination-fraction {
+  position: absolute;
+  display: flex;
+  justify-content: end;
+  bottom: 12px;
+  width: fit-content !important;
+  right: 12px;
+  background-color: #ffffff08;
+  border-radius: 100px;
+  padding: 6px 12px;
+  column-gap: 4px;
+  left: unset !important;
+  color: white !important;
+  @apply text-xs font-semiBold;
+}
