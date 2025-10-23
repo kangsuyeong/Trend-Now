@@ -1,8 +1,8 @@
 import { Trendnow } from '@/shared/ui/';
 import Link from 'next/link';
-import { User } from '@/features/header';
 import { SearchBar } from '@/features/searchBar';
 import { Suspense } from 'react';
+import { UserServerComponent } from '@/features/header';
 
 const Appbar = () => {
   return (
@@ -15,7 +15,7 @@ const Appbar = () => {
           <SearchBar />
         </Suspense>
         <div className="flex w-[12.5rem] justify-end">
-          <User />
+          <UserServerComponent />
         </div>
       </div>
     </header>

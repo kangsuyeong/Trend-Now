@@ -30,8 +30,8 @@ const MyScraps = () => {
   return (
     <div className="flex flex-col gap-6">
       {/* 게시물 */}
-      <div className="flex flex-col gap-y-2">
-        <div className="flex justify-between gap-2 border-b border-gray-200 pb-3 pl-12 pr-2 text-sm font-regular text-gray-500">
+      <div className="flex flex-col">
+        <div className="mb-2 flex justify-between gap-2 border-b border-gray-200 pb-3 pl-12 pr-2 text-sm font-regular text-gray-500">
           <div>게시판/게시물 제목</div>
           <div className="flex gap-2 text-center">
             <div className="w-[6.25rem]">닉네임</div>
@@ -45,7 +45,7 @@ const MyScraps = () => {
             key={idx}
             boardId={item.boardId}
             postId={item.postId}
-            boardName={item.boardIdName}
+            boardName={item.boardName}
             title={item.title}
             nickname={item.writer}
             views={item.viewCount}
